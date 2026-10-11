@@ -9,7 +9,7 @@ values
  ('00000000-0000-0000-0000-0000000000c3','00000000-0000-0000-0000-000000000000','authenticated','authenticated','admin@test.ie','{"full_name":"Admin"}');
 update public.profiles set role='super_admin', verification_status='approved' where id='00000000-0000-0000-0000-0000000000c3';
 
-select is((select count(*)::int from public.profiles), 3, 'signup trigger created profiles');
+select is((select count(*)::int from public.profiles where email like '%@test.ie'), 3, 'signup trigger created profiles');
 
 -- act as Alice
 set local role authenticated;

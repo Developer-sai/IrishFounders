@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import type { ActionResult } from "@/lib/actions/result";
+import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import type { VariantProps } from "class-variance-authority";
 import type { buttonVariants } from "@/components/ui/button";
@@ -45,7 +46,9 @@ export function ActionForm({
 
   useEffect(() => {
     if (state?.ok && resetOnSuccess) ref.current?.reset();
-  }, [state, resetOnSuccess]);
+    if (state?.ok && successMessage) toast(successMessage);
+    if (state && !state.ok) toast(state.error, "error");
+  }, [state, resetOnSuccess, successMessage]);
 
   return (
     <form ref={ref} action={formAction} className={className ?? "space-y-4"}>

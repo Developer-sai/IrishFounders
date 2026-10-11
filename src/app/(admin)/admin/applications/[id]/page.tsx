@@ -8,7 +8,7 @@ import { Badge, Card, CardContent, CardHeader, CardTitle, PageHeader } from "@/c
 import { Button } from "@/components/ui/button";
 import { Label, Textarea } from "@/components/ui/form-controls";
 import { Flash } from "@/components/app/flash";
-import { manageInterviewAction, reviewApplicationAction } from "@/lib/actions/admin";
+import { manageInterviewAction, reviewApplicationAction, setApplicationVisibilityAction } from "@/lib/actions/admin";
 import { INTERVIEW_QUESTIONS_FOUNDER, INTERVIEW_QUESTIONS_INVESTOR, INTERVIEW_QUESTIONS_PARTNER } from "@/lib/validations/application";
 import { formatDate, humanize } from "@/lib/utils";
 
@@ -117,6 +117,22 @@ export default async function ReviewApplicationPage({
               </CardContent>
             </Card>
           )}
+
+          {isFounder ? (
+            <Card>
+              <CardHeader><CardTitle>Public register</CardTitle></CardHeader>
+              <CardContent className="flex flex-wrap items-center justify-between gap-3 text-sm">
+                <p className="max-w-sm text-muted-foreground">
+                  {app.hidden_by_admin ? "Hidden by an admin." : app.show_publicly ? "Shown as \"In review\" (name, industry, stage, city)." : "The applicant opted out of the public register."}
+                </p>
+                <form action={setApplicationVisibilityAction}>
+                  <input type="hidden" name="app_id" value={app.id} />
+                  <input type="hidden" name="hidden" value={String(!app.hidden_by_admin)} />
+                  <Button type="submit" variant="outline" size="sm">{app.hidden_by_admin ? "Show on register" : "Hide from register"}</Button>
+                </form>
+              </CardContent>
+            </Card>
+          ) : null}
 
           <Card>
             <CardHeader><CardTitle>Evidence</CardTitle></CardHeader>

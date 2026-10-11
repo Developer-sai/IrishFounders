@@ -70,7 +70,20 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-start gap-2 rounded-lg border border-dashed border-foreground/25 px-6 py-10">
+    <div className="relative flex flex-col items-start gap-2 overflow-hidden rounded-lg border border-dashed border-foreground/25 px-6 py-10">
+      <svg aria-hidden viewBox="0 0 120 120" className="pointer-events-none absolute -right-6 -top-6 h-40 w-40 opacity-70">
+        <defs>
+          <radialGradient id="emptyglow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="hsl(var(--accent) / 0.28)" />
+            <stop offset="100%" stopColor="hsl(var(--accent) / 0)" />
+          </radialGradient>
+        </defs>
+        <circle cx="60" cy="60" r="58" fill="url(#emptyglow)" />
+        <circle cx="60" cy="60" r="34" fill="none" stroke="hsl(var(--accent) / 0.5)" strokeWidth="1.2" />
+        <ellipse cx="60" cy="60" rx="34" ry="12" fill="none" stroke="hsl(var(--accent) / 0.35)" strokeWidth="1" />
+        <ellipse cx="60" cy="60" rx="12" ry="34" fill="none" stroke="hsl(var(--accent) / 0.35)" strokeWidth="1" />
+        <circle cx="86" cy="42" r="3.5" fill="hsl(var(--accent))" />
+      </svg>
       <p className="eyebrow">Nothing here yet</p>
       <p className="font-display text-xl">{title}</p>
       {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}

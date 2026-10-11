@@ -33,15 +33,31 @@ export type SessionProfile = Pick<
   | "offering"
 > & { email: string };
 
+/** Reads the `sub` claim from a JWT without verifying it (verification happens via getUser() and RLS). */
+function jwtSubject(token: string): string | null {
+  try {
+    const payload = JSON.parse(Buffer.from(token.split(".")[1] ?? "", "base64url").toString("utf8")) as { sub?: string };
+    return typeof payload.sub === "string" ? payload.sub : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Authenticated user + profile for this request (deduplicated per render). */
 export const getSession = cache(async (): Promise<SessionProfile | null> => {
   const supabase = await createClient();
+  // Cheap local read of the cookie to learn the user id, so verification and the profile query can run in parallel.
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
-  const { data } = await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle();
-  if (!data) return null;
+    data: { session },
+  } = await supabase.auth.getSession();
+  const id = session ? jwtSubject(session.access_token) : null;
+  if (!id) return null;
+  const [{ data: auth }, { data }] = await Promise.all([
+    supabase.auth.getUser(), // authoritative: validates the token with the auth server
+    supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", id).maybeSingle(), // RLS verifies the JWT too
+  ]);
+  const user = auth.user;
+  if (!user || user.id !== id || !data) return null;
   return { ...data, email: user.email ?? "" } as SessionProfile;
 });
 

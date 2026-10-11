@@ -33,10 +33,12 @@ export async function updateIdentity(_p: ActionResult | null, formData: FormData
   if (!parsed.success) return invalid(parsed.error);
 
   let cover: string | null = null;
+  let avatar: string | null = null;
   try {
     cover = await uploadImage("post-media", id, formData.get("cover"));
+    avatar = await uploadImage("avatars", id, formData.get("avatar"));
   } catch {
-    return fail("Cover images must be PNG, JPEG or WebP and under 5MB.");
+    return fail("Photos must be PNG, JPEG or WebP. Profile photos up to 2MB, covers up to 5MB.");
   }
 
   const supabase = await createClient();
@@ -45,6 +47,7 @@ export async function updateIdentity(_p: ActionResult | null, formData: FormData
     open_to: parsed.data.open_to,
     offering: parsed.data.offering,
     ...(cover ? { cover_url: cover } : {}),
+    ...(avatar ? { avatar_url: avatar } : {}),
   }).eq("id", id);
   if (error) {
     if (error.code === "23505") return fail("That handle is taken.", { handle: ["That handle is taken."] });

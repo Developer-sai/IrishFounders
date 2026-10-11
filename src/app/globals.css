@@ -119,7 +119,7 @@
     -webkit-mask-image: radial-gradient(70% 60% at 50% 20%, #000 30%, transparent 75%);
   }
   .panel {
-    @apply border border-border bg-card/70 backdrop-blur-sm;
+    @apply border border-border bg-card/80;
   }
 
   /* logo lockup: transparent version in dark, original tile in light */
@@ -131,6 +131,20 @@
   }
   :root[data-theme="light"] .dark-only {
     display: none;
+  }
+
+  /* lightweight 3D hover: transform-only, no JavaScript */
+  .tilt {
+    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.2s, box-shadow 0.25s;
+    transform: perspective(900px) translateZ(0);
+  }
+  .tilt:hover {
+    transform: perspective(900px) rotateX(2.5deg) rotateY(-3deg) translateY(-3px);
+    border-color: hsl(var(--accent) / 0.55);
+    box-shadow: 0 14px 34px -20px hsl(var(--glow) / 0.55);
+  }
+  @media (hover: none), (prefers-reduced-motion: reduce) {
+    .tilt:hover { transform: none; }
   }
 
   .rise {

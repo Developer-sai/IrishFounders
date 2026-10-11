@@ -1,6 +1,6 @@
 import { requireMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { AppShell, INVESTOR_NAV, MEMBER_NAV } from "@/components/app/app-shell";
+import { AppShell, INVESTOR_MORE, INVESTOR_PRIMARY, MEMBER_MORE, MEMBER_PRIMARY } from "@/components/app/app-shell";
 
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
   const session = await requireMember();
@@ -13,10 +13,12 @@ export default async function MemberLayout({ children }: { children: React.React
   const isInvestor = session.role === "investor";
   return (
     <AppShell
-      nav={isInvestor ? INVESTOR_NAV : MEMBER_NAV}
+      nav={isInvestor ? INVESTOR_PRIMARY : MEMBER_PRIMARY}
+      more={isInvestor ? INVESTOR_MORE : MEMBER_MORE}
       session={session}
       unread={count ?? 0}
       area={isInvestor ? "Investor" : "Member"}
+      isFounder={session.role === "founder"}
       social
     >
       {children}

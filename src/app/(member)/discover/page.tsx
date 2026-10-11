@@ -8,6 +8,7 @@ import { Chip, ChipLink, OFFERING_LABELS, OPEN_TO_LABELS } from "@/components/ui
 import { CoverImage } from "@/components/ui/cover-image";
 import { ActionButton } from "@/components/ui/action-form";
 import { Flash } from "@/components/app/flash";
+import { TiltCard } from "@/components/ui/tilt-card";
 import { requestConnectionRow } from "@/lib/actions/community";
 import { followUserRow, passMatchRow } from "@/lib/actions/social";
 
@@ -57,7 +58,8 @@ export default async function DiscoverPage({ searchParams }: { searchParams: Pro
       {top ? (
         <>
           <p className="eyebrow mb-3" aria-live="polite">Match 1 of {list.length}</p>
-          <article className="border border-foreground bg-card" aria-label={`Match: ${top.full_name}`}>
+          <TiltCard max={3}>
+          <article className="border border-foreground bg-card shadow-[0_24px_60px_-34px_hsl(var(--glow)/0.55)]" aria-label={`Match: ${top.full_name}`}>
             <div className="h-28 overflow-hidden border-b border-border"><CoverImage src={top.cover_url} /></div>
             <div className="px-6 pb-6">
               <div className="-mt-10 flex items-end justify-between gap-4">
@@ -104,6 +106,7 @@ export default async function DiscoverPage({ searchParams }: { searchParams: Pro
               </div>
             </div>
           </article>
+          </TiltCard>
 
           {list.length > 1 ? (
             <section className="mt-8" aria-label="Up next">

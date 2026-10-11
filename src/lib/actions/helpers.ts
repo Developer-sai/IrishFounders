@@ -33,12 +33,12 @@ const IMAGE_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
 /** Uploads an image to a public bucket under the user's own folder. Returns the public URL or null. */
 export async function uploadImage(
-  bucket: "post-media" | "story-media",
+  bucket: "post-media" | "story-media" | "avatars",
   userId: string,
   file: FormDataEntryValue | null,
 ): Promise<string | null> {
   if (!(file instanceof File) || file.size === 0) return null;
-  if (!IMAGE_TYPES.includes(file.type) || file.size > 5 * 1024 * 1024) throw new Error("invalid_image");
+  if (!IMAGE_TYPES.includes(file.type) || file.size > (bucket === "avatars" ? 2 : 5) * 1024 * 1024) throw new Error("invalid_image");
   const supabase = await createClient();
   const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
   const path = `${userId}/${crypto.randomUUID()}.${ext}`;

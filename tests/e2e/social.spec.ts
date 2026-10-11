@@ -140,7 +140,7 @@ test.describe("mobile", () => {
     await login(page, bobEmail);
     const nav = page.getByRole("navigation", { name: "Primary" });
     await expect(nav).toBeVisible();
-    await expect(page.getByRole("complementary")).toBeHidden(); // desktop sidebar is not shown
+    await expect(page.getByRole("navigation", { name: "Member navigation" })).toBeHidden(); // the desktop sidebar is not shown on phones
     await nav.getByRole("button", { name: "Create" }).click();
     const sheet = page.getByRole("dialog", { name: "Create" });
     await expect(sheet.getByRole("link", { name: /Add a story/ })).toBeVisible();

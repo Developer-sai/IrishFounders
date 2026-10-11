@@ -6,7 +6,8 @@ import { Badge, Card, CardContent, CardHeader, CardTitle, PageHeader } from "@/c
 import { buttonVariants } from "@/components/ui/button";
 import { ActionForm } from "@/components/ui/action-form";
 import { Field, Input, Textarea } from "@/components/ui/form-controls";
-import { respondToInfoRequest } from "@/lib/actions/application";
+import { respondToInfoRequest, setCompanyVisibilityRow } from "@/lib/actions/application";
+import { ActionButton } from "@/components/ui/action-form";
 import { formatDate, humanize } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Application status" };
@@ -28,7 +29,7 @@ export default async function ApplicationStatusPage() {
   const supabase = await createClient();
   const { data: apps } = await supabase
     .from("membership_applications")
-    .select("id, applicant_type, status, company_name, organisation_name, info_request, submitted_at, reviewed_at")
+    .select("id, applicant_type, status, company_name, organisation_name, info_request, submitted_at, reviewed_at, show_publicly, hidden_by_admin")
     .order("submitted_at", { ascending: false })
     .limit(1);
   const app = apps?.[0];
@@ -115,6 +116,26 @@ export default async function ApplicationStatusPage() {
               <Field label="Additional LinkedIn post links (one per line)" htmlFor="sample_post_urls"><Textarea id="sample_post_urls" name="sample_post_urls" /></Field>
               <Field label="Relationship to the company / extra context" htmlFor="relationship_to_company"><Textarea id="relationship_to_company" name="relationship_to_company" /></Field>
             </ActionForm>
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {app.applicant_type === "founder" && !rejected ? (
+        <Card className="mb-6">
+          <CardContent className="flex flex-wrap items-center justify-between gap-4">
+            <div className="max-w-md">
+              <p className="text-sm font-medium">Public register</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {app.hidden_by_admin
+                  ? "Your company is not shown on the public register right now."
+                  : app.show_publicly
+                    ? `${app.company_name} is shown as "In review" on the public register (name, industry, stage and city only).`
+                    : "Your company is hidden from the public register while it is in review."}
+              </p>
+            </div>
+            {app.hidden_by_admin ? null : (
+              <ActionButton action={setCompanyVisibilityRow} hidden={{ visible: String(!app.show_publicly) }} label={app.show_publicly ? "Hide my company" : "Show my company"} variant="outline" size="sm" />
+            )}
           </CardContent>
         </Card>
       ) : null}

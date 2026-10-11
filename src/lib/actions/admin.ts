@@ -20,6 +20,12 @@ function back(path: string, error?: string): never {
   redirect(`${path}${path.includes("?") ? "&" : "?"}error=${encodeURIComponent(error)}`);
 }
 
+/** The public register (landing page + directory) is statically cached: refresh it whenever it could change. */
+function refreshRegister() {
+  revalidatePath("/");
+  revalidatePath("/startups");
+}
+
 const optional = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : null);
 
 export async function reviewApplicationAction(formData: FormData) {
@@ -47,6 +53,7 @@ export async function reviewApplicationAction(formData: FormData) {
   });
   if (error) back(path, describeDbError(error));
   revalidatePath("/admin", "layout");
+  refreshRegister();
   back(path);
 }
 
@@ -87,6 +94,7 @@ export async function resolveClaimRow(formData: FormData) {
   const { error } = await supabase.rpc("resolve_claim", { p_claim: parsed.data.id, p_approve: parsed.data.approve === "true" });
   if (error) back("/admin/startups", describeDbError(error));
   revalidatePath("/admin/startups");
+  refreshRegister();
 }
 
 export async function verifyStartupRow(formData: FormData) {
@@ -97,6 +105,7 @@ export async function verifyStartupRow(formData: FormData) {
   const { error } = await supabase.rpc("verify_startup", { p_startup: parsed.data.id, p_verify: parsed.data.verify === "true" });
   if (error) back("/admin/startups", describeDbError(error));
   revalidatePath("/admin/startups");
+  refreshRegister();
 }
 
 export async function setUserStatusRow(formData: FormData) {
@@ -156,4 +165,18 @@ export async function updateSettingRow(formData: FormData) {
     .update({ value: json, updated_by: admin.id, updated_at: new Date().toISOString() }).eq("key", key);
   if (error) back("/admin/settings", describeDbError(error));
   revalidatePath("/admin/settings");
+}
+
+export async function setApplicationVisibilityAction(formData: FormData) {
+  await requireSuperAdmin();
+  const parsed = z.object({ app_id: uuid, hidden: z.enum(["true", "false"]) }).safeParse(entries(formData));
+  if (!parsed.success) return;
+  const path = `/admin/applications/${parsed.data.app_id}`;
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_application_visibility", {
+    p_app: parsed.data.app_id, p_hidden: parsed.data.hidden === "true",
+  });
+  if (error) back(path, describeDbError(error));
+  refreshRegister();
+  back(path);
 }

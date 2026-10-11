@@ -585,14 +585,14 @@ isOneToOne: false
                   ]
                 },"membership_applications": {
                   Row: {
-                    "applicant_details": NonNullable<Json>,"applicant_type": Database["public"]['Enums']["applicant_type"],"check_followers": boolean,"check_posts": boolean,"check_relationship": boolean,"check_website": boolean,"company_description": string | null,"company_linkedin": string | null,"company_name": string | null,"company_website": string | null,"founded_year": number | null,"founder_role": string | null,"id": string,"industry": string | null,"info_request": string | null,"internal_admin_notes": string | null,"linkedin_follower_count": number | null,"normalized_domain": string | null,"normalized_linkedin": string | null,"organisation_name": string | null,"organisation_website": string | null,"profile_id": string,"rejection_reason": string | null,"relationship_to_company": string | null,"reviewed_at": string | null,"reviewed_by": string | null,"sample_post_urls": (string)[],"stage": Database["public"]['Enums']["startup_stage"] | null,"status": Database["public"]['Enums']["verification_status"],"submitted_at": string,"team_size": number | null,"updated_at": string
+                    "applicant_details": NonNullable<Json>,"applicant_type": Database["public"]['Enums']["applicant_type"],"check_followers": boolean,"check_posts": boolean,"check_relationship": boolean,"check_website": boolean,"company_city": string | null,"company_description": string | null,"company_linkedin": string | null,"company_name": string | null,"company_website": string | null,"founded_year": number | null,"founder_role": string | null,"hidden_by_admin": boolean,"id": string,"industry": string | null,"info_request": string | null,"internal_admin_notes": string | null,"linkedin_follower_count": number | null,"normalized_domain": string | null,"normalized_linkedin": string | null,"organisation_name": string | null,"organisation_website": string | null,"profile_id": string,"rejection_reason": string | null,"relationship_to_company": string | null,"reviewed_at": string | null,"reviewed_by": string | null,"sample_post_urls": (string)[],"show_publicly": boolean,"stage": Database["public"]['Enums']["startup_stage"] | null,"status": Database["public"]['Enums']["verification_status"],"submitted_at": string,"team_size": number | null,"updated_at": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "applicant_details"?: NonNullable<Json>,"applicant_type"?: Database["public"]['Enums']["applicant_type"],"check_followers"?: boolean,"check_posts"?: boolean,"check_relationship"?: boolean,"check_website"?: boolean,"company_description"?: string | null,"company_linkedin"?: string | null,"company_name"?: string | null,"company_website"?: string | null,"founded_year"?: number | null,"founder_role"?: string | null,"id"?: string,"industry"?: string | null,"info_request"?: string | null,"internal_admin_notes"?: string | null,"linkedin_follower_count"?: number | null,"normalized_domain"?: string | null,"normalized_linkedin"?: string | null,"organisation_name"?: string | null,"organisation_website"?: string | null,"profile_id": string,"rejection_reason"?: string | null,"relationship_to_company"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"sample_post_urls"?: (string)[],"stage"?: Database["public"]['Enums']["startup_stage"] | null,"status"?: Database["public"]['Enums']["verification_status"],"submitted_at"?: string,"team_size"?: number | null,"updated_at"?: string
+                    "applicant_details"?: NonNullable<Json>,"applicant_type"?: Database["public"]['Enums']["applicant_type"],"check_followers"?: boolean,"check_posts"?: boolean,"check_relationship"?: boolean,"check_website"?: boolean,"company_city"?: string | null,"company_description"?: string | null,"company_linkedin"?: string | null,"company_name"?: string | null,"company_website"?: string | null,"founded_year"?: number | null,"founder_role"?: string | null,"hidden_by_admin"?: boolean,"id"?: string,"industry"?: string | null,"info_request"?: string | null,"internal_admin_notes"?: string | null,"linkedin_follower_count"?: number | null,"normalized_domain"?: string | null,"normalized_linkedin"?: string | null,"organisation_name"?: string | null,"organisation_website"?: string | null,"profile_id": string,"rejection_reason"?: string | null,"relationship_to_company"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"sample_post_urls"?: (string)[],"show_publicly"?: boolean,"stage"?: Database["public"]['Enums']["startup_stage"] | null,"status"?: Database["public"]['Enums']["verification_status"],"submitted_at"?: string,"team_size"?: number | null,"updated_at"?: string
                   }
                   Update: {
-                    "applicant_details"?: NonNullable<Json>,"applicant_type"?: Database["public"]['Enums']["applicant_type"],"check_followers"?: boolean,"check_posts"?: boolean,"check_relationship"?: boolean,"check_website"?: boolean,"company_description"?: string | null,"company_linkedin"?: string | null,"company_name"?: string | null,"company_website"?: string | null,"founded_year"?: number | null,"founder_role"?: string | null,"id"?: string,"industry"?: string | null,"info_request"?: string | null,"internal_admin_notes"?: string | null,"linkedin_follower_count"?: number | null,"normalized_domain"?: string | null,"normalized_linkedin"?: string | null,"organisation_name"?: string | null,"organisation_website"?: string | null,"profile_id"?: string,"rejection_reason"?: string | null,"relationship_to_company"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"sample_post_urls"?: (string)[],"stage"?: Database["public"]['Enums']["startup_stage"] | null,"status"?: Database["public"]['Enums']["verification_status"],"submitted_at"?: string,"team_size"?: number | null,"updated_at"?: string
+                    "applicant_details"?: NonNullable<Json>,"applicant_type"?: Database["public"]['Enums']["applicant_type"],"check_followers"?: boolean,"check_posts"?: boolean,"check_relationship"?: boolean,"check_website"?: boolean,"company_city"?: string | null,"company_description"?: string | null,"company_linkedin"?: string | null,"company_name"?: string | null,"company_website"?: string | null,"founded_year"?: number | null,"founder_role"?: string | null,"hidden_by_admin"?: boolean,"id"?: string,"industry"?: string | null,"info_request"?: string | null,"internal_admin_notes"?: string | null,"linkedin_follower_count"?: number | null,"normalized_domain"?: string | null,"normalized_linkedin"?: string | null,"organisation_name"?: string | null,"organisation_website"?: string | null,"profile_id"?: string,"rejection_reason"?: string | null,"relationship_to_company"?: string | null,"reviewed_at"?: string | null,"reviewed_by"?: string | null,"sample_post_urls"?: (string)[],"show_publicly"?: boolean,"stage"?: Database["public"]['Enums']["startup_stage"] | null,"status"?: Database["public"]['Enums']["verification_status"],"submitted_at"?: string,"team_size"?: number | null,"updated_at"?: string
                   }
                   Relationships: [
                     {
@@ -1532,6 +1532,14 @@ isOneToOne: false
 "notify_mentions":
 { Args: { "p_author": string,"p_content": string,"p_link": string }; Returns: undefined
                            },
+"public_register":
+{ Args: { "p_limit"?: number }; Returns: {
+              "city": string,"industry": string,"kind": string,"logo_url": string,"name": string,"slug": string,"sort_at": string,"stage": string
+            }[]
+                           },
+"public_register_counts":
+{ Args: Record<PropertyKey, never>; Returns: Json
+                           },
 "public_stats":
 { Args: Record<PropertyKey, never>; Returns: Json
                            },
@@ -1566,6 +1574,12 @@ isOneToOne: false
 { Args: { "q": string }; Returns: {
               "href": string,"id": string,"kind": string,"subtitle": string,"title": string
             }[]
+                           },
+"set_application_visibility":
+{ Args: { "p_app": string,"p_hidden": boolean }; Returns: undefined
+                           },
+"set_my_company_visibility":
+{ Args: { "p_visible": boolean }; Returns: undefined
                            },
 "slugify":
 { Args: { "input": string }; Returns: string

@@ -60,6 +60,8 @@ export async function submitFounderApplication(
   if (error) return fail(describeDbError(error));
   await saveEvidence(data as string, user.id, evidencePaths);
   revalidatePath("/application/status");
+  revalidatePath("/");
+  revalidatePath("/startups");
   return ok();
 }
 
@@ -161,4 +163,15 @@ export async function respondToInfoRequest(
   if (error) return fail(describeDbError(error));
   revalidatePath("/application/status");
   return ok();
+}
+
+/** Applicant opt-in/out of the public "In review" listing. */
+export async function setCompanyVisibilityRow(formData: FormData) {
+  await requireUser();
+  const visible = formData.get("visible") === "true";
+  const supabase = await createClient();
+  await supabase.rpc("set_my_company_visibility", { p_visible: visible });
+  revalidatePath("/application/status");
+  revalidatePath("/");
+  revalidatePath("/startups");
 }

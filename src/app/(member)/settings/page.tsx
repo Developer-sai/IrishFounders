@@ -28,6 +28,7 @@ export default async function SettingsPage() {
             <Field label="Handle" htmlFor="handle" hint="Your short link: irishfounders.vercel.app/u/handle. 3-30 letters, numbers or underscores.">
               <div className="flex items-center gap-2"><span className="font-mono text-muted-foreground">@</span><Input id="handle" name="handle" defaultValue={s.handle ?? ""} maxLength={30} autoComplete="off" spellCheck={false} /></div>
             </Field>
+            <Field label="Profile photo" htmlFor="avatar" hint="PNG, JPEG or WebP, up to 2MB."><Input id="avatar" name="avatar" type="file" accept="image/png,image/jpeg,image/webp" /></Field>
             <Field label="Cover image" htmlFor="cover" hint="PNG, JPEG or WebP, up to 5MB. Wide images work best."><Input id="cover" name="cover" type="file" accept="image/png,image/jpeg,image/webp" /></Field>
             <fieldset>
               <legend className="mb-2 text-[13px] font-medium">I&apos;m looking for</legend>

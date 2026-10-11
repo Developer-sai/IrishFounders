@@ -115,7 +115,7 @@ test.describe.serial("founder journey (browser)", () => {
     // --- founder now has the workspace
     await page.goto("/dashboard");
     await expect(page.getByRole("heading", { name: /Welcome, Siobhan/ })).toBeVisible();
-    await expect(page.getByText(company).first()).toBeVisible();
+    await expect(page.getByRole("link", { name: company }).first()).toBeVisible();
 
     // post to the feed through the real form
     await page.goto("/feed");

@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { Logo } from "@/components/marketing/site-header";
+import { GlobeLoader } from "@/components/landing/globe-loader";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid min-h-screen lg:grid-cols-[1fr_1.1fr]">
       <aside className="hidden flex-col justify-between bg-sidebar p-12 text-[hsl(150_20%_96%)] lg:flex">
         <Logo onDark size={36} />
+        <div className="mx-auto w-full max-w-[300px]" aria-hidden><GlobeLoader markers={[]} priority={false} /></div>
         <div>
           <p className="display max-w-md text-5xl">From idea to startup, <span className="text-brand">with people who are real.</span></p>
           <p className="mt-6 max-w-sm text-sm text-[hsl(150_20%_96%/0.65)]">

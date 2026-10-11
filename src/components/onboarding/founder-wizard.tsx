@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { checkCompany, submitFounderApplication } from "@/lib/actions/application";
 import {
   INTERVIEW_QUESTIONS_FOUNDER, STARTUP_STAGES, founderApplicationSchema,
 } from "@/lib/validations/application";
+import { IRISH_CITIES } from "@/lib/geo";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/form-controls";
 import { humanize } from "@/lib/utils";
@@ -18,7 +19,7 @@ const STEPS = ["Personal", "Company", "Verification", "Interview", "Review"] as 
 
 const EMPTY: Values = {
   full_name: "", linkedin_url: "", location: "", headline: "",
-  company_name: "", company_website: "", company_linkedin: "", industry: "",
+  company_name: "", company_city: "Dublin", show_publicly: "yes", company_website: "", company_linkedin: "", industry: "",
   stage: "prototype", founded_year: String(new Date().getFullYear()), team_size: "1", company_description: "",
   linkedin_follower_count: "", post_urls: "", relationship_to_company: "",
   ...Object.fromEntries(INTERVIEW_QUESTIONS_FOUNDER.map(([k]) => [`q_${k}`, ""])),
@@ -30,7 +31,8 @@ function toInput(v: Values, avatarUrl: string) {
       full_name: v.full_name, linkedin_url: v.linkedin_url, location: v.location,
       headline: v.headline, avatar_url: avatarUrl,
     },
-    company_name: v.company_name, company_website: v.company_website, company_linkedin: v.company_linkedin,
+    company_name: v.company_name, company_city: v.company_city, show_publicly: v.show_publicly !== "no",
+    company_website: v.company_website, company_linkedin: v.company_linkedin,
     industry: v.industry, stage: v.stage, founded_year: v.founded_year, team_size: v.team_size,
     company_description: v.company_description, linkedin_follower_count: v.linkedin_follower_count,
     sample_post_urls: (v.post_urls ?? "").split(/\n/).map((s) => s.trim()).filter(Boolean),
@@ -41,7 +43,7 @@ function toInput(v: Values, avatarUrl: string) {
 
 const STEP_FIELDS: Record<number, string[]> = {
   0: ["profile"],
-  1: ["company_name", "company_website", "company_linkedin", "industry", "stage", "founded_year", "team_size", "company_description"],
+  1: ["company_name", "company_city", "company_website", "company_linkedin", "industry", "stage", "founded_year", "team_size", "company_description"],
   2: ["linkedin_follower_count", "sample_post_urls", "relationship_to_company"],
   3: ["interview"],
 };
@@ -65,6 +67,33 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [duplicate, setDuplicate] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [restored, setRestored] = useState(false);
+
+  // Autosave the draft on this device so a refresh, a crash or a coffee break never loses progress.
+  const draftKey = `if:application:draft:v1:${userId}`;
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(draftKey);
+      if (raw) {
+        const saved = JSON.parse(raw) as { values?: Values; step?: number };
+        if (saved.values) setValues((v) => ({ ...v, ...saved.values }));
+        if (typeof saved.step === "number") setStep(Math.min(Math.max(saved.step, 0), STEPS.length - 1));
+        setRestored(true);
+      }
+    } catch {
+      /* private mode or corrupt draft: start fresh */
+    }
+  }, [draftKey]);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      try {
+        localStorage.setItem(draftKey, JSON.stringify({ values, step }));
+      } catch {
+        /* storage unavailable */
+      }
+    }, 400);
+    return () => clearTimeout(t);
+  }, [values, step, draftKey]);
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setValues((v) => ({ ...v, [k]: e.target.value }));
@@ -136,6 +165,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
         }
         return;
       }
+      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
       router.push("/application/status");
       router.refresh();
     });
@@ -145,6 +175,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
 
   return (
     <div>
+      {restored ? <p className="mb-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">Draft restored. Your progress is saved on this device.</p> : null}
       <ol className="mb-8 flex flex-wrap gap-2 text-xs" aria-label="Progress">
         {STEPS.map((label, i) => (
           <li key={label} aria-current={i === step ? "step" : undefined}
@@ -172,6 +203,9 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
           <>
             <p className="border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground">Your company should be based in Ireland. Founders from anywhere in the world are welcome to start one here.</p>
             <Field label="Company name" htmlFor="company_name" error={errors.company_name}><Input {...f("company_name")} /></Field>
+            <Field label="City" htmlFor="company_city" error={errors.company_city} hint="Where the company is based in Ireland.">
+              <Select {...f("company_city")}>{IRISH_CITIES.map((c) => <option key={c.name} value={c.name}>{c.name}</option>)}</Select>
+            </Field>
             <Field label="Company website" htmlFor="company_website" error={errors.company_website}>
               <Input {...f("company_website")} placeholder="acme.ie" onBlur={onCompanyBlur} />
             </Field>
@@ -242,6 +276,13 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
                 <div key={k}><dt className="text-xs text-muted-foreground">{k}</dt><dd className="break-words">{v || "—"}</dd></div>
               ))}
             </dl>
+            <label className="flex items-start gap-3 border border-border bg-card/60 p-3 text-sm">
+              <input type="checkbox" className="mt-1" checked={values.show_publicly !== "no"} onChange={(e) => setValues((v) => ({ ...v, show_publicly: e.target.checked ? "yes" : "no" }))} />
+              <span>
+                <strong className="font-medium">Show my company on the public register while it is in review.</strong>
+                <span className="mt-0.5 block text-muted-foreground">Only the company name, industry, stage and city are shown, marked &quot;In review&quot;. You can change this any time from your application status page.</span>
+              </span>
+            </label>
             {submitError ? <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-destructive">{submitError}</p> : null}
           </div>
         )}

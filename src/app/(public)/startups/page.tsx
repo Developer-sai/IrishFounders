@@ -6,6 +6,7 @@ import { Input, Select } from "@/components/ui/form-controls";
 import { Button } from "@/components/ui/button";
 import { STARTUP_STAGES } from "@/lib/validations/application";
 import { humanize } from "@/lib/utils";
+import { RegisterGrid, type RegisterRow } from "@/components/landing/register-grid";
 
 export const metadata: Metadata = { title: "Verified startups" };
 
@@ -32,7 +33,12 @@ export default async function StartupsPage({ searchParams }: { searchParams: Pro
   }
   if (sp.industry) query = query.ilike("industry", cleanSearch(sp.industry));
 
-  const { data: startups } = await query;
+  const filtered = !!q || !!sp.stage || !!sp.industry;
+  const [{ data: startups }, { data: register }] = await Promise.all([
+    query,
+    filtered ? Promise.resolve({ data: null }) : supabase.rpc("public_register", { p_limit: 120 }),
+  ]);
+  const inReview = ((register ?? []) as RegisterRow[]).filter((r) => r.kind === "pending");
 
   return (
     <div className="py-12">
@@ -55,6 +61,17 @@ export default async function StartupsPage({ searchParams }: { searchParams: Pro
           description="Verified startups appear here once their founders are approved."
         />
       )}
+
+      {inReview.length > 0 ? (
+        <section className="mt-16" aria-labelledby="in-review">
+          <p className="eyebrow">Not verified yet</p>
+          <h2 id="in-review" className="display mt-2 text-3xl sm:text-4xl">In review ({inReview.length})</h2>
+          <p className="mb-6 mt-2 max-w-xl text-sm text-muted-foreground">
+            These founders have applied and chose to be listed while we check their company. They are not verified until a person has reviewed them.
+          </p>
+          <RegisterGrid rows={inReview} />
+        </section>
+      ) : null}
     </div>
   );
 }

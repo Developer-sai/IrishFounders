@@ -13,6 +13,7 @@ import { LikeButton } from "@/components/feed/like-button";
 import { Composer } from "@/components/feed/composer";
 import { PostMedia } from "@/components/feed/post-media";
 import { StoryTray, type StoryGroup } from "@/components/stories/story-tray";
+import { HomeRail, loadRailData } from "@/components/app/home-rail";
 import { addComment, createPost, deletePostRow, reportContent, toggleSavedRow } from "@/lib/actions/community";
 import { POST_CATEGORIES } from "@/lib/constants";
 import { formatDate, humanize } from "@/lib/utils";
@@ -27,23 +28,69 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
   const sp = await searchParams;
   const session = await requireMember();
   const supabase = await createClient();
+  const railPromise = loadRailData(supabase, session);
   const tab = TABS.some(([k]) => k === sp.tab) ? (sp.tab as (typeof TABS)[number][0]) : "foryou";
   const page = Math.max(1, Number.parseInt(sp.page ?? "1", 10) || 1);
   const category = (POST_CATEGORIES as readonly string[]).includes(sp.category ?? "")
     ? (sp.category as (typeof POST_CATEGORIES)[number]) : undefined;
 
-  /* ---------------- stories */
-  const { data: tray } = await supabase.rpc("story_tray");
-  const trayIds = (tray ?? []).map((t) => t.author_id);
-  const [{ data: storyRows }, { data: viewed }] = trayIds.length
-    ? await Promise.all([
-        supabase.from("stories").select("id, author_id, kind, text, media_url, created_at")
-          .in("author_id", trayIds).gt("expires_at", new Date().toISOString()).order("created_at"),
-        supabase.from("story_views").select("story_id").eq("viewer_id", session.id),
-      ])
-    : [{ data: [] }, { data: [] }];
-  const seen = new Set((viewed ?? []).map((v) => v.story_id));
-  const groups: StoryGroup[] = (tray ?? []).map((t) => ({
+  /* ---------------- data: two parallel stages instead of six sequential round trips */
+  const one = <T,>(v: T | T[] | null | undefined): T | null => (Array.isArray(v) ? (v[0] ?? null) : (v ?? null));
+  const postsQuery = () => {
+    let q = supabase
+      .from("posts")
+      .select("id, author_id, startup_id, category, title, content, media_urls, external_link, reactions_count, comments_count, created_at, profiles!posts_author_id_fkey(id, full_name, avatar_url, headline)")
+      .eq("status", "published")
+      .order("created_at", { ascending: false })
+      .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+    if (category) q = q.eq("category", category);
+    if (tab === "startups") q = q.not("startup_id", "is", null);
+    return q;
+  };
+
+  const [trayRes, viewedRes, startupsRes, followsRes, postsRes] = await Promise.all([
+    supabase.rpc("story_tray"),
+    supabase.from("story_views").select("story_id").eq("viewer_id", session.id),
+    supabase.from("startup_members").select("startups(id, name)").eq("profile_id", session.id),
+    tab === "following"
+      ? supabase.from("follows").select("followed_id").eq("follower_id", session.id)
+      : Promise.resolve({ data: null, error: null }),
+    tab === "following" ? Promise.resolve({ data: null, error: null }) : postsQuery(),
+  ]);
+
+  if (postsRes.error) throw new Error(`Feed query failed: ${postsRes.error.message}`);
+  let rows = postsRes.data;
+  if (tab === "following") {
+    const ids = [...(followsRes.data ?? []).map((f) => f.followed_id), session.id];
+    const followingRes = await postsQuery().in("author_id", ids);
+    if (followingRes.error) throw new Error(`Feed query failed: ${followingRes.error.message}`);
+    rows = followingRes.data;
+  }
+  const hasMore = (rows?.length ?? 0) > PAGE_SIZE;
+  const posts = (rows ?? []).slice(0, PAGE_SIZE);
+  const myStartups = startupsRes.data;
+
+  const tray = trayRes.data ?? [];
+  const trayIds = tray.map((t) => t.author_id);
+  const postIds = posts.map((p) => p.id);
+  const authorIds = [...new Set(posts.map((p) => p.author_id))];
+
+  const [{ data: storyRows }, { data: comments }, { data: myReactions }, { data: mySaved }, { data: founderRows }] = await Promise.all([
+    trayIds.length
+      ? supabase.from("stories").select("id, author_id, kind, text, media_url, created_at")
+          .in("author_id", trayIds).gt("expires_at", new Date().toISOString()).order("created_at")
+      : Promise.resolve({ data: [] }),
+    postIds.length
+      ? supabase.from("post_comments").select("id, post_id, author_id, content, created_at, profiles(id, full_name, avatar_url, headline)")
+          .eq("status", "published").in("post_id", postIds).order("created_at")
+      : Promise.resolve({ data: [] }),
+    postIds.length ? supabase.from("post_reactions").select("post_id").eq("user_id", session.id).in("post_id", postIds) : Promise.resolve({ data: [] }),
+    postIds.length ? supabase.from("saved_items").select("item_id").eq("user_id", session.id).eq("item_type", "post").in("item_id", postIds) : Promise.resolve({ data: [] }),
+    authorIds.length ? supabase.from("public_founders").select("id").in("id", authorIds) : Promise.resolve({ data: [] }),
+  ]);
+
+  const seen = new Set((viewedRes.data ?? []).map((v) => v.story_id));
+  const groups: StoryGroup[] = tray.map((t) => ({
     authorId: t.author_id,
     name: t.full_name,
     avatar: t.avatar_url,
@@ -53,42 +100,10 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
       .map((s) => ({ id: s.id, kind: s.kind, text: s.text, media_url: s.media_url, created_at: s.created_at, seen: t.author_id === session.id || seen.has(s.id) })),
   })).filter((g) => g.stories.length > 0);
 
-  /* ---------------- posts */
-  let followedIds: string[] = [];
-  if (tab === "following") {
-    const { data } = await supabase.from("follows").select("followed_id").eq("follower_id", session.id);
-    followedIds = [...(data ?? []).map((f) => f.followed_id), session.id];
-  }
-  let q = supabase
-    .from("posts")
-    .select("id, author_id, startup_id, category, title, content, media_urls, external_link, reactions_count, comments_count, created_at")
-    .eq("status", "published")
-    .order("created_at", { ascending: false })
-    .range((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  if (category) q = q.eq("category", category);
-  if (tab === "following") q = q.in("author_id", followedIds);
-  if (tab === "startups") q = q.not("startup_id", "is", null);
-  const [{ data: rows }, { data: myStartups }] = await Promise.all([
-    q,
-    supabase.from("startup_members").select("startups(id, name)").eq("profile_id", session.id),
-  ]);
-  const hasMore = (rows?.length ?? 0) > PAGE_SIZE;
-  const posts = (rows ?? []).slice(0, PAGE_SIZE);
-
-  const postIds = posts.map((p) => p.id);
-  const authorIds = [...new Set(posts.map((p) => p.author_id))];
-  const [{ data: authors }, { data: comments }, { data: myReactions }, { data: mySaved }, { data: founderRows }] = await Promise.all([
-    authorIds.length ? supabase.from("profiles").select("id, full_name, avatar_url, headline").in("id", authorIds) : Promise.resolve({ data: [] }),
-    postIds.length ? supabase.from("post_comments").select("id, post_id, author_id, content, created_at").eq("status", "published").in("post_id", postIds).order("created_at") : Promise.resolve({ data: [] }),
-    postIds.length ? supabase.from("post_reactions").select("post_id").eq("user_id", session.id).in("post_id", postIds) : Promise.resolve({ data: [] }),
-    postIds.length ? supabase.from("saved_items").select("item_id").eq("user_id", session.id).eq("item_type", "post").in("item_id", postIds) : Promise.resolve({ data: [] }),
-    authorIds.length ? supabase.from("public_founders").select("id").in("id", authorIds) : Promise.resolve({ data: [] }),
-  ]);
-  const commentAuthorIds = [...new Set((comments ?? []).map((c) => c.author_id))].filter((i) => !authorIds.includes(i));
-  const { data: extraAuthors } = commentAuthorIds.length
-    ? await supabase.from("profiles").select("id, full_name, avatar_url, headline").in("id", commentAuthorIds)
-    : { data: [] };
-  const people = new Map([...(authors ?? []), ...(extraAuthors ?? [])].map((a) => [a.id, a]));
+  type Person = { id: string; full_name: string; avatar_url: string | null; headline: string | null };
+  const people = new Map<string, Person>();
+  for (const p of posts) { const a = one(p.profiles); if (a) people.set(a.id, a); }
+  for (const c of comments ?? []) { const a = one(c.profiles); if (a) people.set(a.id, a); }
   const reacted = new Set((myReactions ?? []).map((r) => r.post_id));
   const saved = new Set((mySaved ?? []).map((r) => r.item_id));
   const verifiedFounders = new Set((founderRows ?? []).map((f) => f.id));
@@ -98,7 +113,9 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
     `?${new URLSearchParams({ tab, ...(category ? { category } : {}), ...Object.fromEntries(Object.entries(extra).map(([k, v]) => [k, String(v)])) })}`;
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto grid max-w-[1000px] gap-8 lg:grid-cols-[minmax(0,640px)_300px]">
+      <div className="min-w-0">
+      <h1 className="display mb-6 text-3xl sm:text-4xl">Welcome, {session.full_name.split(" ")[0] ?? "there"}</h1>
       <Flash error={sp.error} />
       <StoryTray groups={groups} meName={session.full_name} meAvatar={session.avatar_url} />
 
@@ -220,6 +237,10 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
         {page > 1 ? <Link href={`/feed${qs({ page: page - 1 })}`} className="underline">← Newer</Link> : <span />}
         {hasMore ? <Link href={`/feed${qs({ page: page + 1 })}`} className="underline">Older →</Link> : null}
       </div>
+      </div>
+      <aside aria-label="Your overview" className="order-first min-w-0 lg:sticky lg:top-20 lg:order-none lg:self-start">
+        <HomeRail session={session} dataPromise={railPromise} />
+      </aside>
     </div>
   );
 }

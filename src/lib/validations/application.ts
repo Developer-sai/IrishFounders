@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { isLinkedinCompanyUrl } from "@/lib/normalize";
+import { CITY_NAMES } from "@/lib/geo";
 
 /** Accepts "acme.ie" or a full URL; always outputs an absolute https URL. */
 const url = (label: string) =>
@@ -12,6 +13,14 @@ const url = (label: string) =>
     .pipe(z.string().url(`Enter a valid ${label.toLowerCase()}`));
 
 const text = (label: string, max = 1500) => z.string().trim().min(2, `${label} is required`).max(max);
+
+/** Company names appear on the public register, so keep them plain: no markup characters or control codes. */
+const companyName = z
+  .string()
+  .trim()
+  .min(2, "Company name is required")
+  .max(80, "Keep the company name under 80 characters")
+  .refine((v) => !/[<>\u0000-\u001f]/.test(v), "Use letters, numbers and common punctuation only");
 
 export const STARTUP_STAGES = ["idea", "prototype", "mvp", "early_revenue", "scaling"] as const;
 export const INVESTOR_CATEGORIES = ["angel", "vc", "syndicate", "family_office", "institutional"] as const;
@@ -51,7 +60,9 @@ export const profileStep = z.object({
 
 export const founderApplicationSchema = z.object({
   profile: profileStep,
-  company_name: text("Company name", 120),
+  company_name: companyName,
+  company_city: z.enum(CITY_NAMES),
+  show_publicly: z.boolean().default(true),
   company_website: url("Company website"),
   company_linkedin: url("Company LinkedIn URL").refine(
     isLinkedinCompanyUrl,

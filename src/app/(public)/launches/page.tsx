@@ -8,6 +8,7 @@ import { ActionButton, ActionForm } from "@/components/ui/action-form";
 import { Input } from "@/components/ui/form-controls";
 import { buttonVariants } from "@/components/ui/button";
 import { Flash } from "@/components/app/flash";
+import { TiltCard } from "@/components/ui/tilt-card";
 import { addLaunchFeedback, toggleSavedRow, toggleVoteRow } from "@/lib/actions/community";
 import { humanize } from "@/lib/utils";
 
@@ -61,7 +62,8 @@ export default async function LaunchesPage({ searchParams }: { searchParams: Pro
       ) : (
         <>
           {winner ? (
-            <article className="mb-10 border border-foreground bg-primary p-6 text-primary-foreground md:p-8" aria-label="Launch of the day">
+            <TiltCard max={2.5} className="mb-10">
+            <article className="border border-foreground bg-primary p-6 text-primary-foreground shadow-[0_24px_60px_-30px_hsl(var(--glow)/0.6)] md:p-8" aria-label="Launch of the day">
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] opacity-70">★ Launch of the day</p>
               <h2 className="display mt-3 text-4xl md:text-5xl">
                 <a href={winner.website_url} target="_blank" rel="noopener noreferrer" className="hover:underline">{winner.name}</a>
@@ -76,6 +78,7 @@ export default async function LaunchesPage({ searchParams }: { searchParams: Pro
                 </div>
               ) : null}
             </article>
+            </TiltCard>
           ) : null}
 
           <ol className="border-t border-foreground/20">

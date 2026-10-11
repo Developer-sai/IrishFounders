@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, X } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
+import { GlobeLoader } from "@/components/landing/globe-loader";
+import { RegisterGrid, type RegisterRow } from "@/components/landing/register-grid";
+import { IRISH_CITIES, cityToCoords } from "@/lib/geo";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState, Seal } from "@/components/ui/card";
 import { Reveal } from "@/components/landing/reveal";
+import { Ticker } from "@/components/ui/ticker";
 import {
-  Dot, FeedMock, LaunchMock, MatchMock, ProfileGridMock, StoryMock,
+  Dot, LaunchMock, MatchMock, ProfileGridMock, StoryMock,
 } from "@/components/landing/mock";
-import { humanize } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: { absolute: "Irish Founders: world-class products from Ireland to the world" },
@@ -22,9 +25,12 @@ export const metadata: Metadata = {
   },
 };
 
+/** Statically rendered and refreshed every minute; admin actions also call revalidatePath("/") for instant updates. */
+export const revalidate = 60;
+
 const wrap = "mx-auto w-full max-w-[1180px] px-5";
 
-const CITIES = ["Dublin", "Cork", "Galway", "Limerick", "Waterford", "Kilkenny", "Sligo", "Derry", "Belfast", "Athlone", "Drogheda", "Tralee", "The World"];
+const CITIES = [...IRISH_CITIES.slice(0, 12).map((c) => c.name), "The World"];
 
 const CHECKS = [
   ["Company website", "A real site that belongs to the company"],
@@ -56,7 +62,7 @@ const FAQ = [
   ["How long does approval take?", "Applications are reviewed by a person, in the order they arrive. You can follow progress on your application status page and you will see a notification when something changes."],
   ["Does a verified badge guarantee an investor will invest?", "No. A badge says what our team reviewed. It is not financial advice and not a guarantee of capacity or commitment. Irish Founders facilitates introductions only."],
   ["Do I need to be Irish?", "No. If you are starting or running a company in Ireland you can apply, wherever you are from. Investors do not need any connection to Ireland. Join from anywhere in the world."],
-  ["Is it only for Dublin?", "No. It is for companies across all of Ireland, north and south."],
+  ["Is it only for Dublin?", "No. It is for companies across the Republic of Ireland, from Cork and Galway to Limerick, Sligo and beyond."],
 ];
 
 const ROLES = [
@@ -73,17 +79,28 @@ const TRUST = [
 ];
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const [{ data: stats }, { data: startups }] = await Promise.all([
-    supabase.rpc("public_stats"),
-    supabase.from("startups").select("id, name, slug, industry, stage, location").eq("is_verified", true).eq("is_demo", false).order("verified_at", { ascending: false }).limit(8),
-  ]);
-  const s = (stats ?? {}) as { verified_startups?: number; approved_founders?: number; launches?: number };
+  type Counts = { verified?: number; pending?: number; launches?: number };
+  let rows: RegisterRow[] = [];
+  let counts: Counts = {};
+  try {
+    const supabase = createPublicClient();
+    const [reg, cnt] = await Promise.all([supabase.rpc("public_register", { p_limit: 120 }), supabase.rpc("public_register_counts")]);
+    rows = (reg.data ?? []) as RegisterRow[];
+    counts = (cnt.data ?? {}) as Counts;
+  } catch {
+    // never fail the static build or a revalidation because the database was unreachable: render the empty state instead
+  }
+  const verifiedCount = counts.verified ?? rows.filter((r) => r.kind === "verified").length;
+  const pendingCount = counts.pending ?? rows.filter((r) => r.kind === "pending").length;
   const ledger: [string, number][] = [
-    ["Verified startups", s.verified_startups ?? 0],
-    ["Verified founders", s.approved_founders ?? 0],
-    ["Products launched", s.launches ?? 0],
+    ["Verified companies", verifiedCount],
+    ["In review", pendingCount],
+    ["Products launched", counts.launches ?? 0],
   ];
+  const markers = rows.map((r, i) => {
+    const [lat, lng] = cityToCoords(r.city, `${r.name}-${i}`);
+    return { lat, lng, kind: r.kind === "verified" ? ("verified" as const) : ("pending" as const) };
+  });
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -107,7 +124,7 @@ export default async function HomePage() {
         <div aria-hidden className="grid-lines pointer-events-none absolute inset-0 -z-10 opacity-60" />
         <div className={`${wrap} grid items-center gap-14 pb-20 pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:pb-28 lg:pt-24`}>
           <div>
-            <p className="rise inline-flex items-center gap-2.5 border border-border bg-card/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground backdrop-blur">
+            <p className="rise inline-flex items-center gap-2.5 border border-border bg-card/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               <span aria-hidden className="pulse-ring inline-block h-2 w-2 rounded-full bg-accent" />
               From Ireland to the world · Free for founders
             </p>
@@ -131,17 +148,16 @@ export default async function HomePage() {
             </ul>
           </div>
 
-          {/* floating product preview (desktop) */}
-          <div className="relative hidden h-[580px] lg:block" aria-hidden>
-            <p className="eyebrow absolute -top-8 right-0">Product preview · illustration</p>
-            <div className="absolute left-0 top-16 w-[268px] -rotate-3 float-slow"><FeedMock /></div>
-            <div className="absolute right-0 top-0 w-[252px] rotate-3"><MatchMock /></div>
-            <div className="absolute bottom-0 right-4 w-[268px] -rotate-1"><LaunchMock /></div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:hidden" aria-hidden>
-            <FeedMock />
-            <MatchMock />
-            <p className="eyebrow sm:col-span-2">Product preview · illustration</p>
+          {/* the register on a globe */}
+          <div className="relative mx-auto w-full max-w-[560px]">
+            <div aria-hidden className="absolute -inset-[8%] -z-10 rounded-full bg-[radial-gradient(closest-side,hsl(var(--glow)/0.26),transparent)]" />
+            <GlobeLoader markers={markers} />
+            <div className="panel absolute left-0 top-4 hidden w-[210px] -rotate-2 p-3 lg:block" aria-hidden>
+              <p className="eyebrow">The register</p>
+              <p className="mt-1 flex items-center gap-2 text-sm"><span className="inline-block h-2 w-2 rounded-full bg-accent" /><strong className="tabular">{verifiedCount}</strong> verified</p>
+              <p className="mt-0.5 flex items-center gap-2 text-sm text-muted-foreground"><span className="inline-block h-2 w-2 rounded-full border border-dashed border-foreground/50" /><strong className="tabular">{pendingCount}</strong> in review</p>
+            </div>
+            <p className="eyebrow mt-4 text-center">Every pin is a company in the register. Arcs are illustrative.</p>
           </div>
         </div>
 
@@ -149,7 +165,7 @@ export default async function HomePage() {
         <dl className="mx-auto grid max-w-[1180px] grid-cols-3 border-t border-border" aria-label="The community in numbers">
           {ledger.map(([label, value], i) => (
             <div key={label} className={`px-5 py-6 sm:py-8 ${i < 2 ? "border-r border-border" : ""}`}>
-              <dd className="display tabular text-4xl sm:text-6xl">{value}</dd>
+              <dd className="display text-4xl sm:text-6xl"><Ticker value={value} /></dd>
               <dt className="eyebrow mt-2">{label}</dt>
             </div>
           ))}
@@ -338,24 +354,15 @@ export default async function HomePage() {
         <Reveal className="mb-10 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="eyebrow">The register</p>
-            <h2 id="register" className="display mt-3 text-4xl sm:text-6xl">Verified startups</h2>
+            <h2 id="register" className="display mt-3 text-4xl sm:text-6xl">Every company, in one place.</h2>
+            <p className="mt-4 max-w-xl text-foreground/70">
+              {verifiedCount} verified and {pendingCount} in review. Verified companies have been checked by a person. Companies in review are applicants who chose to be listed while we check them.
+            </p>
           </div>
-          <Link href="/startups" className="text-sm font-medium text-accent hover:underline">All startups →</Link>
+          <Link href="/startups" className="text-sm font-medium text-accent hover:underline">Browse all →</Link>
         </Reveal>
-        {startups && startups.length > 0 ? (
-          <ol className="border-t border-border">
-            {startups.map((st, i) => (
-              <li key={st.id} className="border-b border-border">
-                <Link href={`/startups/${st.slug}`} className="grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 py-5 transition-colors hover:bg-card sm:grid-cols-[3rem_1fr_12rem_9rem_auto]">
-                  <span className="font-mono text-xs text-muted-foreground tabular">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="font-display text-2xl font-semibold">{st.name}</span>
-                  <span className="hidden text-sm text-muted-foreground sm:block">{st.industry}</span>
-                  <span className="hidden font-mono text-[11px] uppercase tracking-wider text-muted-foreground sm:block">{humanize(st.stage)}</span>
-                  <Seal label="Verified startup" />
-                </Link>
-              </li>
-            ))}
-          </ol>
+        {rows.length > 0 ? (
+          <RegisterGrid rows={rows} />
         ) : (
           <EmptyState
             title="The register is open, and empty."

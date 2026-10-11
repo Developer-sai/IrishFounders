@@ -21,7 +21,7 @@ function Ring({ unseen = true }: { unseen?: boolean }) {
 /** Mock window chrome */
 export function Window({ title, children, className = "" }: { title: string; children: React.ReactNode; className?: string }) {
   return (
-    <div className={`overflow-hidden border border-border bg-card shadow-[0_30px_80px_-30px_hsl(var(--glow)/0.35)] ${className}`}>
+    <div className={`overflow-hidden border border-border bg-card shadow-[0_18px_44px_-22px_hsl(var(--glow)/0.4)] ${className}`}>
       <div className="flex items-center gap-1.5 border-b border-border bg-muted/50 px-3 py-2">
         <span className="h-2 w-2 rounded-full bg-foreground/20" />
         <span className="h-2 w-2 rounded-full bg-foreground/20" />

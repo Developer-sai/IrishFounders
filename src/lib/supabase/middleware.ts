@@ -4,27 +4,44 @@ import type { Database } from "./database.types";
 
 const MEMBER_PREFIXES = [
   "/dashboard", "/feed", "/discover", "/design-partners", "/collaborate", "/investors",
-  "/opportunities", "/messages", "/notifications", "/settings",
+  "/opportunities", "/messages", "/notifications", "/settings", "/saved", "/stories",
 ];
 const AUTH_ONLY_PREFIXES = ["/onboarding", "/application"];
+const PROTECTED_PREFIXES = [...MEMBER_PREFIXES, ...AUTH_ONLY_PREFIXES, "/admin", "/investor"];
 
 const matches = (path: string, prefixes: string[]) =>
   prefixes.some((p) => path === p || path.startsWith(`${p}/`));
 
-function redirect(request: NextRequest, to: string, source: NextResponse) {
-  const url = request.nextUrl.clone();
-  url.pathname = to;
-  url.search = "";
-  const res = NextResponse.redirect(url);
-  source.cookies.getAll().forEach((c) => res.cookies.set(c));
-  return res;
-}
+/** Supabase stores the session in cookies named sb-<ref>-auth-token (possibly chunked as .0, .1). */
+const hasAuthCookie = (request: NextRequest) =>
+  request.cookies.getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"));
 
-/** Refreshes the session cookie and applies the first (coarse) route guard.
- *  Layouts and RLS remain the authoritative checks. */
+/**
+ * First, cheap route guard. Design goals:
+ *  - public pages cost nothing (no auth round trip, no database query);
+ *  - protected pages read the session from the cookie locally and only call the network when the
+ *    access token has expired (getSession() refreshes it and rewrites the cookie);
+ *  - the cookie is NOT trusted for authorisation: layouts verify with getUser() and RLS verifies the JWT,
+ *    so a forged cookie gets a redirect or empty data, never access;
+ *  - role and approval checks live in the layouts (cached per request), not here.
+ */
 export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({ request });
+  const path = request.nextUrl.pathname;
+  const isProtected = matches(path, PROTECTED_PREFIXES);
+  const isAuthPage = path === "/login" || path === "/signup";
 
+  if (!isProtected && !isAuthPage) return NextResponse.next({ request });
+
+  // No session cookie: nothing to refresh. Send protected requests to login immediately.
+  if (!hasAuthCookie(request)) {
+    if (!isProtected) return NextResponse.next({ request });
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = `?next=${encodeURIComponent(path)}`;
+    return NextResponse.redirect(url);
+  }
+
+  let response = NextResponse.next({ request });
   const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -40,45 +57,28 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // getUser() validates the JWT with the auth server; never trust getSession() here.
-  const { data: { user } } = await supabase.auth.getUser();
-  const path = request.nextUrl.pathname;
-
-  const isAdminArea = path === "/admin" || path.startsWith("/admin/");
-  const isInvestorArea = path === "/investor" || path.startsWith("/investor/");
-  const isMemberArea = matches(path, MEMBER_PREFIXES);
-  const isAuthOnly = matches(path, AUTH_ONLY_PREFIXES);
-
-  if (!user) {
-    if (isAdminArea || isInvestorArea || isMemberArea || isAuthOnly) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/login";
-      url.search = `?next=${encodeURIComponent(path)}`;
-      const res = NextResponse.redirect(url);
-      response.cookies.getAll().forEach((c) => res.cookies.set(c));
-      return res;
-    }
-    return response;
+  if (isAuthPage) {
+    // Redirecting a signed-in user away from /login must use a VERIFIED check: a revoked session whose
+    // access token has not expired yet would otherwise bounce between /login and /feed.
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return response;
+    const url = request.nextUrl.clone();
+    url.pathname = "/feed";
+    url.search = "";
+    const res = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((c) => res.cookies.set(c));
+    return res;
   }
 
-  if (path === "/login" || path === "/signup") return redirect(request, "/feed", response);
-
-  if (isAdminArea || isInvestorArea || isMemberArea) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role, verification_status, suspended_at")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    const approved = profile?.verification_status === "approved" && !profile.suspended_at;
-    if (!approved) return redirect(request, "/application/status", response);
-
-    if (isAdminArea && profile.role !== "super_admin" && profile.role !== "moderator") {
-      return NextResponse.rewrite(new URL("/403", request.url), { status: 403 });
-    }
-    if (isInvestorArea && profile.role !== "investor") {
-      return NextResponse.rewrite(new URL("/403", request.url), { status: 403 });
-    }
+  // Protected routes: local decode + refresh-if-expired. We only test for existence, never read session.user.
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/login";
+    url.search = `?next=${encodeURIComponent(path)}`;
+    const res = NextResponse.redirect(url);
+    response.cookies.getAll().forEach((c) => res.cookies.set(c));
+    return res;
   }
   return response;
 }
