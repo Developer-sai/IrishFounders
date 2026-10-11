@@ -74,7 +74,7 @@ export default async function DiscoverPage({ searchParams }: { searchParams: Pro
                 {top.location ? <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" aria-hidden />{top.location}</span> : null}
               </p>
 
-              <div className="mt-6 border-t border-foreground/80 pt-4">
+              <div className="mt-6 border-t border-foreground/20 pt-4">
                 <p className="eyebrow mb-3">Why you match</p>
                 {top.reasons.length > 0 ? (
                   <ul className="space-y-1.5 text-sm">

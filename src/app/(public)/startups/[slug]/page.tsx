@@ -51,7 +51,7 @@ export default async function StartupPage({
 
   return (
     <div className="mx-auto max-w-4xl pb-12">
-      <div className="-mx-5 h-36 overflow-hidden border-b border-foreground/80 sm:mx-0 sm:h-48 sm:border"><CoverImage src={null} /></div>
+      <div className="-mx-5 h-36 overflow-hidden border-b border-foreground/20 sm:mx-0 sm:h-48 sm:border"><CoverImage src={null} /></div>
 
       <header className="px-1">
         <div className="-mt-10 flex flex-wrap items-end justify-between gap-4">
@@ -88,9 +88,9 @@ export default async function StartupPage({
         <div className="mt-4"><Flash error={error} /></div>
       </header>
 
-      <section className="mt-8 grid gap-8 border-t border-foreground/80 pt-6 md:grid-cols-[1.4fr_1fr]" aria-label="About">
+      <section className="mt-8 grid gap-8 border-t border-foreground/20 pt-6 md:grid-cols-[1.4fr_1fr]" aria-label="About">
         <div className="space-y-5">
-          <p className="font-display text-2xl leading-snug" style={{ fontVariationSettings: '"opsz" 36, "SOFT" 40' }}>{startup.short_description}</p>
+          <p className="font-display text-2xl leading-snug">{startup.short_description}</p>
           {startup.problem_statement ? <div><p className="eyebrow mb-1">The problem</p><p className="text-foreground/80">{startup.problem_statement}</p></div> : null}
           {startup.product_overview ? <div><p className="eyebrow mb-1">The product</p><p className="text-foreground/80">{startup.product_overview}</p></div> : null}
         </div>
@@ -111,7 +111,7 @@ export default async function StartupPage({
         </div>
       </section>
 
-      <section className="mt-10 border-t border-foreground/80 pt-6" aria-label="Milestones">
+      <section className="mt-10 border-t border-foreground/20 pt-6" aria-label="Milestones">
         <p className="eyebrow mb-4">Milestones</p>
         {milestones && milestones.length > 0 ? (
           <ol className="border-l border-border pl-5">
@@ -126,7 +126,7 @@ export default async function StartupPage({
         ) : <p className="text-sm text-muted-foreground">No milestones shared yet.</p>}
       </section>
 
-      <section className="mt-10 border-t border-foreground/80 pt-6" aria-label="Product launches">
+      <section className="mt-10 border-t border-foreground/20 pt-6" aria-label="Product launches">
         <p className="eyebrow mb-4">Launches</p>
         {launches && launches.length > 0 ? (
           <ul className="divide-y divide-border border-y border-border">

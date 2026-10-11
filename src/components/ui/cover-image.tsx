@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Profile / startup cover. Uses the uploaded image, or a quiet pattern of Georgian fanlights
- * so an empty cover still looks designed, never broken.
+ * Profile / startup cover. Uses the uploaded image, or a quiet pattern of rising chevrons
+ * (echoing the logo's growth arrow) so an empty cover still looks designed, never broken.
  */
 export function CoverImage({ src, className }: { src?: string | null; className?: string }) {
   if (src) {
@@ -12,13 +12,18 @@ export function CoverImage({ src, className }: { src?: string | null; className?
   return (
     <svg aria-hidden className={cn("h-full w-full", className)} preserveAspectRatio="xMidYMid slice" viewBox="0 0 480 120">
       <defs>
-        <pattern id="fanlight" width="48" height="40" patternUnits="userSpaceOnUse">
-          <path d="M6 40V24a18 18 0 0 1 36 0v16" fill="none" stroke="hsl(var(--foreground) / 0.12)" strokeWidth="1" />
-          <path d="M24 6v34M12 28l24-4M36 28 12 24" stroke="hsl(var(--foreground) / 0.08)" strokeWidth="1" />
+        <pattern id="chevrons" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M6 30 20 16l14 14" fill="none" stroke="hsl(var(--accent) / 0.22)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M6 38 20 24l14 14" fill="none" stroke="hsl(var(--accent) / 0.10)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </pattern>
+        <radialGradient id="coverglow" cx="80%" cy="0%" r="80%">
+          <stop offset="0%" stopColor="hsl(var(--accent) / 0.25)" />
+          <stop offset="100%" stopColor="hsl(var(--accent) / 0)" />
+        </radialGradient>
       </defs>
       <rect width="480" height="120" fill="hsl(var(--muted))" />
-      <rect width="480" height="120" fill="url(#fanlight)" />
+      <rect width="480" height="120" fill="url(#chevrons)" />
+      <rect width="480" height="120" fill="url(#coverglow)" />
     </svg>
   );
 }

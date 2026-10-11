@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const display = Fraunces({ subsets: ["latin"], variable: "--font-display", axes: ["opsz", "SOFT"], display: "swap" });
+const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display", axes: ["opsz"], display: "swap" });
 const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3100"),
-  title: { default: "Irish Founders — Where Ireland's Founders Build Together", template: "%s · Irish Founders" },
+  title: { default: "Irish Founders: world-class products from Ireland to the world", template: "%s · Irish Founders" },
   description:
-    "A verified community connecting founders, startups, investors and builders across Ireland. Real founders. Real companies.",
+    "A verified network for founders building companies in Ireland and the investors and partners around the world who back them. Real founders. Real companies.",
   openGraph: { siteName: "Irish Founders", type: "website", locale: "en_IE" },
   appleWebApp: { capable: true, title: "Irish Founders", statusBarStyle: "default" },
 };
@@ -20,8 +20,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F5F1E8" },
-    { media: "(prefers-color-scheme: dark)", color: "#10141A" },
+    { color: "#021510" },
   ],
 };
 

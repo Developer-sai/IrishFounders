@@ -21,7 +21,7 @@ export function StartupCard({ startup }: { startup: StartupCardData }) {
     >
       <div>
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-display text-2xl leading-tight" style={{ fontVariationSettings: '"opsz" 36, "SOFT" 40' }}>
+          <h3 className="font-display text-2xl leading-tight">
             {startup.name}
           </h3>
           <Seal label="Verified startup" />

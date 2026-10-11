@@ -14,6 +14,7 @@ const config: Config = {
         primary: "hsl(var(--primary))",
         "primary-foreground": "hsl(var(--primary-foreground))",
         accent: "hsl(var(--accent))",
+        "accent-foreground": "hsl(var(--accent-foreground))",
         verified: "hsl(var(--verified))",
         sidebar: "hsl(var(--sidebar))",
         destructive: "hsl(var(--destructive))",

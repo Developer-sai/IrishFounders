@@ -49,7 +49,7 @@ export default async function MessagesPage({ searchParams }: { searchParams: Pro
                 <Link key={c.id} href={`/messages?c=${c.id}`} className={`flex items-center gap-3 rounded-lg border p-3 ${active?.id === c.id ? "border-primary bg-card" : "border-border bg-card/50"}`}>
                   <Avatar name={p?.full_name ?? null} src={p?.avatar_url} size={36} />
                   <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium">{p?.full_name ?? "Member"}</span><span className="block truncate text-xs text-muted-foreground">{p?.headline}</span></span>
-                  {n > 0 ? <span className="rounded-full bg-accent px-1.5 text-[10px] font-semibold text-white" aria-label={`${n} unread`}>{n}</span> : null}
+                  {n > 0 ? <span className="rounded-full bg-accent px-1.5 text-[10px] font-semibold text-accent-foreground" aria-label={`${n} unread`}>{n}</span> : null}
                 </Link>
               );
             })}

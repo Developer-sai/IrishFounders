@@ -3,14 +3,14 @@ import { Logo } from "./site-header";
 
 const col = "block py-1 text-sm text-foreground/70 transition-colors hover:text-foreground";
 
-export function SiteFooter() {
+export function SiteFooter({ className = "mt-32" }: { className?: string }) {
   return (
-    <footer className="mt-32 border-t border-foreground/80">
+    <footer className={`${className} border-t border-border`}>
       <div className="mx-auto grid max-w-[1120px] gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="space-y-4">
           <Logo />
-          <p className="max-w-sm font-display text-xl leading-snug" style={{ fontVariationSettings: '"opsz" 36, "SOFT" 40' }}>
-            A trusted home for the people building Ireland&apos;s next generation of companies.
+          <p className="max-w-sm font-display text-xl leading-snug">
+            World-class products, from Ireland to the world. A trusted home for the founders building them.
           </p>
         </div>
         <nav aria-label="Platform">

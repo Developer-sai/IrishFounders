@@ -73,7 +73,7 @@ export function BottomNav({ unread = 0 }: { unread?: number }) {
       ) : null}
       <nav
         aria-label="Primary"
-        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-foreground/80 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 flex items-stretch border-t border-foreground/20 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
       >
         {tab(TABS[0])}
         {tab(TABS[1])}
@@ -82,7 +82,7 @@ export function BottomNav({ unread = 0 }: { unread?: number }) {
             type="button"
             onClick={() => setSheet(true)}
             aria-label="Create"
-            className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent text-white transition-colors hover:bg-accent/90"
+            className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent text-accent-foreground transition-colors hover:bg-accent/90"
           >
             <Plus className="h-5 w-5" aria-hidden />
           </button>

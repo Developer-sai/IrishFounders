@@ -89,7 +89,7 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-foreground/80 pb-5">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-foreground/20 pb-5">
       <div>
         <h1 className="display text-3xl md:text-4xl">{title}</h1>
         {description ? <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p> : null}

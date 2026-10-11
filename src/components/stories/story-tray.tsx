@@ -105,7 +105,7 @@ export function StoryTray({ groups, meName, meAvatar }: { groups: StoryGroup[]; 
             <Link href="/stories/new" className="flex w-[72px] flex-col items-center gap-1.5" aria-label="Add a story">
               <span className="relative inline-flex">
                 <StoryRing name={meName} src={meAvatar} size={60} />
-                <span className="absolute -bottom-0.5 -right-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-accent text-white">
+                <span className="absolute -bottom-0.5 -right-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-background bg-accent text-accent-foreground">
                   <Plus className="h-3 w-3" aria-hidden />
                 </span>
               </span>
@@ -142,7 +142,7 @@ export function StoryTray({ groups, meName, meAvatar }: { groups: StoryGroup[]; 
         className="m-0 h-[100dvh] max-h-none w-screen max-w-none border-0 bg-transparent p-0 backdrop:bg-black/90 md:m-auto md:h-[min(86vh,760px)] md:w-[min(440px,92vw)]"
       >
         {group && story ? (
-          <div className="relative flex h-full flex-col overflow-hidden bg-sidebar text-[hsl(41_30%_93%)]">
+          <div className="relative flex h-full flex-col overflow-hidden bg-sidebar text-[hsl(150_20%_96%)]">
             <div className="absolute inset-x-0 top-0 z-10 space-y-3 bg-gradient-to-b from-black/60 to-transparent p-3 pb-8">
               <div className="flex gap-1" aria-hidden>
                 {group.stories.map((s, i) => (

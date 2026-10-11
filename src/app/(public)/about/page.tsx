@@ -7,8 +7,7 @@ export default function AboutPage() {
   return (
     <Prose title="About Irish Founders">
       <p>
-        Irish Founders is an independent, curated community connecting verified startup founders, entrepreneurs,
-        investors, and ecosystem partners across Ireland.
+        Irish Founders is an independent, curated network for companies built in Ireland. It connects verified founders, Irish or international, with investors, ecosystem partners and customers from anywhere in the world.
       </p>
       <p>
         Our mission is to create a trusted environment where genuine founders can discover startups, share knowledge,

@@ -93,7 +93,7 @@ export default async function FounderPage({
 
   return (
     <div className="mx-auto max-w-3xl pb-12">
-      <div className="-mx-5 h-40 overflow-hidden border-b border-foreground/80 sm:mx-0 sm:h-56 sm:border">
+      <div className="-mx-5 h-40 overflow-hidden border-b border-foreground/20 sm:mx-0 sm:h-56 sm:border">
         <CoverImage src={founder.cover_url} />
       </div>
 
@@ -143,7 +143,7 @@ export default async function FounderPage({
       {founder.bio ? <p className="mt-6 max-w-2xl whitespace-pre-wrap text-[15px] leading-relaxed">{founder.bio}</p> : null}
 
       {(founder.open_to?.length ?? 0) > 0 || (founder.offering?.length ?? 0) > 0 ? (
-        <section className="mt-8 grid gap-6 border-t border-foreground/80 pt-6 sm:grid-cols-2" aria-label="Open to">
+        <section className="mt-8 grid gap-6 border-t border-foreground/20 pt-6 sm:grid-cols-2" aria-label="Open to">
           {(founder.open_to?.length ?? 0) > 0 ? (
             <div><p className="eyebrow mb-3">Looking for</p><div className="flex flex-wrap gap-1.5">{founder.open_to!.map((o) => <Chip key={o} tone="accent">{OPEN_TO_LABELS[o] ?? o}</Chip>)}</div></div>
           ) : null}
@@ -154,7 +154,7 @@ export default async function FounderPage({
       ) : null}
 
       {startups.length > 0 ? (
-        <section className="mt-8 border-t border-foreground/80 pt-6" aria-label="Startups">
+        <section className="mt-8 border-t border-foreground/20 pt-6" aria-label="Startups">
           <p className="eyebrow mb-4">Startups</p>
           <ul className="space-y-6">
             {startups.map((s) => {
@@ -186,7 +186,7 @@ export default async function FounderPage({
       ) : null}
 
       {mutual.length > 0 ? (
-        <section className="mt-8 border-t border-foreground/80 pt-6" aria-label="Mutual connections">
+        <section className="mt-8 border-t border-foreground/20 pt-6" aria-label="Mutual connections">
           <p className="eyebrow mb-3">Mutual connections</p>
           <ul className="flex flex-wrap gap-3">
             {mutual.map((m) => (
@@ -197,7 +197,7 @@ export default async function FounderPage({
       ) : null}
 
       {tiles.length > 0 ? (
-        <section className="mt-8 border-t border-foreground/80 pt-6" aria-label="Activity">
+        <section className="mt-8 border-t border-foreground/20 pt-6" aria-label="Activity">
           <p className="eyebrow mb-4">Activity</p>
           <ul className="grid grid-cols-3 gap-0.5">
             {tiles.map((t) => (
@@ -222,7 +222,7 @@ export default async function FounderPage({
         </section>
       ) : null}
 
-      <section className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-foreground/80 pt-6" aria-label="Skills and links">
+      <section className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-foreground/20 pt-6" aria-label="Skills and links">
         {founder.skills && founder.skills.length > 0 ? founder.skills.map((s) => <Chip key={s}>{s}</Chip>) : null}
         {founder.linkedin_url ? (
           <a href={founder.linkedin_url} target="_blank" rel="noopener noreferrer nofollow" className="ml-auto inline-flex items-center gap-1.5 text-sm underline underline-offset-4">

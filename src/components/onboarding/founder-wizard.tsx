@@ -170,6 +170,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
 
         {step === 1 && (
           <>
+            <p className="border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground">Your company should be based in Ireland. Founders from anywhere in the world are welcome to start one here.</p>
             <Field label="Company name" htmlFor="company_name" error={errors.company_name}><Input {...f("company_name")} /></Field>
             <Field label="Company website" htmlFor="company_website" error={errors.company_website}>
               <Input {...f("company_website")} placeholder="acme.ie" onBlur={onCompanyBlur} />

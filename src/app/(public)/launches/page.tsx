@@ -43,7 +43,7 @@ export default async function LaunchesPage({ searchParams }: { searchParams: Pro
     <div className="py-12">
       <PageHeader
         title="Launch Day"
-        description="Real products from verified Irish founders, ranked by support with a freshness boost. Be one of the first to try them."
+        description="Real products built in Ireland by verified founders, for a worldwide audience. Ranked by support with a freshness boost. Be one of the first to try them."
         action={member && session?.role === "founder" ? <Link href="/launches/new" className={buttonVariants({ variant: "accent", size: "sm" })}>Launch a product</Link> : undefined}
       />
       <Flash error={sp.error} />
@@ -78,13 +78,13 @@ export default async function LaunchesPage({ searchParams }: { searchParams: Pro
             </article>
           ) : null}
 
-          <ol className="border-t border-foreground/80">
+          <ol className="border-t border-foreground/20">
             {rest.map((l, i) => (
               <li key={l.id} className="border-b border-border py-6">
                 <div className="grid grid-cols-[2.5rem_1fr_auto] items-start gap-x-4 sm:grid-cols-[3.5rem_1fr_auto]">
                   <span className="display tabular text-3xl text-muted-foreground sm:text-4xl">{i + 1 + (winner ? 1 : 0)}</span>
                   <div className="min-w-0">
-                    <h3 className="font-display text-2xl leading-tight" style={{ fontVariationSettings: '"opsz" 36' }}>
+                    <h3 className="font-display text-2xl leading-tight">
                       <a href={l.website_url} target="_blank" rel="noopener noreferrer" className="hover:underline">{l.name}</a>
                     </h3>
                     <p className="mt-1 text-foreground/75">{l.tagline}</p>

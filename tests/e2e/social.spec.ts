@@ -111,11 +111,11 @@ test.describe.serial("social layer (browser)", () => {
     await b.keyboard.press("Enter");
     await expect(b).toHaveURL(new RegExp(`/founders/${alice.id}`));
 
-    // --- dark mode toggle persists
-    await b.getByRole("button", { name: /Switch to dark theme/ }).first().click();
-    await expect(b.locator("html")).toHaveAttribute("data-theme", "dark");
+    // --- theme toggle persists (dark is the brand default, so switch to light)
+    await b.getByRole("button", { name: /Switch to light theme/ }).first().click();
+    await expect(b.locator("html")).toHaveAttribute("data-theme", "light");
     await b.reload();
-    await expect(b.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(b.locator("html")).toHaveAttribute("data-theme", "light");
 
     await aliceCtx.close();
     await bobCtx.close();

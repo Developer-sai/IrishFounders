@@ -129,7 +129,7 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
           </ActionForm>
       </Composer>
 
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-foreground/80 pb-3">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-foreground/20 pb-3">
         <nav aria-label="Feed" className="flex gap-6">
           {TABS.map(([k, label]) => (
             <Link key={k} href={`/feed?tab=${k}`} aria-current={tab === k ? "page" : undefined}

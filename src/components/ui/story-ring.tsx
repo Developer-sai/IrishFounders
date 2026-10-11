@@ -31,7 +31,7 @@ export function StoryRing({
         <span
           role="img"
           aria-label="Verified"
-          className="absolute -bottom-0.5 -right-0.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-background bg-verified text-white"
+          className="absolute -bottom-0.5 -right-0.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-background bg-verified text-accent-foreground"
         >
           <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
             <path d="m3.5 8.5 3 3 6-7" />
