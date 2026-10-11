@@ -11,7 +11,7 @@ export default async function ResetPasswordPage() {
   if (!(await getSession())) redirect("/login");
   return (
     <>
-      <h1 className="text-xl font-semibold">Choose a new password</h1>
+      <h1 className="display text-4xl">Choose a new password</h1>
       <div className="mt-6">
         <ActionForm action={updatePassword} submitLabel="Update password" buttonProps={{ className: "w-full" }}>
           <Field label="New password" htmlFor="password" hint="At least 10 characters.">

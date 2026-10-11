@@ -66,7 +66,7 @@ export default async function StartupPage({ params }: { params: Promise<Params> 
           <h1 className="flex items-center gap-2 text-3xl font-semibold tracking-tight">
             {startup.name}
             <span title="Company reviewed by Irish Founders" className="inline-flex">
-              <BadgeCheck className="h-6 w-6 text-accent" aria-label="Verified startup: company reviewed" />
+              <BadgeCheck className="h-6 w-6 text-verified" aria-label="Verified startup: company reviewed" />
             </span>
           </h1>
           <p className="text-muted-foreground">{startup.location ?? "Ireland"} · Founded {startup.founded_year}</p>

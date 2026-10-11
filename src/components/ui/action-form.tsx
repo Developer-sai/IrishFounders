@@ -56,7 +56,7 @@ export function ActionForm({
         </p>
       ) : null}
       {state?.ok && successMessage ? (
-        <p role="status" className="rounded-md bg-accent/10 px-3 py-2 text-sm text-accent">
+        <p role="status" className="rounded-md bg-verified/10 px-3 py-2 text-sm text-verified">
           {successMessage}
         </p>
       ) : null}

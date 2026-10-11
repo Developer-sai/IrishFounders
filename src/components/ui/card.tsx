@@ -1,15 +1,16 @@
 import { cn } from "@/lib/utils";
 
+/** Flat, hairline-bordered panel. No shadow: structure comes from rules, not elevation. */
 export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("rounded-lg border border-border bg-card shadow-sm", className)} {...props} />;
+  return <div className={cn("rounded-lg border border-border bg-card", className)} {...props} />;
 }
 
 export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex flex-col gap-1 p-5 pb-0", className)} {...props} />;
+  return <div className={cn("flex flex-col gap-1 border-b border-border px-5 py-3.5", className)} {...props} />;
 }
 
 export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn("text-base font-semibold", className)} {...props} />;
+  return <h3 className={cn("eyebrow !text-foreground/70", className)} {...props} />;
 }
 
 export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
@@ -17,10 +18,10 @@ export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDi
 }
 
 const BADGE = {
-  neutral: "bg-muted text-foreground",
-  success: "bg-accent/15 text-accent",
-  warning: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
-  danger: "bg-destructive/15 text-destructive",
+  neutral: "border-border bg-muted/60 text-foreground/80",
+  success: "border-verified/30 bg-verified/10 text-verified",
+  warning: "border-amber-600/30 bg-amber-500/10 text-amber-800 dark:text-amber-300",
+  danger: "border-destructive/30 bg-destructive/10 text-destructive",
 } as const;
 
 export function Badge({
@@ -30,9 +31,32 @@ export function Badge({
 }: React.HTMLAttributes<HTMLSpanElement> & { tone?: keyof typeof BADGE }) {
   return (
     <span
-      className={cn("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium", BADGE[tone], className)}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-sm border px-2 py-0.5 font-mono text-[11px] font-medium uppercase tracking-wider",
+        BADGE[tone],
+        className,
+      )}
       {...props}
     />
+  );
+}
+
+/** The brand device: a circular seal marking something a person has checked. */
+export function Seal({ className, label = "Verified" }: { className?: string; label?: string }) {
+  return (
+    <span
+      role="img"
+      aria-label={label}
+      title={label}
+      className={cn(
+        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-verified bg-verified/10 text-verified",
+        className,
+      )}
+    >
+      <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+        <path d="m3.5 8.5 3 3 6-7" />
+      </svg>
+    </span>
   );
 }
 
@@ -46,8 +70,9 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border px-6 py-12 text-center">
-      <p className="font-medium">{title}</p>
+    <div className="flex flex-col items-start gap-2 rounded-lg border border-dashed border-foreground/25 px-6 py-10">
+      <p className="eyebrow">Nothing here yet</p>
+      <p className="font-display text-xl">{title}</p>
       {description ? <p className="max-w-md text-sm text-muted-foreground">{description}</p> : null}
       {action ? <div className="mt-2">{action}</div> : null}
     </div>
@@ -64,10 +89,10 @@ export function PageHeader({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-foreground/80 pb-5">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        {description ? <p className="mt-1 text-sm text-muted-foreground">{description}</p> : null}
+        <h1 className="display text-3xl md:text-4xl">{title}</h1>
+        {description ? <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{description}</p> : null}
       </div>
       {action}
     </div>
@@ -83,7 +108,7 @@ export function Avatar({ name, src, size = 40 }: { name: string | null; src?: st
   return (
     <span
       aria-hidden
-      className="inline-flex items-center justify-center rounded-full bg-muted text-xs font-semibold"
+      className="inline-flex shrink-0 items-center justify-center rounded-full bg-foreground/90 font-mono text-[11px] font-medium text-background"
       style={{ width: size, height: size }}
     >
       {label}

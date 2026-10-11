@@ -5,7 +5,6 @@ import {
   CalendarClock, Landmark,
 } from "lucide-react";
 import { Logo } from "@/components/marketing/site-header";
-import { Button } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/card";
 import { signOut } from "@/lib/actions/auth";
 import type { SessionProfile } from "@/lib/auth";
@@ -57,36 +56,40 @@ export function AppShell({
   nav: NavItem[]; session: SessionProfile; unread?: number; area: string; children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen md:grid md:grid-cols-[240px_1fr]">
-      <aside className="border-b border-border bg-card md:sticky md:top-0 md:h-screen md:overflow-y-auto md:border-b-0 md:border-r">
-        <div className="flex h-16 items-center justify-between px-4">
+    <div className="min-h-screen md:grid md:grid-cols-[248px_1fr]">
+      <aside className="bg-sidebar text-[hsl(41_30%_93%)] md:sticky md:top-0 md:flex md:h-screen md:flex-col md:overflow-y-auto">
+        <div className="flex h-16 items-center justify-between px-5 [&_a]:text-[hsl(41_30%_93%)]">
           <Logo />
-          <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">{area}</span>
         </div>
-        <nav aria-label={`${area} navigation`} className="flex gap-1 overflow-x-auto px-2 pb-3 md:block md:space-y-0.5 md:overflow-visible">
+        <p className="px-5 pb-2 pt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-[hsl(41_30%_93%/0.45)]">{area}</p>
+        <nav aria-label={`${area} navigation`} className="flex gap-0.5 overflow-x-auto px-3 pb-3 md:block md:flex-1 md:space-y-px md:overflow-visible">
           {nav.map(({ href, label, icon: Icon }) => (
             <Link key={href} href={href}
-              className="flex shrink-0 items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground">
-              <Icon className="h-4 w-4" aria-hidden />
+              className="group flex shrink-0 items-center gap-3 rounded-sm px-3 py-2 text-[13px] text-[hsl(41_30%_93%/0.68)] transition-colors hover:bg-[hsl(41_30%_93%/0.08)] hover:text-[hsl(41_30%_93%)] focus-visible:ring-offset-sidebar">
+              <Icon className="h-4 w-4 opacity-70 group-hover:opacity-100" aria-hidden />
               <span>{label}</span>
               {href === "/notifications" && unread > 0 ? (
-                <span className="ml-auto rounded-full bg-accent px-1.5 text-[10px] font-semibold text-white" aria-label={`${unread} unread`}>{unread}</span>
+                <span className="ml-auto rounded-sm bg-accent px-1.5 font-mono text-[10px] font-semibold text-white" aria-label={`${unread} unread`}>{unread}</span>
               ) : null}
             </Link>
           ))}
         </nav>
-        <div className="hidden border-t border-border p-4 md:block">
+        <div className="hidden border-t border-[hsl(41_30%_93%/0.12)] p-4 md:block">
           <div className="flex items-center gap-3">
             <Avatar name={session.full_name} src={session.avatar_url} size={32} />
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium">{session.full_name}</p>
-              <p className="truncate text-xs text-muted-foreground">{session.email}</p>
+              <p className="truncate text-sm">{session.full_name}</p>
+              <p className="truncate font-mono text-[10px] text-[hsl(41_30%_93%/0.5)]">{session.email}</p>
             </div>
           </div>
-          <form action={signOut} className="mt-3"><Button type="submit" variant="outline" size="sm" className="w-full">Sign out</Button></form>
+          <form action={signOut} className="mt-3">
+            <button type="submit" className="w-full rounded-sm border border-[hsl(41_30%_93%/0.25)] py-1.5 text-[13px] text-[hsl(41_30%_93%/0.85)] transition-colors hover:border-[hsl(41_30%_93%/0.6)] hover:text-white">Sign out</button>
+          </form>
         </div>
       </aside>
-      <main id="main" className="min-w-0 p-4 md:p-8">{children}</main>
+      <main id="main" className="min-w-0 px-5 py-8 md:px-10 md:py-10">
+        <div className="mx-auto max-w-[1040px]">{children}</div>
+      </main>
     </div>
   );
 }

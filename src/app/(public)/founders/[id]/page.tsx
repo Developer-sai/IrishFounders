@@ -39,7 +39,7 @@ export default async function FounderPage({ params }: { params: Promise<{ id: st
         <div>
           <h1 className="flex items-center gap-2 text-2xl font-semibold">
             {founder.full_name}
-            <BadgeCheck className="h-5 w-5 text-accent" aria-label="Verified founder: approved membership" />
+            <BadgeCheck className="h-5 w-5 text-verified" aria-label="Verified founder: approved membership" />
           </h1>
           <p className="text-muted-foreground">{founder.headline}</p>
           {founder.location ? <p className="text-sm text-muted-foreground">{founder.location}</p> : null}

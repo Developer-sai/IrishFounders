@@ -1,34 +1,38 @@
 import Link from "next/link";
 import { Logo } from "./site-header";
 
+const col = "block py-1 text-sm text-foreground/70 transition-colors hover:text-foreground";
+
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3">
-        <div className="space-y-3">
+    <footer className="mt-32 border-t border-foreground/80">
+      <div className="mx-auto grid max-w-[1120px] gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+        <div className="space-y-4">
           <Logo />
-          <p className="max-w-xs text-sm text-muted-foreground">
-            An independent, curated community connecting verified founders, startups, investors and
-            ecosystem partners across Ireland.
+          <p className="max-w-sm font-display text-xl leading-snug" style={{ fontVariationSettings: '"opsz" 36, "SOFT" 40' }}>
+            A trusted home for the people building Ireland&apos;s next generation of companies.
           </p>
         </div>
-        <nav aria-label="Platform" className="space-y-2 text-sm">
-          <p className="font-medium">Platform</p>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/startups">Startups</Link>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/launches">Product launches</Link>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/signup">Apply to join</Link>
+        <nav aria-label="Platform">
+          <p className="eyebrow mb-3">Platform</p>
+          <Link className={col} href="/startups">The register</Link>
+          <Link className={col} href="/launches">Product launches</Link>
+          <Link className={col} href="/about">How it works</Link>
+          <Link className={col} href="/signup">Apply to join</Link>
         </nav>
-        <nav aria-label="Legal" className="space-y-2 text-sm">
-          <p className="font-medium">Legal</p>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/privacy">Privacy policy</Link>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/terms">Terms of service</Link>
-          <Link className="block text-muted-foreground hover:text-foreground" href="/guidelines">Community guidelines</Link>
+        <nav aria-label="Legal">
+          <p className="eyebrow mb-3">Legal</p>
+          <Link className={col} href="/privacy">Privacy policy</Link>
+          <Link className={col} href="/terms">Terms of service</Link>
+          <Link className={col} href="/guidelines">Community guidelines</Link>
         </nav>
       </div>
-      <div className="border-t border-border px-4 py-6 text-center text-xs text-muted-foreground">
-        Irish Founders operates independently and is not affiliated with or endorsed by any government agency or
-        startup organisation. The platform facilitates professional networking and introductions. It does not provide
-        financial or investment advice or arrange investment transactions.
+      <div className="border-t border-border">
+        <p className="mx-auto max-w-[1120px] px-5 py-6 font-mono text-[11px] leading-relaxed text-muted-foreground">
+          Irish Founders is independent and is not affiliated with or endorsed by any government agency or startup
+          organisation. It facilitates professional networking and introductions only, and does not provide financial or
+          investment advice or arrange investment transactions.
+        </p>
       </div>
     </footer>
   );

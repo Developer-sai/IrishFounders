@@ -246,12 +246,12 @@ describe("acceptance journeys", () => {
   });
 
   it("12. a reported post enters the moderation queue and removal notifies the author", async () => {
-    const { data: post } = await alice.client.from("posts").select("id").limit(1).single();
+    const { data: post } = await alice.client.from("posts").select("id").eq("author_id", alice.id).limit(1).single();
     const report = await investor.client.from("reports").insert({ reporter_id: investor.id, target_type: "post", target_id: post!.id, reason: "Looks like spam" });
     expect(report.error).toBeNull();
     expect((await alice.client.from("reports").select("id")).data).toHaveLength(0); // author cannot see reports
 
-    const { data: open } = await superAdmin.client.from("reports").select("id").eq("status", "open");
+    const { data: open } = await superAdmin.client.from("reports").select("id").eq("status", "open").eq("target_id", post!.id);
     expect(open!.length).toBeGreaterThanOrEqual(1);
     expect((await superAdmin.client.rpc("moderate_report", { p_report: open![0]!.id, p_action: "remove_content", p_note: "Spam" })).error).toBeNull();
     const after = await investor.client.from("posts").select("id").eq("id", post!.id);

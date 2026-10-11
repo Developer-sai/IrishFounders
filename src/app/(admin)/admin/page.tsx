@@ -33,7 +33,7 @@ export default async function AdminOverviewPage() {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {TILES.map(([key, label, href]) => (
           <Link key={key} href={href}>
-            <Card className="h-full transition-shadow hover:shadow-md"><CardContent>
+            <Card className="h-full transition-colors hover:border-foreground"><CardContent>
               <p className="text-3xl font-semibold">{o[key] ?? 0}</p>
               <p className="text-sm text-muted-foreground">{label}</p>
             </CardContent></Card>

@@ -10,8 +10,9 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { next, error } = await searchParams;
   return (
     <>
-      <h1 className="text-xl font-semibold">Sign in</h1>
-      <p className="mb-6 mt-1 text-sm text-muted-foreground">Welcome back to Irish Founders.</p>
+      <p className="eyebrow">Members</p>
+      <h1 className="display mt-2 text-4xl">Sign in</h1>
+      <p className="mb-8 mt-3 text-sm text-muted-foreground">Welcome back to Irish Founders.</p>
       {error ? (
         <p role="alert" className="mb-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
           That link is invalid or has expired. Please try again.

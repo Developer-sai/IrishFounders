@@ -26,7 +26,7 @@ export default async function InvestorDashboardPage() {
       <PageHeader title={`Welcome, ${session.full_name.split(" ")[0] ?? "there"}`} description="Discover verified startups and request introductions. Founders decide whether to accept." />
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
         {stats.map(([label, value, href]) => (
-          <Link key={label} href={href}><Card className="transition-shadow hover:shadow-md"><CardContent><p className="text-2xl font-semibold">{value}</p><p className="text-sm text-muted-foreground">{label}</p></CardContent></Card></Link>
+          <Link key={label} href={href}><Card className="transition-colors hover:border-foreground"><CardContent><p className="text-2xl font-semibold">{value}</p><p className="text-sm text-muted-foreground">{label}</p></CardContent></Card></Link>
         ))}
       </div>
       <Card>

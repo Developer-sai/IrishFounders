@@ -148,7 +148,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
       <ol className="mb-8 flex flex-wrap gap-2 text-xs" aria-label="Progress">
         {STEPS.map((label, i) => (
           <li key={label} aria-current={i === step ? "step" : undefined}
-            className={`rounded-full px-3 py-1 ${i === step ? "bg-primary text-primary-foreground" : i < step ? "bg-accent/15 text-accent" : "bg-muted text-muted-foreground"}`}>
+            className={`rounded-sm border border-border px-3 py-1 ${i === step ? "bg-primary text-primary-foreground" : i < step ? "bg-verified/15 text-verified" : "bg-muted text-muted-foreground"}`}>
             {i + 1}. {label}
           </li>
         ))}
@@ -164,7 +164,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
             <Field label="Profile photo (optional)" htmlFor="avatar" hint="PNG, JPEG or WebP, up to 2MB.">
               <Input id="avatar" type="file" accept="image/png,image/jpeg,image/webp" onChange={onAvatar} />
             </Field>
-            {avatarUrl ? <p className="text-xs text-accent">Photo uploaded.</p> : null}
+            {avatarUrl ? <p className="text-xs text-verified">Photo uploaded.</p> : null}
           </>
         )}
 
@@ -214,7 +214,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
             <Field label="Supporting documents (optional)" htmlFor="evidence" hint="PDF, PNG or JPEG. Stored privately; only you and our reviewers can see them. Do not upload passports or ID numbers.">
               <Input id="evidence" type="file" multiple accept="application/pdf,image/png,image/jpeg" onChange={onEvidence} />
             </Field>
-            {evidence.length ? <p className="text-xs text-accent">{evidence.length} file(s) uploaded.</p> : null}
+            {evidence.length ? <p className="text-xs text-verified">{evidence.length} file(s) uploaded.</p> : null}
             {uploadMsg ? <p role="alert" className="text-xs text-destructive">{uploadMsg}</p> : null}
           </>
         )}

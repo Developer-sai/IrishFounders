@@ -59,7 +59,7 @@ export default async function InvestorDiscoverPage({ searchParams }: { searchPar
                 <Card><CardContent className="space-y-3">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <Link href={`/startups/${s.slug}`} className="flex items-center gap-1 font-semibold hover:underline">{s.name}<BadgeCheck className="h-4 w-4 text-accent" aria-label="Verified startup" /></Link>
+                      <Link href={`/startups/${s.slug}`} className="flex items-center gap-1 font-semibold hover:underline">{s.name}<BadgeCheck className="h-4 w-4 text-verified" aria-label="Verified startup" /></Link>
                       <p className="text-sm text-muted-foreground">{s.location ?? "Ireland"} · Founded {s.founded_year} · {s.team_size} people</p>
                     </div>
                     <div className="flex gap-2"><Badge>{s.industry}</Badge><Badge>{humanize(s.stage)}</Badge></div>

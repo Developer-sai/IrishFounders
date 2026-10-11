@@ -7,8 +7,9 @@ export const metadata: Metadata = { title: "Apply to join" };
 export default function SignupPage() {
   return (
     <>
-      <h1 className="text-xl font-semibold">Create your account</h1>
-      <p className="mb-6 mt-1 text-sm text-muted-foreground">
+      <p className="eyebrow">Step 1 of your application</p>
+      <h1 className="display mt-2 text-4xl">Create your account</h1>
+      <p className="mb-8 mt-3 text-sm text-muted-foreground">
         Step one of your application. You&apos;ll confirm your email, then tell us about your company.
       </p>
       <SignupForm />

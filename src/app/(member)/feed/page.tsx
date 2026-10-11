@@ -90,9 +90,9 @@ export default async function FeedPage({ searchParams }: { searchParams: Promise
       </Card>
 
       <nav aria-label="Filter by category" className="mb-4 flex flex-wrap gap-2 text-xs">
-        <Link href="/feed" className={`rounded-full px-3 py-1 ${!category ? "bg-primary text-primary-foreground" : "bg-muted"}`}>All</Link>
+        <Link href="/feed" className={`rounded-sm border border-border px-3 py-1 ${!category ? "bg-primary text-primary-foreground" : "bg-muted"}`}>All</Link>
         {POST_CATEGORIES.map((c) => (
-          <Link key={c} href={`/feed?category=${c}`} className={`rounded-full px-3 py-1 ${category === c ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(c)}</Link>
+          <Link key={c} href={`/feed?category=${c}`} className={`rounded-sm border border-border px-3 py-1 ${category === c ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(c)}</Link>
         ))}
       </nav>
 

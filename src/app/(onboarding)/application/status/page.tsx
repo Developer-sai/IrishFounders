@@ -62,7 +62,7 @@ export default async function ApplicationStatusPage() {
             ["/onboarding/partner", "I'm an ecosystem partner", "Accelerators, universities, communities."],
           ].map(([href, title, body]) => (
             <Link key={href} href={href!} className="rounded-lg focus-visible:ring-2">
-              <Card className="h-full transition-shadow hover:shadow-md"><CardContent>
+              <Card className="h-full transition-colors hover:border-foreground"><CardContent>
                 <h2 className="font-semibold">{title}</h2>
                 <p className="mt-1 text-sm text-muted-foreground">{body}</p>
               </CardContent></Card>
@@ -96,7 +96,7 @@ export default async function ApplicationStatusPage() {
         <ol className="mb-8 grid gap-3 sm:grid-cols-4" aria-label="Application progress">
           {TRACK.map((t, i) => (
             <li key={t.key} aria-current={i === idx ? "step" : undefined}
-              className={`rounded-lg border p-4 text-sm ${i < idx ? "border-accent/40 bg-accent/10" : i === idx ? "border-primary bg-card font-medium" : "border-border text-muted-foreground"}`}>
+              className={`rounded-lg border p-4 text-sm ${i < idx ? "border-verified/40 bg-verified/10" : i === idx ? "border-primary bg-card font-medium" : "border-border text-muted-foreground"}`}>
               <span className="block text-xs text-muted-foreground">Step {i + 1}</span>
               {t.label}
             </li>

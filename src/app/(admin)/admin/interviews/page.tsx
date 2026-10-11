@@ -30,7 +30,7 @@ export default async function InterviewsPage({ searchParams }: { searchParams: P
           {rows.map((r) => (
             <li key={r.id}>
               <Link href={`/admin/applications/${r.application_id}`}>
-                <Card className="transition-shadow hover:shadow-md"><CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
+                <Card className="transition-colors hover:border-foreground"><CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
                   <div>
                     <p className="font-medium">{people?.find((p) => p.id === r.app?.profile_id)?.full_name ?? "Applicant"}</p>
                     <p className="text-sm text-muted-foreground">{humanize(r.app?.applicant_type ?? "")} · {r.app?.company_name ?? r.app?.organisation_name ?? "—"} · {humanize(r.interview_type)}</p>

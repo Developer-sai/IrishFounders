@@ -39,11 +39,11 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
       <PageHeader title="Membership applications" description="Oldest first. Open an application to review evidence and decide." />
       <nav aria-label="Filter" className="mb-4 flex flex-wrap gap-2 text-sm">
         {FILTERS.map(([k]) => (
-          <Link key={k} href={`/admin/applications?filter=${k}${sp.type ? `&type=${sp.type}` : ""}`} className={`rounded-full px-3 py-1 ${active[0] === k ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(k)}</Link>
+          <Link key={k} href={`/admin/applications?filter=${k}${sp.type ? `&type=${sp.type}` : ""}`} className={`rounded-sm border border-border px-3 py-1 ${active[0] === k ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(k)}</Link>
         ))}
         <span className="mx-2 text-muted-foreground">|</span>
         {["founder", "investor", "partner"].map((t) => (
-          <Link key={t} href={`/admin/applications?filter=${active[0]}&type=${t}`} className={`rounded-full px-3 py-1 ${sp.type === t ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(t)}s</Link>
+          <Link key={t} href={`/admin/applications?filter=${active[0]}&type=${t}`} className={`rounded-sm border border-border px-3 py-1 ${sp.type === t ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{humanize(t)}s</Link>
         ))}
       </nav>
       {apps?.length ? (
@@ -51,7 +51,7 @@ export default async function ApplicationsPage({ searchParams }: { searchParams:
           {apps.map((a) => (
             <li key={a.id}>
               <Link href={`/admin/applications/${a.id}`}>
-                <Card className="transition-shadow hover:shadow-md"><CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
+                <Card className="transition-colors hover:border-foreground"><CardContent className="flex flex-wrap items-center justify-between gap-3 py-4">
                   <div>
                     <p className="font-medium">{people?.find((p) => p.id === a.profile_id)?.full_name ?? "Applicant"}</p>
                     <p className="text-sm text-muted-foreground">{humanize(a.applicant_type)} · {a.company_name ?? a.organisation_name ?? "—"}{a.normalized_domain ? ` · ${a.normalized_domain}` : ""}</p>
