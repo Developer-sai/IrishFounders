@@ -119,7 +119,7 @@ test.describe.serial("founder journey (browser)", () => {
 
     // post to the feed through the real form
     await page.goto("/feed");
-    await page.getByLabel("What's happening?").fill("Shipped our first release!");
+    await page.getByLabel("What are you building today?").fill("Shipped our first release!");
     await page.getByRole("button", { name: "Post", exact: true }).click();
     await expect(page.getByText("Shipped our first release!")).toBeVisible();
 

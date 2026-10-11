@@ -6,6 +6,9 @@ import { Badge, Card, CardContent, CardHeader, CardTitle, PageHeader } from "@/c
 import { ActionForm } from "@/components/ui/action-form";
 import { Field, Input, Select, Textarea } from "@/components/ui/form-controls";
 import { createStartup, updateStartup } from "@/lib/actions/community";
+import { addMilestone, deleteMilestoneRow } from "@/lib/actions/social";
+import { ActionButton } from "@/components/ui/action-form";
+import { formatDate } from "@/lib/utils";
 import { STARTUP_STAGES } from "@/lib/validations/application";
 import { humanize } from "@/lib/utils";
 
@@ -22,6 +25,10 @@ export default async function MyStartupPage() {
     const s = Array.isArray(m.startups) ? m.startups[0] : m.startups;
     return s ? [{ ...s, is_admin: m.is_admin, role_title: m.role_title }] : [];
   });
+  const mineIds = mine.map((m) => m.id);
+  const { data: milestoneRows } = mineIds.length
+    ? await supabase.from("startup_milestones").select("id, startup_id, title, occurred_on, kind").in("startup_id", mineIds).order("occurred_on", { ascending: false })
+    : { data: [] };
   const canCreate = session.role === "founder";
 
   return (
@@ -49,6 +56,30 @@ export default async function MyStartupPage() {
             ) : (
               <p className="text-sm text-muted-foreground">You are a team member ({s.role_title}). Only company administrators can edit this profile.</p>
             )}
+            {s.is_admin ? (
+              <div className="mt-8 border-t border-border pt-5">
+                <p className="eyebrow mb-3">Milestones</p>
+                <ul className="mb-4 space-y-2 text-sm">
+                  {(milestoneRows ?? []).filter((m) => m.startup_id === s.id).map((m) => (
+                    <li key={m.id} className="flex items-center justify-between gap-3">
+                      <span>{m.title} <span className="font-mono text-[11px] text-muted-foreground">{formatDate(m.occurred_on)}</span></span>
+                      <ActionButton action={deleteMilestoneRow} hidden={{ id: m.id }} label="Remove" variant="ghost" size="sm" />
+                    </li>
+                  ))}
+                </ul>
+                <ActionForm action={addMilestone} submitLabel="Add milestone" resetOnSuccess successMessage="Added to your public timeline." buttonProps={{ size: "sm", variant: "outline" }}>
+                  <input type="hidden" name="startup_id" value={s.id} />
+                  <div className="grid gap-3 sm:grid-cols-[1fr_150px_150px]">
+                    <Input name="title" placeholder="First paying customer" aria-label="Milestone" required minLength={3} maxLength={140} />
+                    <Input name="occurred_on" type="date" aria-label="Date" defaultValue={new Date().toISOString().slice(0, 10)} required />
+                    <Select name="kind" aria-label="Type" defaultValue="milestone">
+                      <option value="milestone">Milestone</option><option value="launch">Launch</option><option value="funding">Funding</option>
+                      <option value="hire">Hire</option><option value="award">Award</option><option value="other">Other</option>
+                    </Select>
+                  </div>
+                </ActionForm>
+              </div>
+            ) : null}
           </CardContent>
         </Card>
       ))}

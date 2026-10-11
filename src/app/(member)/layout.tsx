@@ -17,6 +17,7 @@ export default async function MemberLayout({ children }: { children: React.React
       session={session}
       unread={count ?? 0}
       area={isInvestor ? "Investor" : "Member"}
+      social
     >
       {children}
     </AppShell>

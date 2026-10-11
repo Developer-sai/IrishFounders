@@ -46,3 +46,25 @@ Minimal-functional: 120ms colour/opacity transitions, focus ring 2px vermilion o
 | 2026-10-11 | Fraunces + Instrument Sans + JetBrains Mono | Distinctive serif for trust and character; avoids the Inter/system-ui default look |
 | 2026-10-11 | Vermilion action, green reserved for verified | Colour carries meaning; verification is the product |
 | 2026-10-11 | Hairlines over shadows/cards | Reads as a ledger, not a SaaS template |
+
+## v2: Verified Social layer (Instagram x LinkedIn x founder discovery)
+- **Principle:** verification is the visual brand. Every avatar that appears with a story ring or profile carries the green seal.
+- **Story ring:** 2px vermilion ring + paper gap = unseen, hairline = seen. 24h stories, 280 chars or one image, 10/day.
+- **Profile:** fanlight-pattern cover (or upload), avatar + seal, "Looking for" (vermilion chips) vs "Can offer" (green chips), milestone timeline, 3-column Activity grid (image / serif text tile / ink launch tile).
+- **Feed:** For you / Following / Startups tabs, media-first cards, optimistic likes, composer collapses to one line on mobile.
+- **Discover:** one match at a time, always with "Why you match" reasons (rule-based, explainable). Pass / Follow / Connect.
+- **Launch Day:** ink "Launch of the day" hero, ranked rows with large serif numerals, score = (votes+1)/(age_h+2)^1.5.
+- **Navigation:** desktop ink sidebar + top bar (Cmd/Ctrl-K search, theme toggle); mobile bottom tab bar with a central create sheet.
+- **Theme:** light/dark via `data-theme` with OS default; saved in localStorage; applied before paint.
+- **Gradients:** none, except a functional black scrim behind text on story media.
+
+### Engineering decisions
+- **Do not add route-level `loading.tsx` to pages that contain server-action forms.** In production builds it prevented the page
+  from re-rendering after an action (post stayed "Working..."); found by the browser E2E and verified by removing the file.
+- Direct inserts into `stories` are blocked; `create_story` enforces media ownership, startup membership and the daily cap.
+- Team rows for other people are read via the `public_startup_team` view; members cannot read `startup_members` directly.
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-10-11 | Evolve Guest Book rather than restyle | Keeps the verified, editorial identity that differentiates from Instagram/LinkedIn clones |
+| 2026-10-11 | Explainable rule-based matching | Trust is the product; users can see and challenge why a match was suggested |

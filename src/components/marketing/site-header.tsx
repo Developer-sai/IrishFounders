@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getSession, homeFor } from "@/lib/auth";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/lib/actions/auth";
+import { CommandPalette } from "@/components/ui/command-palette";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 /** A Georgian fanlight: the arch over a Dublin door, in door red. */
 export function Mark({ className = "h-6 w-6" }: { className?: string }) {
@@ -16,7 +18,7 @@ export function Mark({ className = "h-6 w-6" }: { className?: string }) {
 export const Logo = () => (
   <Link href="/" className="group flex items-center gap-2.5" aria-label="Irish Founders, home">
     <Mark />
-    <span className="font-display text-[19px] leading-none tracking-tight" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 50' }}>
+    <span className="whitespace-nowrap font-display text-[19px] leading-none tracking-tight" style={{ fontVariationSettings: '"opsz" 72, "SOFT" 50' }}>
       Irish Founders
     </span>
   </Link>
@@ -42,6 +44,8 @@ export async function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
+          <CommandPalette links={NAV} className="hidden sm:inline-flex" />
+          <ThemeToggle />
           {session ? (
             <>
               <Link href={homeFor(session)} className={buttonVariants({ variant: "outline", size: "sm" })}>

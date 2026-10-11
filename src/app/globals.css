@@ -18,7 +18,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --background: 218 24% 8%;
     --foreground: 41 30% 93%;
     --card: 218 22% 11%;
@@ -32,6 +32,21 @@
     --sidebar: 218 26% 6%;
     --destructive: 0 72% 64%;
   }
+}
+
+:root[data-theme="dark"] {
+    --background: 218 24% 8%;
+    --foreground: 41 30% 93%;
+    --card: 218 22% 11%;
+    --muted: 218 18% 16%;
+    --muted-foreground: 40 10% 66%;
+    --border: 218 14% 22%;
+    --primary: 41 30% 93%;
+    --primary-foreground: 218 24% 8%;
+    --accent: 9 72% 62%;
+    --verified: 156 42% 52%;
+    --sidebar: 218 26% 6%;
+    --destructive: 0 72% 64%;
 }
 
 @layer base {
@@ -83,6 +98,14 @@
   /* page-load rise, used sparingly on marketing */
   .rise {
     animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @keyframes story-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
   }
   @keyframes rise {
     from {

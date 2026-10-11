@@ -61,7 +61,7 @@ export async function updateSession(request: NextRequest) {
     return response;
   }
 
-  if (path === "/login" || path === "/signup") return redirect(request, "/dashboard", response);
+  if (path === "/login" || path === "/signup") return redirect(request, "/feed", response);
 
   if (isAdminArea || isInvestorArea || isMemberArea) {
     const { data: profile } = await supabase

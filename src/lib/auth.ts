@@ -9,7 +9,7 @@ export type VerificationStatus = Database["public"]["Enums"]["verification_statu
 
 /** Explicit column list: `email` is intentionally not selectable by clients. */
 export const PROFILE_COLUMNS =
-  "id, full_name, role, verification_status, avatar_url, headline, bio, location, linkedin_url, skills, areas_of_expertise, hidden_fields, suspended_at, is_demo";
+  "id, full_name, role, verification_status, avatar_url, headline, bio, location, linkedin_url, skills, areas_of_expertise, hidden_fields, suspended_at, is_demo, handle, cover_url, open_to, offering";
 
 export type SessionProfile = Pick<
   Database["public"]["Tables"]["profiles"]["Row"],
@@ -27,6 +27,10 @@ export type SessionProfile = Pick<
   | "hidden_fields"
   | "suspended_at"
   | "is_demo"
+  | "handle"
+  | "cover_url"
+  | "open_to"
+  | "offering"
 > & { email: string };
 
 /** Authenticated user + profile for this request (deduplicated per render). */
@@ -78,5 +82,5 @@ export function homeFor(p: SessionProfile): string {
   if (!isApproved(p)) return "/application/status";
   if (p.role === "investor") return "/investor/dashboard";
   if (p.role === "super_admin" || p.role === "moderator") return "/admin";
-  return "/dashboard";
+  return "/feed";
 }
