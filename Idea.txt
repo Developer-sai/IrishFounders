@@ -1,0 +1,1301 @@
+# Irish Founders — Full-Stack Platform Prototype
+
+The concept should be built as a verified, invitation-by-approval startup ecosystem, not another open-registration social network.
+
+Irish Founders will be a free platform connecting genuine founders, startups, investors, and ecosystem partners across Ireland. Every account goes through verification and a short interview before receiving access to the community.
+
+The most important principle is:
+
+Real founders. Real companies. Real investors. No fake profiles, duplicate companies, or fabricated engagement.
+
+I'll structure the build prompt for Lovable around a complete product, including the public website, founder experience, investor experience, verification and onboarding, community features, and a dedicated super-admin dashboard.
+
+## Master Lovable prompt
+
+Copy the following into Lovable. It is designed to request a functional full-stack prototype rather than a landing-page mockup.
+
+# BUILD: IRISH FOUNDERS — A Verified Startup Ecosystem
+
+## 1. PROJECT OVERVIEW
+
+Build a complete, modern, full-stack web application called **Irish Founders**.
+
+Proposed domain: irishfounders.ie
+
+Tagline: **One Network. Every Founder. From Idea to Startup.**
+
+Irish Founders is an exclusive, verified digital ecosystem connecting genuine startup founders, entrepreneurs, investors, builders, and startup ecosystem partners across Ireland.
+
+Think of the platform as combining:
+
+- LinkedIn's professional networking
+- Product Hunt's product discovery
+- Wellfound's startup ecosystem
+- A founder-focused community
+- A curated investor-founder network
+
+However, do not copy these platforms' interfaces.
+
+Build Irish Founders as an independent, premium-quality product with its own distinctive brand identity.
+
+### CORE PHILOSOPHY
+
+This platform is completely FREE for founders.
+
+No subscriptions, payment gateways, premium membership tiers, hidden charges, or monetisation interfaces.
+
+Quality matters more than quantity.
+
+Every founder, investor, and startup must undergo a verification and approval process.
+
+The platform must prioritise genuine relationships over artificial engagement.
+
+**Absolutely no fake companies, fabricated testimonials, imaginary founders, duplicate startups, or artificially generated engagement.**
+
+---
+
+# 2. TECHNOLOGY REQUIREMENTS
+
+Build a real full-stack application, not just a frontend demonstration.
+
+Preferred stack:
+
+- React + TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Lucide icons
+- Supabase PostgreSQL
+- Supabase Authentication
+- Supabase Storage
+- Supabase Realtime
+- Supabase Edge Functions
+- Row Level Security
+- Responsive application architecture
+
+Use Lovable's supported native backend infrastructure where appropriate.
+
+Implement real database-backed functionality.
+
+All buttons, forms, filters, dashboards, navigation links, and primary actions must work.
+
+No dead buttons or disconnected UI components.
+
+Create a modular, scalable architecture.
+
+---
+
+# 3. USER ROLES
+
+Implement a proper role-based access control system.
+
+### Role A: Public Visitor
+
+Can:
+
+- View homepage
+- Browse public verified startups
+- Browse public founder profiles
+- Explore published startup launches
+- Read public community information
+- Apply for membership
+
+Cannot access private community features.
+
+### Role B: Founder
+
+Can:
+
+- Create and manage a personal profile
+- Register or claim a startup
+- Publish startup updates
+- Launch products
+- Discover other founders
+- Connect with verified members
+- Request design partners
+- Find collaborators
+- Message accepted connections
+- Interact with community posts
+- Discover investors
+- Apply for relevant opportunities
+
+### Role C: Investor
+
+Can:
+
+- Create a verified investor profile
+- Discover startups
+- Filter startups by industry, stage, and location
+- Follow startup developments
+- Save interesting startups
+- Request founder introductions
+- Message founders following accepted connection requests
+- Publish relevant investment interests
+- Manage an investor dashboard
+
+### Role D: Ecosystem Partner
+
+For approved accelerators, incubators, universities, startup communities, and supporting organisations.
+
+Can publish legitimate startup programmes, events, grants, and opportunities.
+
+### Role E: Moderator
+
+Can review reported content, handle community issues, and moderate discussions within assigned permissions.
+
+### Role F: Super Admin
+
+Has complete administrative access.
+
+Can manage applications, verification, users, startups, investors, moderation, content, platform settings, and audit logs.
+
+Roles must be enforced through server-side authorisation, not simply frontend route hiding.
+
+---
+
+# 4. STRICT MEMBERSHIP VERIFICATION
+
+This is the most important part of the entire platform.
+
+Irish Founders is NOT an open-registration social network.
+
+Anyone may apply, but only approved applicants can become active members.
+
+## Founder eligibility criteria
+
+An applicant must provide:
+
+1. A genuine startup/company name and an existing company webpage or domain.
+2. A company LinkedIn profile with at least 50 genuine followers.
+3. At least 2–3 existing posts on the company LinkedIn page.
+4. A short founder interview completed successfully.
+5. Evidence connecting the applicant to the startup.
+
+All criteria are mandatory for founder approval.
+
+Do not automatically approve accounts based solely on self-reported information.
+
+If reliable LinkedIn verification APIs are unavailable, create a manual admin verification workflow. Do not scrape LinkedIn or claim that submitted metrics have been independently verified.
+
+The admin must be able to inspect evidence, open supplied URLs, record verification findings, and approve or reject applications.
+
+## Founder application process
+
+Create a beautiful multi-step onboarding experience.
+
+STEP 1 — Personal information
+
+- Full name
+- Email address
+- Profile photograph
+- LinkedIn profile URL
+- Location
+- Founder role
+
+STEP 2 — Startup information
+
+- Company name
+- Company website/domain
+- Company LinkedIn URL
+- Industry
+- Startup stage
+- Year founded
+- Team size
+- Short description
+
+STEP 3 — Verification
+
+- Company LinkedIn follower count
+- Links to at least three company posts (two may be reviewed under the minimum 2–3 post criterion)
+- Company website verification
+- Applicant's relationship to the company
+- Optional supporting documents
+
+STEP 4 — Short interview
+
+Ask:
+
+1. What problem are you solving?
+2. Why did you start this company?
+3. What have you built so far?
+4. What is your current biggest challenge?
+5. What are you hoping to gain from Irish Founders?
+6. How can you contribute to other founders?
+
+Support a short written interview initially, with an admin-scheduled video interview option.
+
+STEP 5 — Application submission
+
+Display application progress:
+
+- Submitted
+- Under Review
+- Additional Information Required
+- Interview Pending
+- Interview Completed
+- Approved
+- Rejected
+
+Send email notifications for important status changes.
+
+An applicant can access their application-status page but cannot access the private community before approval.
+
+---
+
+# 5. INVESTOR VERIFICATION
+
+Investors must also undergo a separate verification process.
+
+Support:
+
+- Angel investors
+- Venture capital investors
+- Syndicate representatives
+- Family office representatives
+- Institutional investors
+
+Investor application fields:
+
+- Full name
+- Professional email
+- LinkedIn profile
+- Investor category
+- Organisation name, if applicable
+- Organisation website
+- Professional background
+- Investment sectors
+- Preferred startup stages
+- Geographic preferences
+- Public portfolio or professional references
+- Short application interview
+
+Ask:
+
+1. What is your investment background?
+2. What types of startups interest you?
+3. What value can you offer founders beyond funding?
+4. Why would you like to join Irish Founders?
+
+All investor accounts require manual approval.
+
+Do not publicly display sensitive investor verification documents.
+
+A verified investor badge must indicate platform verification, not a guarantee of financial capacity, accreditation, or investment commitment.
+
+---
+
+# 6. ANTI-FAKE AND DUPLICATE PROTECTION
+
+Implement strong authenticity safeguards.
+
+### Duplicate prevention
+
+Normalise and compare:
+
+- Company domain
+- Company name
+- LinkedIn company URL
+- Existing company records
+- Applicant email
+
+Use database-level uniqueness constraints where appropriate.
+
+Prevent two unrelated applicants from independently creating duplicate startup listings.
+
+If a company already exists, offer a "Request to Join or Claim Company" workflow.
+
+Allow multiple verified co-founders to belong to the same startup.
+
+A startup can have multiple team members but should maintain one canonical company profile.
+
+### Verification safeguards
+
+- Email verification
+- Server-side validation
+- Application rate limiting
+- Suspicious account reporting
+- Admin approval before verification badges
+- Evidence review history
+- Duplicate application detection
+- Reverification when ownership is disputed
+- Account suspension
+- Appeals process
+
+Never expose private verification documents publicly.
+
+Create an admin audit trail for every verification decision.
+
+---
+
+# 7. PUBLIC LANDING PAGE
+
+Design an exceptional SaaS-style homepage.
+
+The interface should look like a professionally funded startup product.
+
+### Header
+
+Logo: Irish Founders
+
+Navigation:
+
+- Discover Startups
+- Community
+- Product Launches
+- Investors
+- About
+- Apply to Join
+- Sign In
+
+### Hero section
+
+Headline:
+
+**Where Ireland's Founders Build Together.**
+
+Supporting text:
+
+A verified community connecting founders, startups, investors, and builders across Ireland. Discover ambitious companies, find your first users, meet collaborators, and grow together.
+
+Primary CTA: Apply to Join
+
+Secondary CTA: Explore Startups
+
+Display a tasteful visual preview of the actual platform.
+
+### Additional homepage sections
+
+1. Featured verified startups
+2. Recently launched products
+3. How membership works
+4. Founder and investor networking
+5. Community benefits
+6. Founder verification explanation
+7. FAQ
+8. Final application CTA
+9. Professional footer
+
+Never fabricate community metrics, founder counts, partnerships, or testimonials.
+
+Use actual database values for statistics.
+
+If there are no approved startups, display an elegant early-community empty state.
+
+---
+
+# 8. FOUNDER APPLICATION DASHBOARD
+
+After approval, founders enter the main application.
+
+Create a professional authenticated layout.
+
+### Left navigation
+
+- Home
+- My Startup
+- Discover
+- Community Feed
+- Product Launches
+- Design Partners
+- Collaborate
+- Investors
+- Opportunities
+- Messages
+- Notifications
+- Saved
+- Settings
+
+### Dashboard widgets
+
+- Welcome section
+- My startup summary
+- Latest community updates
+- Relevant founders
+- Recently launched products
+- Collaboration opportunities
+- Incoming connection requests
+- Upcoming events
+
+Use real database queries.
+
+---
+
+# 9. STARTUP PROFILE PAGES
+
+Every verified startup should have its own public profile.
+
+Example route:
+
+/startups/company-slug
+
+Include:
+
+- Company logo
+- Company name
+- Verified badge
+- Website
+- LinkedIn URL
+- Headquarters/location
+- Industry
+- Startup stage
+- Founded year
+- Company description
+- Problem being solved
+- Product overview
+- Screenshots
+- Founder/team profiles
+- Recent updates
+- Product launches
+- Collaboration requests
+- Contact/connection action
+
+Support company administrators and team-member permissions.
+
+Only authorised company representatives can edit the startup profile.
+
+---
+
+# 10. FOUNDER PROFILES
+
+Create LinkedIn-inspired but original founder profile pages.
+
+Include:
+
+- Profile photo
+- Name
+- Professional headline
+- Location
+- Verified status
+- Startup association
+- Biography
+- Skills
+- Areas of expertise
+- Startup journey
+- Social links
+- Recent activity
+- Collaboration interests
+- Connect button
+- Message button
+
+Show mutual connections where available.
+
+Allow users to control visibility of selected profile fields.
+
+---
+
+# 11. COMMUNITY FEED
+
+Build a fully functional founder-focused social feed.
+
+Post categories:
+
+- Building in Public
+- Product Update
+- Startup Milestone
+- Ask the Community
+- Looking for Feedback
+- Seeking Design Partners
+- Collaboration Request
+- Lessons Learned
+- Product Launch
+
+Support:
+
+- Text posts
+- Images
+- External links
+- Comments
+- Replies
+- Likes
+- Saved posts
+- Reporting
+- Post editing/deletion
+- Post filtering
+- Author profiles
+- Pagination or infinite scrolling
+
+Only approved members can publish.
+
+Posts must always belong to genuine authenticated accounts.
+
+Do not create fake likes, comments, or activity.
+
+---
+
+# 12. PRODUCT LAUNCH DIRECTORY
+
+Build a Product Hunt-inspired product discovery section.
+
+Founders can launch their actual products.
+
+Product submission:
+
+- Product name
+- Logo
+- Tagline
+- Description
+- Website
+- Screenshots
+- Category
+- Launch date
+- Founder association
+- Current development stage
+- Feedback requested
+
+Allow verified members to:
+
+- Discover launches
+- Support products
+- Comment
+- Provide feedback
+- Save launches
+- Visit product websites
+
+Prevent duplicate product submissions.
+
+Show newly launched, trending, and recently updated products using real activity data.
+
+---
+
+# 13. DESIGN PARTNER MATCHING
+
+This is a core differentiating feature.
+
+Founders should be able to find their first genuine product testers and design partners.
+
+Create structured listings containing:
+
+- Startup
+- Product
+- Target user
+- Problem being solved
+- Type of feedback required
+- Number of design partners needed
+- Expected commitment
+- Remote/in-person preference
+- Application deadline
+
+Other verified members can express interest.
+
+Build a workflow:
+
+Request → Review → Accept/Decline → Connection → Feedback.
+
+Provide a dedicated dashboard for managing design-partner requests.
+
+---
+
+# 14. COLLABORATION HUB
+
+Create a space where founders can discover potential co-founders, builders, advisers, and startup collaborators.
+
+Support filters for:
+
+- Skills
+- Industry
+- Location
+- Experience
+- Availability
+- Collaboration type
+
+Allow members to publish collaboration requests.
+
+Example categories:
+
+- Seeking Technical Co-Founder
+- Seeking Business Co-Founder
+- Looking for Product Designer
+- Seeking Early Collaborators
+- Looking for Startup Mentor
+
+All listings must be associated with verified accounts.
+
+---
+
+# 15. INVESTOR EXPERIENCE
+
+Build a separate investor dashboard with dedicated navigation.
+
+Sections:
+
+- Overview
+- Discover Startups
+- Saved Startups
+- Founder Introductions
+- My Investment Interests
+- Messages
+- Notifications
+- Profile
+- Settings
+
+### Startup discovery filters
+
+- Industry
+- Startup stage
+- Location
+- Business model
+- Product status
+- Funding status, if voluntarily disclosed
+- Team size
+
+Investors can request introductions to founders.
+
+Founders must explicitly accept introduction requests before private conversations become available.
+
+Do not expose confidential startup information automatically.
+
+Do not implement investment transactions, securities trading, or payment processing.
+
+The platform facilitates networking and introductions only.
+
+---
+
+# 16. MESSAGING AND NOTIFICATIONS
+
+Implement functional member-to-member messaging.
+
+Features:
+
+- Connection requests
+- Accept/decline connection
+- Private conversations
+- Conversation list
+- Unread counts
+- Message timestamps
+- Block user
+- Report conversation
+
+Use Supabase Realtime where supported.
+
+Create notifications for:
+
+- Application decisions
+- Connection requests
+- Accepted connections
+- New messages
+- Post interactions
+- Collaboration requests
+- Product feedback
+- Administrative announcements
+
+---
+
+# 17. OPPORTUNITIES DIRECTORY
+
+Create a central directory for the Irish startup ecosystem.
+
+Categories:
+
+- Startup events
+- Accelerator programmes
+- Incubators
+- Grants
+- Founder meetups
+- Startup jobs
+- Hackathons
+- Mentorship opportunities
+
+Each listing must contain a source or official external URL.
+
+Approved ecosystem partners can submit listings.
+
+Admin approval is required before publication.
+
+Expired opportunities should automatically be archived based on their configured dates.
+
+Never invent funding programmes, events, or deadlines.
+
+---
+
+# 18. SUPER ADMIN DASHBOARD
+
+Build a completely separate admin interface.
+
+Route: /admin
+
+The admin interface must be protected through actual server-side role verification.
+
+### Admin sidebar
+
+- Overview
+- Membership Applications
+- Interview Management
+- Founder Verification
+- Investor Verification
+- Startup Management
+- User Management
+- Community Moderation
+- Product Launches
+- Opportunities
+- Reports & Flags
+- Analytics
+- Audit Logs
+- Platform Settings
+
+### Admin overview
+
+Display real statistics:
+
+- Total registered accounts
+- Pending applications
+- Approved founders
+- Verified startups
+- Approved investors
+- Pending interviews
+- Reported content
+- Active members
+- Recent product launches
+
+### Application review interface
+
+Create a detailed application review workspace.
+
+Admin should see:
+
+- Applicant information
+- Startup details
+- Submitted website
+- LinkedIn company page
+- Submitted post URLs
+- Verification checklist
+- Interview responses
+- Supporting evidence
+- Duplicate detection warnings
+- Internal admin notes
+
+Provide actions:
+
+- Approve
+- Reject
+- Request additional information
+- Schedule interview
+- Mark interview completed
+- Suspend application
+
+Require an internal reason for rejection.
+
+Store reviewer identity and decision timestamps.
+
+### Interview management
+
+Create an interview queue.
+
+Include:
+
+- Applicant
+- Membership category
+- Proposed date
+- Meeting link
+- Interview status
+- Internal notes
+- Interview outcome
+- Final recommendation
+
+Only authorised administrators can access interview notes.
+
+### Platform moderation
+
+Administrators can:
+
+- Review reported content
+- Remove inappropriate posts
+- Suspend users
+- Revoke verification
+- Resolve duplicate company claims
+- Manage disputed startup ownership
+- Restore accounts
+- Review audit logs
+
+Do not permanently delete important verification records through ordinary moderation actions.
+
+---
+
+# 19. DATABASE ARCHITECTURE
+
+Create a properly relational PostgreSQL schema.
+
+Suggested entities:
+
+users / profiles\
+roles\
+membership_applications\
+verification_evidence\
+interviews\
+interview_reviews\
+startups\
+startup_members\
+startup_claims\
+investor_profiles\
+investor_verifications\
+posts\
+post_comments\
+post_reactions\
+products\
+product_launches\
+product_feedback\
+design_partner_requests\
+design_partner_applications\
+collaboration_listings\
+connections\
+messages\
+conversations\
+notifications\
+opportunities\
+saved_items\
+reports\
+moderation_actions\
+admin_audit_logs\
+platform_settings
+
+Use UUID primary keys, foreign keys, appropriate indexes, uniqueness constraints, and timestamps.
+
+Apply Row Level Security to every sensitive table.
+
+Keep administrative credentials and privileged operations server-side.
+
+Ensure users cannot change their own verification status or elevate their roles.
+
+Use private storage buckets and signed URLs for confidential documents.
+
+---
+
+# 20. DESIGN SYSTEM
+
+The product should feel like a modern European technology startup.
+
+Visual direction:
+
+- Clean
+- Premium
+- Minimal
+- Professional
+- Trustworthy
+- Founder-focused
+
+Use an elegant off-white/light-grey foundation with deep navy typography and restrained emerald-green accents inspired by Ireland.
+
+Avoid excessive green, shamrocks, flags, gradients, or stereotypical Irish visual elements.
+
+Typography: Inter or Geist.
+
+Use:
+
+- Beautiful dashboard layouts
+- Well-spaced cards
+- Consistent border radii
+- Subtle shadows
+- Clear visual hierarchy
+- Modern navigation
+- Thoughtful microinteractions
+- Skeleton loaders
+- Toast notifications
+- Empty states
+- Responsive tables
+- Accessible forms
+
+Build responsive desktop, tablet, and mobile experiences.
+
+Include dark mode if practical.
+
+The platform must feel like a real SaaS application, not a generic template.
+
+---
+
+# 21. REQUIRED APPLICATION ROUTES
+
+Implement functional routes for:
+
+PUBLIC\
+/\
+/about\
+/startups\
+/startups/\
+/founders/\
+/launches\
+/launches/\
+/apply\
+/login\
+/signup\
+/forgot-password
+
+ONBOARDING\
+/onboarding/founder\
+/onboarding/investor\
+/onboarding/partner\
+/application/status
+
+FOUNDER\
+/dashboard\
+/dashboard/startup\
+/feed\
+/discover\
+/design-partners\
+/collaborate\
+/investors\
+/opportunities\
+/messages\
+/notifications\
+/settings
+
+INVESTOR\
+/investor/dashboard\
+/investor/discover\
+/investor/saved\
+/investor/introductions\
+/investor/profile
+
+ADMIN\
+/admin\
+/admin/applications\
+/admin/interviews\
+/admin/founders\
+/admin/investors\
+/admin/startups\
+/admin/users\
+/admin/moderation\
+/admin/analytics\
+/admin/audit-logs\
+/admin/settings
+
+Provide appropriate 403 and 404 pages.
+
+---
+
+# 22. PROTOTYPE AND DATA INTEGRITY
+
+The prototype must work even before real founders join.
+
+However, do not populate public-facing pages with imaginary companies or pretend that sample data represents actual verified members.
+
+Use polished empty states and clear onboarding guidance.
+
+For testing, create a separate development-only seed mechanism containing explicitly labelled DEMO records.
+
+Demo records must never count towards public community statistics or receive genuine verification status.
+
+Use separate development and production environments where supported.
+
+Do not hardcode admin passwords, credentials, or API keys.
+
+---
+
+# 23. ACCEPTANCE CRITERIA
+
+Before declaring the build complete, verify these end-to-end journeys:
+
+1. A founder signs up and submits an application.
+2. The founder remains restricted while approval is pending.
+3. An administrator reviews the founder's website, LinkedIn evidence, and interview.
+4. The administrator approves the application.
+5. The approved founder creates or claims their startup.
+6. The founder publishes a community update and product launch.
+7. Another approved founder discovers the startup and sends a connection request.
+8. Both members can communicate after accepting the connection.
+9. An investor applies through a separate verification process.
+10. An approved investor discovers startups and requests an introduction.
+11. A duplicate company submission is detected and handled.
+12. A reported post enters the moderation queue.
+13. An unauthorised user cannot access admin routes or private records.
+14. All dashboard statistics reflect actual database records.
+
+Do not merely render these flows visually. Implement the underlying data operations and access controls.
+
+If an external integration requires credentials or cannot be completed, identify it clearly and implement the appropriate secure fallback.
+
+---
+
+# 24. FINAL INSTRUCTION
+
+Build Irish Founders as a cohesive, functioning full-stack prototype.
+
+Prioritise:
+
+1. Authentication and role-based access.
+2. Verification and approval workflows.
+3. Founder, startup, and investor profiles.
+4. Community and product discovery.
+5. Collaboration and networking.
+6. Messaging.
+7. Complete administrative management.
+
+Create the database, application routes, backend functions, and responsive UI.
+
+Use a modular architecture so additional features can be introduced later.
+
+Do not stop after generating a landing page.
+
+The final product should demonstrate a complete journey from membership application to verification, startup creation, community participation, and investor-founder discovery.
+
+**Irish Founders: A trusted home for the people building Ireland's next generation of companies.**
+
+## Suggested visual direction
+
+These are the three most important interfaces I would prioritise in the prototype.
+
+[Foundonect | Vetted Founder Network for Serious Founders](https://images.openai.com/static-rsc-4/NSDm-tVCgv8l7lRvKbubKK3UgK-d8HZQtoVtjhwrZZWYupTUMgGoNsojZqPeNqDEzB5ZsFqbullTrHaWTY7YdltnH7gVpF-Yt76IaFWiorh386LEKsNlI8iM7RswWRukZF4zK4H5qxfyhsM_uCng4FxiyjeBGEaHmkJ8farBIM4?purpose=inline)
+
+1\. Public website
+
+Strong positioning, verified startup discovery, and a clear application process.
+
+[Community | Social app design, Web ui design, App design inspiration](https://images.openai.com/static-rsc-4/6vv1x-5d2xAhzApcUVmvaENNR3JJRjW2T8pILPMAmbE8YQshnbD95p9b4KeZpsRJw9m7GJ69tIw_blHbLyDPthikMc8bfvz0apUoZ_WoIELAqSx3jDANUoIEdsG8bzhFRKcp5Y8gqzobnM-pGXsKkkxU133wUJcXqRvUSawNs80?purpose=inline)
+
+2\. Founder and investor workspace
+
+A professional dashboard combining community, discovery, launches, and networking.
+
+[Account Settings & Profile Management Dashboard UX/UI Design by Rakibul 🏀 on Dribbble](https://images.openai.com/static-rsc-4/HuR7-ZtEFzqypgbv0ZusKZfMUJBqFIO8TMo6pL0PBasU8XDxLSOKnnsvUqm9S5ZzAPFdiw7WcBVrrZp2XoakFGiaqQ7if6NGUiJg05dOY0LnfjkAKva83VUrwoHUyKiykcUQW3Jm3UX9QGo-HQi64NZakdgyiSUJGhZmlLB9GNs?purpose=inline)
+
+3\. Verification and admin centre
+
+Application reviews, interviews, duplicate detection, and moderation.
+
+## One important product decision
+
+I recommend making the verification badge central to Irish Founders' identity, with distinct statuses for people and companies.
+
+Verified Founder
+
+Approved membership
+
+Verified Startup
+
+Company reviewed
+
+Verified Investor
+
+Identity reviewed
+
+These should be awarded only after an administrator completes the corresponding checks, and each badge should explain what has actually been verified.
+
+My recommendation: Build the verification system and admin dashboard first, even if the initial community is small. The competitive advantage of Irish Founders should be that every founder knows they're interacting with an actual person representing a genuine startup—not an anonymous account in another social network.
+
+Yes. You can legally create and operate Irish Founders in Ireland, including a curated, members-only community for verified startup founders, investors, and entrepreneurs.
+
+There is no general Irish law prohibiting someone from establishing an independent startup community, creating a founder networking platform, reviewing membership applications, or requiring applicants to complete an interview.
+
+You also do not ordinarily need permission from Enterprise Ireland, NDRC, Dogpatch Labs, or another startup organisation to establish your own independent community.
+
+However, there are several legal requirements worth understanding before launching `irishfounders.ie`, particularly because your platform will verify identities, collect LinkedIn information, host user-generated content, and connect founders with investors.
+
+The distinction is that building a founder networking platform is generally straightforward legally; operating it responsibly requires some compliance work.
+
+## 1. What is legally allowed?
+
+For your proposed platform:
+
+| Platform feature              | General legal position                                              |
+| ----------------------------- | ------------------------------------------------------------------- |
+| Free founder community        | Allowed                                                             |
+| Invite-only membership        | Allowed                                                             |
+| Manual founder interviews     | Allowed, subject to privacy and fair procedures                     |
+| Minimum 50 LinkedIn followers | Generally allowed as an admission criterion                         |
+| Requiring 2–3 company posts   | Generally allowed                                                   |
+| Verified founder badges       | Allowed if truthful and not misleading                              |
+| Public startup directory      | Allowed, subject to privacy and other rights                        |
+| Private founder messaging     | Allowed, with applicable compliance                                 |
+| Investor networking           | Generally allowed; regulated activities require separate assessment |
+| Admin approval/rejection      | Generally allowed, subject to applicable law                        |
+
+You can set objective membership standards for your private community. Make those standards transparent, consistently applied, and non-discriminatory.
+
+## 2. The six legal areas you should address
+
+### A. Business name and domain
+
+You can propose the name Irish Founders, but you should first check whether anyone has conflicting rights to it.
+
+Check these three sources:
+
+- [Companies Registration Office (CRO)](https://core.cro.ie/) — existing companies and business names.
+- [Intellectual Property Office of Ireland](https://www.ipoi.gov.ie/) — registered trademarks.
+- [.IE domain registry](https://www.weare.ie/) — domain availability.
+
+If you carry on business in Ireland under Irish Founders rather than your own legal name, business-name registration will generally be required.
+
+According to the CRO, registering a business name does not itself provide trademark protection.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://cro.ie\&sz=32)
+
+CRO
+
++1
+
+
+
+Also, do not suggest that Irish Founders is an official government-backed or nationally appointed representative body unless that is actually true.
+
+### B. GDPR — particularly important
+
+Your application will collect:
+
+- Founder names and emails.
+- LinkedIn profile URLs.
+- Interview responses.
+- Startup affiliations.
+- Investor information.
+- Potentially identity verification documents.
+
+Because you are processing personal information, GDPR applies even when your community is completely free.
+
+You should have a privacy policy explaining why information is collected, its lawful basis, who can access it, retention periods, and members' data-protection rights.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.dataprotection.ie\&sz=32)
+
+Data Protection Commissioner
+
++1
+
+
+
+My suggestion: Do not collect passports, PPS numbers, or other sensitive identification documents by default. Start with professional email verification, public company evidence, and manual interviews.
+
+### C. Digital Services Act (DSA)
+
+This is particularly relevant because Irish Founders will host user-generated content.
+
+Your community feed, startup profiles, product launches, and public discussions may bring the platform within the EU Digital Services Act.
+
+The exact obligations depend on how the service is classified and its size.
+
+Plan for:
+
+- Content reporting.
+- Clear community rules.
+- Illegal-content reporting and handling.
+- Moderation decisions with explanations.
+- Applicable complaints and appeal mechanisms.
+- Required regulatory contact information and transparency measures.
+
+Ireland's Digital Services Coordinator is Coimisiún na Meán.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.gov.ie\&sz=32)
+
+Government of Ireland
+
++1
+
+
+
+### D. Investor networking — the most important boundary
+
+You can generally create a platform where investors and founders discover one another.
+
+For your first version, I recommend the following distinction:
+
+| Feature                            | Recommendation    |
+| ---------------------------------- | ----------------- |
+| Investor profiles                  | Include           |
+| Startup discovery                  | Include           |
+| Founder introductions              | Include           |
+| Private networking                 | Include           |
+| Investment interest information    | Include           |
+| Processing investment transactions | Exclude initially |
+| Investment recommendations         | Exclude initially |
+| Handling investor funds            | Exclude initially |
+| Equity crowdfunding                | Exclude initially |
+
+The Central Bank of Ireland regulates certain investment intermediary activities, including investment advice and receiving or transmitting orders in investment instruments.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.centralbank.ie\&sz=32)
+
+Central Bank of Ireland
+
+
+
+Even arranging introductions can require closer legal assessment depending on how the service operates and whether compensation or regulated intermediation is involved.
+
+For now, position Irish Founders as a professional networking and startup discovery platform, not an investment marketplace.
+
+### E. LinkedIn verification
+
+Your proposed requirement of 50+ followers and 2–3 posts is generally a platform admission rule, not inherently a legal problem.
+
+However, avoid unauthorised scraping, automated extraction, or representing LinkedIn as an official verification partner.
+
+For the MVP, founders can submit their company LinkedIn URL and post links, which administrators manually review.
+
+### F. Immigration and business activity
+
+One additional consideration: if you are living in Ireland on immigration permission, check whether that permission allows you to establish and actively operate a business.
+
+For example, Stamp 2 student permission generally restricts self-employment and business activity.
+
+This is separate from whether the Irish Founders platform itself is lawful.
+
+Before formally operating it, check your specific permission with the Irish Immigration Service or a qualified immigration adviser.
+
+## 3. Documents I recommend having before public launch
+
+You do not need an enormous legal department, but your platform should have these core documents.
+
+Irish Founders launch checklist
+
+0/8
+
+Privacy Policy
+
+Terms of Service
+
+Community Guidelines
+
+Membership and Verification Policy
+
+Content Moderation and Appeals Policy
+
+Cookie Policy and consent mechanism, where required
+
+Investor Networking Disclaimer
+
+Account and Data Deletion Policy
+
+Use this as a preparation checklist; completing it does not itself establish legal compliance.
+
+## 4. Do you need to register a company immediately?
+
+There is a difference between developing a prototype and operating a business.
+
+| Stage                                    | Suggested approach                                                         |
+| ---------------------------------------- | -------------------------------------------------------------------------- |
+| Designing in Lovable                     | Build the prototype                                                        |
+| Testing with a small internal group      | Use controlled test accounts and appropriate privacy safeguards            |
+| Opening public applications              | Establish the responsible legal operator and publish the required policies |
+| Running a public community               | Complete applicable business, data protection, and platform compliance     |
+| Introducing regulated financial services | Obtain specialist legal advice before proceeding                           |
+
+An Irish LTD company is one possible structure, but incorporation is not automatically mandatory merely because you are developing a website. Your trading activities, liability exposure, immigration permission, and other circumstances matter.
+
+The CRO explains the available company formation process here: [Registering an Irish company](https://cro.ie/registration/company/required-steps/).&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://cro.ie\&sz=32)
+
+CRO
+
+
+
+## 5. How I would legally position Irish Founders
+
+I would include the following wording in your website's About page or footer:
+
+**About Irish Founders**
+
+Irish Founders is an independent, curated community connecting verified startup founders, entrepreneurs, investors, and ecosystem partners across Ireland.
+
+Our mission is to create a trusted environment where genuine founders can discover startups, share knowledge, find collaborators, build meaningful relationships, and support one another.
+
+Membership is free and subject to an application, verification, and approval process.
+
+Irish Founders operates independently and is not affiliated with or endorsed by any government agency or startup organisation unless expressly stated.
+
+The platform facilitates professional networking and introductions. It does not provide financial or investment advice, arrange investment transactions, or guarantee investment outcomes.
+
+This wording should ultimately be reviewed against how the platform actually operates.
+
+## Final assessment
+
+Yes — Irish Founders is a legally viable concept in Ireland. Nothing about your proposed free, curated founder community inherently requires you to obtain permission from an existing startup organisation.
+
+I would prioritise three things before inviting the first real members: checking the Irish Founders name, ensuring your own permission allows you to operate the venture, and putting GDPR-compliant verification and membership processes in place.
+
+You can then launch a focused founder community and add investor networking without initially entering regulated investment activities.
+
+A short pre-launch consultation with an Irish solicitor familiar with technology platforms, GDPR, and financial-services boundaries would be worthwhile.
