@@ -27,7 +27,7 @@ export async function signUp(_prev: ActionResult | null, formData: FormData): Pr
   if (!parsed.success) return fail("Please fix the highlighted fields.", flatten(parsed.error));
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
@@ -40,6 +40,8 @@ export async function signUp(_prev: ActionResult | null, formData: FormData): Pr
     // Do not reveal whether an email is already registered.
     if (!/already|registered/i.test(error.message)) return fail(error.message);
   }
+  // Email confirmation off: signUp returns a session, so continue straight to the application.
+  if (data?.session) redirect("/application/status");
   return ok();
 }
 
