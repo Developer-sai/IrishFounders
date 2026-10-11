@@ -319,6 +319,106 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"discover_passes": {
+                  Row: {
+                    "created_at": string,"target_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"target_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"target_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "discover_passes_target_id_fkey"
+      columns: ["target_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "discover_passes_target_id_fkey"
+      columns: ["target_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "discover_passes_target_id_fkey"
+      columns: ["target_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    },{
+      foreignKeyName: "discover_passes_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "discover_passes_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "discover_passes_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    }
+                  ]
+                },"follows": {
+                  Row: {
+                    "created_at": string,"followed_id": string,"follower_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"followed_id": string,"follower_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"followed_id"?: string,"follower_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "follows_followed_id_fkey"
+      columns: ["followed_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "follows_followed_id_fkey"
+      columns: ["followed_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "follows_followed_id_fkey"
+      columns: ["followed_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    },{
+      foreignKeyName: "follows_follower_id_fkey"
+      columns: ["follower_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "follows_follower_id_fkey"
+      columns: ["follower_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "follows_follower_id_fkey"
+      columns: ["follower_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    }
+                  ]
                 },"interviews": {
                   Row: {
                     "answers": NonNullable<Json>,"application_id": string,"created_at": string,"id": string,"internal_notes": string | null,"interview_type": string,"interviewer_id": string | null,"meeting_link": string | null,"outcome_recommendation": string | null,"scheduled_at": string | null,"status": string,"updated_at": string
@@ -883,14 +983,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "areas_of_expertise": (string)[],"avatar_url": string | null,"bio": string | null,"created_at": string,"email": string,"full_name": string,"headline": string | null,"hidden_fields": (string)[],"id": string,"is_demo": boolean,"linkedin_url": string | null,"location": string | null,"role": Database["public"]['Enums']["user_role"],"skills": (string)[],"suspended_at": string | null,"updated_at": string,"verification_status": Database["public"]['Enums']["verification_status"]
+                    "areas_of_expertise": (string)[],"avatar_url": string | null,"bio": string | null,"cover_url": string | null,"created_at": string,"email": string,"full_name": string,"handle": string | null,"headline": string | null,"hidden_fields": (string)[],"id": string,"is_demo": boolean,"linkedin_url": string | null,"location": string | null,"offering": (string)[],"open_to": (string)[],"role": Database["public"]['Enums']["user_role"],"skills": (string)[],"suspended_at": string | null,"updated_at": string,"verification_status": Database["public"]['Enums']["verification_status"]
                   }
                   ComputedFields: never
                   Insert: {
-                    "areas_of_expertise"?: (string)[],"avatar_url"?: string | null,"bio"?: string | null,"created_at"?: string,"email": string,"full_name"?: string,"headline"?: string | null,"hidden_fields"?: (string)[],"id": string,"is_demo"?: boolean,"linkedin_url"?: string | null,"location"?: string | null,"role"?: Database["public"]['Enums']["user_role"],"skills"?: (string)[],"suspended_at"?: string | null,"updated_at"?: string,"verification_status"?: Database["public"]['Enums']["verification_status"]
+                    "areas_of_expertise"?: (string)[],"avatar_url"?: string | null,"bio"?: string | null,"cover_url"?: string | null,"created_at"?: string,"email": string,"full_name"?: string,"handle"?: string | null,"headline"?: string | null,"hidden_fields"?: (string)[],"id": string,"is_demo"?: boolean,"linkedin_url"?: string | null,"location"?: string | null,"offering"?: (string)[],"open_to"?: (string)[],"role"?: Database["public"]['Enums']["user_role"],"skills"?: (string)[],"suspended_at"?: string | null,"updated_at"?: string,"verification_status"?: Database["public"]['Enums']["verification_status"]
                   }
                   Update: {
-                    "areas_of_expertise"?: (string)[],"avatar_url"?: string | null,"bio"?: string | null,"created_at"?: string,"email"?: string,"full_name"?: string,"headline"?: string | null,"hidden_fields"?: (string)[],"id"?: string,"is_demo"?: boolean,"linkedin_url"?: string | null,"location"?: string | null,"role"?: Database["public"]['Enums']["user_role"],"skills"?: (string)[],"suspended_at"?: string | null,"updated_at"?: string,"verification_status"?: Database["public"]['Enums']["verification_status"]
+                    "areas_of_expertise"?: (string)[],"avatar_url"?: string | null,"bio"?: string | null,"cover_url"?: string | null,"created_at"?: string,"email"?: string,"full_name"?: string,"handle"?: string | null,"headline"?: string | null,"hidden_fields"?: (string)[],"id"?: string,"is_demo"?: boolean,"linkedin_url"?: string | null,"location"?: string | null,"offering"?: (string)[],"open_to"?: (string)[],"role"?: Database["public"]['Enums']["user_role"],"skills"?: (string)[],"suspended_at"?: string | null,"updated_at"?: string,"verification_status"?: Database["public"]['Enums']["verification_status"]
                   }
                   Relationships: [
                     
@@ -1033,6 +1133,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"startup_follows": {
+                  Row: {
+                    "created_at": string,"startup_id": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"startup_id": string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"startup_id"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "startup_follows_startup_id_fkey"
+      columns: ["startup_id"]
+isOneToOne: false
+      referencedRelation: "startups"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "startup_follows_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "startup_follows_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "startup_follows_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    }
+                  ]
                 },"startup_members": {
                   Row: {
                     "id": string,"is_admin": boolean,"joined_at": string,"profile_id": string,"role_title": string,"startup_id": string
@@ -1071,6 +1209,44 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"startup_milestones": {
+                  Row: {
+                    "created_at": string,"created_by": string,"id": string,"kind": string,"occurred_on": string,"startup_id": string,"title": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by": string,"id"?: string,"kind"?: string,"occurred_on"?: string,"startup_id": string,"title": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string,"id"?: string,"kind"?: string,"occurred_on"?: string,"startup_id"?: string,"title"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "startup_milestones_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "startup_milestones_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "startup_milestones_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    },{
+      foreignKeyName: "startup_milestones_startup_id_fkey"
+      columns: ["startup_id"]
+isOneToOne: false
+      referencedRelation: "startups"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"startups": {
                   Row: {
                     "created_at": string,"created_by": string | null,"founded_year": number,"id": string,"industry": string,"is_demo": boolean,"is_verified": boolean,"linkedin_url": string,"location": string | null,"logo_url": string | null,"name": string,"normalized_domain": string,"normalized_linkedin": string,"problem_statement": string | null,"product_overview": string | null,"screenshots": (string)[],"short_description": string,"slug": string,"stage": Database["public"]['Enums']["startup_stage"],"team_size": number,"updated_at": string,"verified_at": string | null,"website_url": string
@@ -1098,6 +1274,82 @@ isOneToOne: false
     },{
       foreignKeyName: "startups_created_by_fkey"
       columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    }
+                  ]
+                },"stories": {
+                  Row: {
+                    "author_id": string,"created_at": string,"expires_at": string,"id": string,"kind": string,"media_url": string | null,"startup_id": string | null,"text": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "author_id": string,"created_at"?: string,"expires_at"?: string,"id"?: string,"kind"?: string,"media_url"?: string | null,"startup_id"?: string | null,"text"?: string | null
+                  }
+                  Update: {
+                    "author_id"?: string,"created_at"?: string,"expires_at"?: string,"id"?: string,"kind"?: string,"media_url"?: string | null,"startup_id"?: string | null,"text"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "stories_author_id_fkey"
+      columns: ["author_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "stories_author_id_fkey"
+      columns: ["author_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "stories_author_id_fkey"
+      columns: ["author_id"]
+isOneToOne: false
+      referencedRelation: "public_startup_team"
+      referencedColumns: ["profile_id"]
+    },{
+      foreignKeyName: "stories_startup_id_fkey"
+      columns: ["startup_id"]
+isOneToOne: false
+      referencedRelation: "startups"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"story_views": {
+                  Row: {
+                    "story_id": string,"viewed_at": string,"viewer_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "story_id": string,"viewed_at"?: string,"viewer_id": string
+                  }
+                  Update: {
+                    "story_id"?: string,"viewed_at"?: string,"viewer_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "story_views_story_id_fkey"
+      columns: ["story_id"]
+isOneToOne: false
+      referencedRelation: "stories"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "story_views_viewer_id_fkey"
+      columns: ["viewer_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "story_views_viewer_id_fkey"
+      columns: ["viewer_id"]
+isOneToOne: false
+      referencedRelation: "public_founders"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "story_views_viewer_id_fkey"
+      columns: ["viewer_id"]
 isOneToOne: false
       referencedRelation: "public_startup_team"
       referencedColumns: ["profile_id"]
@@ -1146,14 +1398,14 @@ isOneToOne: false
           Views: {
             "public_founders": {
                   Row: {
-                    "areas_of_expertise": (string)[] | null,"avatar_url": string | null,"bio": string | null,"created_at": string | null,"full_name": string | null,"headline": string | null,"id": string | null,"is_demo": boolean | null,"linkedin_url": string | null,"location": string | null,"skills": (string)[] | null
+                    "areas_of_expertise": (string)[] | null,"avatar_url": string | null,"bio": string | null,"cover_url": string | null,"created_at": string | null,"full_name": string | null,"handle": string | null,"headline": string | null,"id": string | null,"is_demo": boolean | null,"linkedin_url": string | null,"location": string | null,"offering": (string)[] | null,"open_to": (string)[] | null,"skills": (string)[] | null
                   }
                   ComputedFields: never
                   Insert: {
-                           "areas_of_expertise"?: (string)[] | null,"avatar_url"?: never,"bio"?: never,"created_at"?: string | null,"full_name"?: string | null,"headline"?: string | null,"id"?: string | null,"is_demo"?: boolean | null,"linkedin_url"?: never,"location"?: never,"skills"?: never
+                           "areas_of_expertise"?: (string)[] | null,"avatar_url"?: never,"bio"?: never,"cover_url"?: string | null,"created_at"?: string | null,"full_name"?: string | null,"handle"?: never,"headline"?: string | null,"id"?: string | null,"is_demo"?: boolean | null,"linkedin_url"?: never,"location"?: never,"offering"?: (string)[] | null,"open_to"?: (string)[] | null,"skills"?: never
                          }
                         Update: {
-                           "areas_of_expertise"?: (string)[] | null,"avatar_url"?: never,"bio"?: never,"created_at"?: string | null,"full_name"?: string | null,"headline"?: string | null,"id"?: string | null,"is_demo"?: boolean | null,"linkedin_url"?: never,"location"?: never,"skills"?: never
+                           "areas_of_expertise"?: (string)[] | null,"avatar_url"?: never,"bio"?: never,"cover_url"?: string | null,"created_at"?: string | null,"full_name"?: string | null,"handle"?: never,"headline"?: string | null,"id"?: string | null,"is_demo"?: boolean | null,"linkedin_url"?: never,"location"?: never,"offering"?: (string)[] | null,"open_to"?: (string)[] | null,"skills"?: never
                          }
                         Relationships: [
                     
@@ -1207,8 +1459,14 @@ isOneToOne: false
 "create_startup":
 { Args: { "p": Json }; Returns: string
                            },
+"create_story":
+{ Args: { "p_kind": string,"p_media_url": string,"p_startup": string,"p_text": string }; Returns: string
+                           },
 "ensure_conversation":
 { Args: { "a": string,"b": string }; Returns: string
+                           },
+"follow_user":
+{ Args: { "p_user": string }; Returns: undefined
                            },
 "is_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
@@ -1240,14 +1498,27 @@ isOneToOne: false
 "is_super_admin":
 { Args: Record<PropertyKey, never>; Returns: boolean
                            },
+"launch_board":
+{ Args: { "p_range"?: string }; Returns: {
+              "category": string,"created_at": string,"founder_id": string,"id": string,"is_launch_of_day": boolean,"name": string,"rank_score": number,"slug": string,"stage": Database["public"]['Enums']["startup_stage"],"startup_name": string,"startup_slug": string,"tagline": string,"votes_count": number,"website_url": string
+            }[]
+                           },
 "manage_interview":
 { Args: { "p_action": string,"p_app": string,"p_meeting_link"?: string,"p_notes"?: string,"p_recommendation"?: string,"p_scheduled_at"?: string }; Returns: undefined
                            },
 "mark_conversation_read":
 { Args: { "p_conv": string }; Returns: undefined
                            },
+"match_score":
+{ Args: { "a": string,"b": string }; Returns: Json
+                           },
 "moderate_report":
 { Args: { "p_action": string,"p_note"?: string,"p_report": string }; Returns: undefined
+                           },
+"mutual_connections":
+{ Args: { "p_user": string }; Returns: {
+              "avatar_url": string,"full_name": string,"id": string
+            }[]
                            },
 "normalize_domain":
 { Args: { "input": string }; Returns: string
@@ -1257,6 +1528,9 @@ isOneToOne: false
                            },
 "notify":
 { Args: { "p_body": string,"p_link": string,"p_title": string,"p_type": string,"p_user": string }; Returns: undefined
+                           },
+"notify_mentions":
+{ Args: { "p_author": string,"p_content": string,"p_link": string }; Returns: undefined
                            },
 "public_stats":
 { Args: Record<PropertyKey, never>; Returns: Json
@@ -1288,11 +1562,26 @@ isOneToOne: false
 "review_opportunity":
 { Args: { "p_approve": boolean,"p_id": string }; Returns: undefined
                            },
+"search_all":
+{ Args: { "q": string }; Returns: {
+              "href": string,"id": string,"kind": string,"subtitle": string,"title": string
+            }[]
+                           },
 "slugify":
 { Args: { "input": string }; Returns: string
                            },
+"story_tray":
+{ Args: Record<PropertyKey, never>; Returns: {
+              "author_id": string,"avatar_url": string,"full_name": string,"handle": string,"is_followed": boolean,"latest_at": string,"story_count": number,"unseen_count": number
+            }[]
+                           },
 "submit_application":
 { Args: { "p": Json }; Returns: string
+                           },
+"suggested_matches":
+{ Args: { "p_industry"?: string,"p_limit"?: number,"p_open_to"?: string }; Returns: {
+              "avatar_url": string,"cover_url": string,"full_name": string,"handle": string,"headline": string,"location": string,"mutual": number,"offering": (string)[],"open_to": (string)[],"profile_id": string,"reasons": (string)[],"score": number
+            }[]
                            },
 "verify_startup":
 { Args: { "p_startup": string,"p_verify": boolean }; Returns: undefined
