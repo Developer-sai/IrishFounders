@@ -13,7 +13,11 @@ export function SignupForm() {
       <div role="status" className="rounded-md bg-verified/10 p-4 text-sm">
         <p className="font-medium">Check your inbox</p>
         <p className="mt-1 text-muted-foreground">
-          We&apos;ve sent a confirmation link. Click it to verify your email and continue your application.
+          If this email is new, we&apos;ve sent a confirmation link. Click it, then continue your application.
+        </p>
+        <p className="mt-3 text-muted-foreground">
+          Already registered? <a href="/login" className="font-medium text-foreground underline">Sign in</a> or{" "}
+          <a href="/forgot-password" className="font-medium text-foreground underline">reset your password</a>. No email after a few minutes? Check spam, then use &quot;Didn&apos;t get a confirmation email?&quot; on the sign-in page.
         </p>
       </div>
     );

@@ -51,7 +51,7 @@ export async function signIn(_prev: ActionResult | null, formData: FormData): Pr
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) {
     if (/confirm/i.test(error.message)) return fail("Please confirm your email address first. Check your inbox.");
-    return fail("Incorrect email or password.");
+    return fail("Incorrect email or password. If you signed up before, use \"Forgot password\" to set a new one.");
   }
   const next = await safeNext(formData.get("next"));
   const session = await getSession();
@@ -82,4 +82,18 @@ export async function updatePassword(_prev: ActionResult | null, formData: FormD
   const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
   if (error) return fail(error.message);
   redirect("/dashboard");
+}
+
+/** Re-sends the signup confirmation email. Always reports success (never reveals which emails exist). */
+export async function resendConfirmation(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const parsed = emailSchema.safeParse({ email: formData.get("email") });
+  if (!parsed.success) return fail("Enter a valid email address.");
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resend({
+    type: "signup",
+    email: parsed.data.email,
+    options: { emailRedirectTo: `${env.siteUrl()}/auth/callback?next=/application/status` },
+  });
+  if (error?.status === 429) return fail("Please wait a minute before requesting another email.");
+  return ok();
 }
