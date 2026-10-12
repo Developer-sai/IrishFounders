@@ -5,19 +5,20 @@ import { useEffect, useRef, useState } from "react";
 
 export type GlobeMarker = { lat: number; lng: number; kind: "verified" | "pending" };
 
-/** Decorative "from Ireland to the world" arcs. Illustrative only: they do not represent real members. */
-const WORLD_HUBS: [number, number][] = [
-  [51.5, -0.1], // London
-  [40.7, -74.0], // New York
-  [37.8, -122.4], // San Francisco
-  [52.5, 13.4], // Berlin
-  [25.2, 55.3], // Dubai
-  [1.35, 103.8], // Singapore
-  [-33.9, 151.2], // Sydney
+/** Decorative arcs between world hubs. Illustrative only: they do not represent real members. */
+const ARCS: { from: [number, number]; to: [number, number] }[] = [
+  { from: [51.5, -0.1], to: [40.7, -74.0] }, // London - New York
+  { from: [40.7, -74.0], to: [37.8, -122.4] }, // New York - San Francisco
+  { from: [51.5, -0.1], to: [6.5, 3.4] }, // London - Lagos
+  { from: [6.5, 3.4], to: [-1.3, 36.8] }, // Lagos - Nairobi
+  { from: [25.2, 55.3], to: [12.97, 77.6] }, // Dubai - Bengaluru
+  { from: [12.97, 77.6], to: [1.35, 103.8] }, // Bengaluru - Singapore
+  { from: [1.35, 103.8], to: [-33.9, 151.2] }, // Singapore - Sydney
+  { from: [-23.5, -46.6], to: [51.5, -0.1] }, // Sao Paulo - London
 ];
-const IRELAND: [number, number] = [53.3, -8.0];
+const START_LNG = 10; // Atlantic: Europe, Africa and the Americas are all in view on first paint
 
-/** COBE's phi rotates around the vertical axis. Calibrated against a fixed-angle render: Ireland faces the camera at phi ~ 4.89. */
+/** COBE's phi rotates around the vertical axis. Calibrated against a fixed-angle render: longitude 0 faces the camera at phi ~ 4.89. */
 const phiFor = (lng: number) => (lng * Math.PI) / 180 + 5.03;
 
 function lowPowerDevice(): boolean {
@@ -43,7 +44,7 @@ export default function Globe({ markers, className = "" }: { markers: GlobeMarke
     if (!el || !box) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || lowPowerDevice()) return;
 
-    let phi = phiFor(IRELAND[1]);
+    let phi = phiFor(START_LNG);
     const theta = 0.5;
     let dragging = false;
     let lastX = 0;
@@ -84,7 +85,7 @@ export default function Globe({ markers, className = "" }: { markers: GlobeMarke
           size: m.kind === "verified" ? 0.032 : 0.022,
           color: m.kind === "verified" ? [0.2, 1, 0.62] : [0.3, 0.62, 0.5],
         })),
-        arcs: mobile ? WORLD_HUBS.slice(0, 4).map((to) => ({ from: IRELAND, to })) : WORLD_HUBS.map((to) => ({ from: IRELAND, to })),
+        arcs: mobile ? ARCS.slice(0, 4) : ARCS,
         arcColor: [0.55, 0.98, 0.51],
         arcWidth: 0.5,
         arcHeight: 0.28,

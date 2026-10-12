@@ -68,4 +68,13 @@ test.describe("route guards", () => {
     await page.goto("/admin");
     await expect(page.getByText("You don't have access to this page")).toBeVisible();
   });
+
+  test("public pages do not scroll sideways on a phone", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    for (const path of ["/", "/login", "/signup", "/about"]) {
+      await page.goto(path);
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      expect(overflow, path).toBeLessThanOrEqual(1);
+    }
+  });
 });

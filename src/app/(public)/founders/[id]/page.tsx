@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const f = await loadFounder(id);
   return f
-    ? { title: f.full_name ?? "Founder", description: f.headline ?? "Verified founder on Irish Founders" }
+    ? { title: f.full_name ?? "Founder", description: f.headline ?? "Verified founder on Space of Founders" }
     : { title: "Founder not found" };
 }
 

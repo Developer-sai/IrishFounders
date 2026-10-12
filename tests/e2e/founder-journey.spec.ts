@@ -59,7 +59,7 @@ test.describe.serial("founder journey (browser)", () => {
     // --- founder wizard
     await page.goto("/onboarding/founder");
     await page.getByLabel("Your LinkedIn profile URL").fill("linkedin.com/in/siobhan");
-    await page.getByLabel("Location").fill("Dublin, Ireland");
+    await page.getByLabel("Location").fill("Lagos, Nigeria");
     await page.getByLabel("Your role at the company").fill("Co-founder & CEO");
     await page.getByRole("button", { name: "Continue" }).click();
 
@@ -68,10 +68,11 @@ test.describe.serial("founder journey (browser)", () => {
     await expect(page.getByText("Company name is required")).toBeVisible();
 
     await page.getByLabel("Company name").fill(company);
+    await page.getByLabel("City").fill("Lagos");
     await page.getByLabel("Company website").fill(`${company.toLowerCase()}.ie`);
     await page.getByLabel("Company LinkedIn page").fill(`linkedin.com/company/${company.toLowerCase()}`);
     await page.getByLabel("Industry").fill("FinTech");
-    await page.getByLabel("Short description").fill("Payments infrastructure for Irish SMEs.");
+    await page.getByLabel("Short description").fill("Payments infrastructure for African SMEs.");
     await page.getByRole("button", { name: "Continue" }).click();
 
     await page.getByLabel("Company LinkedIn follower count").fill("85");
@@ -80,7 +81,7 @@ test.describe.serial("founder journey (browser)", () => {
     await page.getByRole("button", { name: "Continue" }).click();
 
     for (const q of ["What problem are you solving?", "Why did you start this company?", "What have you built so far?",
-      "What is your current biggest challenge?", "What are you hoping to gain from Irish Founders?", "How can you contribute to other founders?"]) {
+      "What is your current biggest challenge?", "What are you hoping to gain from Space of Founders?", "How can you contribute to other founders?"]) {
       await page.getByLabel(q).fill("A thoughtful answer.");
     }
     await page.getByRole("button", { name: "Continue" }).click();

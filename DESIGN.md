@@ -1,7 +1,7 @@
-# Design System — Irish Founders
+# Design System — Space of Founders
 
 ## Product Context
-- **What this is:** A hand-verified, approval-only community for Irish founders, startups, investors and ecosystem partners.
+- **What this is:** A hand-verified, approval-only community for founders worldwide, startups, investors and ecosystem partners.
 - **Who it's for:** Founders who are tired of anonymous networks; investors who want to know who they are talking to.
 - **Project type:** Marketing site + member workspace + admin review desk.
 - **Memorable thing:** *A guest book you have to be vouched into.* Every surface should feel curated and checked by a person, never mass-produced.
@@ -68,3 +68,9 @@ Minimal-functional: 120ms colour/opacity transitions, focus ring 2px vermilion o
 |------|----------|-----------|
 | 2026-10-11 | Evolve Guest Book rather than restyle | Keeps the verified, editorial identity that differentiates from Instagram/LinkedIn clones |
 | 2026-10-11 | Explainable rule-based matching | Trust is the product; users can see and challenge why a match was suggested |
+
+## v4: Space of Founders (worldwide)
+- Name: **Space of Founders** (spaceoffounders). Tagline: "The verified space for the world's founders." No country restriction for founders, investors or partners.
+- Geography: `src/lib/geo.ts` holds ~50 world hubs used for city suggestions and globe pins. Any city is accepted; unknown cities simply get no pin. The globe opens facing the Atlantic and arcs connect hubs on every continent (decorative).
+- Wordmark is live text (`Logo`), not an image, so the name never drifts from the code. The iF monogram artwork is kept as the symbol (the F still reads as "Founders").
+- `scope.test.ts` now guards the brand: the old name and country-only copy must not return to `src`.

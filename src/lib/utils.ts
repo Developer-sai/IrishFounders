@@ -7,10 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatDate(value: string | Date | null | undefined, withTime = false): string {
   if (!value) return "—";
-  return new Intl.DateTimeFormat("en-IE", {
+  return new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
     ...(withTime ? { timeStyle: "short" } : {}),
-    timeZone: "Europe/Dublin",
+    timeZone: "UTC",
   }).format(new Date(value));
 }
 

@@ -1,6 +1,6 @@
-# Irish Founders
+# Space of Founders
 
-A verified, approval-only startup community for Ireland: founders, startups, investors and ecosystem partners.
+A verified, approval-only startup community for the world: founders, startups, investors and ecosystem partners from every country.
 Next.js 15 (App Router) · Supabase (Postgres, Auth, Storage, Realtime) · Tailwind CSS · Vercel.
 
 ## How it is built

@@ -48,7 +48,7 @@ export default async function OpportunitiesPage({ searchParams }: { searchParams
                 <Badge>{humanize(o.category)}</Badge>
                 <h2 className="font-semibold">{o.title}</h2>
                 <p className="text-sm text-muted-foreground">{o.description}</p>
-                <p className="text-xs text-muted-foreground">{o.location ?? "Ireland"} · {o.starts_at ? `Starts ${formatDate(o.starts_at)}` : "Ongoing"}{o.expires_at ? ` · Until ${formatDate(o.expires_at)}` : ""}</p>
+                <p className="text-xs text-muted-foreground">{o.location ?? "Worldwide"} · {o.starts_at ? `Starts ${formatDate(o.starts_at)}` : "Ongoing"}{o.expires_at ? ` · Until ${formatDate(o.expires_at)}` : ""}</p>
                 <a href={o.source_url} target="_blank" rel="noopener noreferrer nofollow" className="text-sm underline">Official source</a>
               </CardContent></Card>
             </li>

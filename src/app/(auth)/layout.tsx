@@ -11,10 +11,10 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         <div>
           <p className="display max-w-md text-5xl">From idea to startup, <span className="text-brand">with people who are real.</span></p>
           <p className="mt-6 max-w-sm text-sm text-[hsl(150_20%_96%/0.65)]">
-            Every member is checked by a person: their company, their LinkedIn page, a short interview. Founders building in Ireland, investors from anywhere.
+            Every member is checked by a person: their company, their LinkedIn page, a short interview. Founders, investors and partners from every country.
           </p>
         </div>
-        <p className="font-mono text-[11px] uppercase tracking-wider text-[hsl(150_20%_96%/0.45)]">Built in Ireland · Backed worldwide · Reviewed by hand</p>
+        <p className="font-mono text-[11px] uppercase tracking-wider text-[hsl(150_20%_96%/0.45)]">Founders worldwide · Free to join · Reviewed by hand</p>
       </aside>
       <main id="main" className="flex flex-col justify-center px-6 py-12 sm:px-12">
         <div className="mx-auto w-full max-w-sm">

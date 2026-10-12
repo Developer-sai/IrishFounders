@@ -11,11 +11,11 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", displ
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3100"),
-  title: { default: "Irish Founders: world-class products from Ireland to the world", template: "%s · Irish Founders" },
+  title: { default: "Space of Founders: the verified space for the world's founders", template: "%s · Space of Founders" },
   description:
-    "A verified network for founders building companies in Ireland and the investors and partners around the world who back them. Real founders. Real companies.",
-  openGraph: { siteName: "Irish Founders", type: "website", locale: "en_IE" },
-  appleWebApp: { capable: true, title: "Irish Founders", statusBarStyle: "default" },
+    "A verified network for founders building companies anywhere in the world, and the investors and partners who back them. Real founders. Real companies.",
+  openGraph: { siteName: "Space of Founders", type: "website", locale: "en" },
+  appleWebApp: { capable: true, title: "Space of Founders", statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {

@@ -40,7 +40,7 @@ const MESSAGES: Record<string, string> = {
 export function describeDbError(err: { message?: string; code?: string } | null | undefined): string {
   const raw = err?.message ?? "";
   if (raw.includes("duplicate_company:")) {
-    return "This company already exists on Irish Founders. You can request to claim it instead.";
+    return "This company already exists on Space of Founders. You can request to claim it instead.";
   }
   for (const key of Object.keys(MESSAGES)) if (raw.includes(key)) return MESSAGES[key]!;
   if (err?.code === "42501") return MESSAGES.forbidden!;

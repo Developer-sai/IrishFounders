@@ -21,7 +21,7 @@ export default async function InvestorsDirectoryPage() {
 
   return (
     <>
-      <PageHeader title="Investors" description="Verified investors on Irish Founders, from Ireland and around the world. Verification confirms identity and background, not financial capacity or investment commitment. Investors request introductions to you; you decide whether to accept." />
+      <PageHeader title="Investors" description="Verified investors on Space of Founders, from around the world. Verification confirms identity and background, not financial capacity or investment commitment. Investors request introductions to you; you decide whether to accept." />
       {visible.length ? (
         <ul className="grid gap-4 md:grid-cols-2">
           {visible.map((i) => {

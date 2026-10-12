@@ -38,7 +38,7 @@ export default async function ApplicationStatusPage() {
     return (
       <>
         <PageHeader title="You're in" description="Your membership is approved." />
-        <Link href={homeFor(session)} className={buttonVariants({ variant: "accent" })}>Open Irish Founders</Link>
+        <Link href={homeFor(session)} className={buttonVariants({ variant: "accent" })}>Open Space of Founders</Link>
       </>
     );
   }
@@ -47,7 +47,7 @@ export default async function ApplicationStatusPage() {
     return (
       <Card><CardContent>
         <h1 className="text-lg font-semibold">Account suspended</h1>
-        <p className="mt-2 text-sm text-muted-foreground">Your account is currently suspended. To appeal, please contact the Irish Founders team.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Your account is currently suspended. To appeal, please contact the Space of Founders team.</p>
       </CardContent></Card>
     );
   }
@@ -55,7 +55,7 @@ export default async function ApplicationStatusPage() {
   if (!app) {
     return (
       <>
-        <PageHeader title="Welcome" description="Choose how you'd like to join Irish Founders. Every application is reviewed by a person." />
+        <PageHeader title="Welcome" description="Choose how you'd like to join Space of Founders. Every application is reviewed by a person." />
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             ["/onboarding/founder", "I'm a founder", "Apply with your company."],
@@ -89,7 +89,7 @@ export default async function ApplicationStatusPage() {
         <Card><CardContent>
           <p className="font-medium">Your application was not approved at this time.</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            You may submit a new application if your circumstances change. If you believe this was a mistake, please contact the Irish Founders team to appeal.
+            You may submit a new application if your circumstances change. If you believe this was a mistake, please contact the Space of Founders team to appeal.
           </p>
           <Link href="/onboarding/founder" className={buttonVariants({ variant: "outline", className: "mt-4" })}>Start a new application</Link>
         </CardContent></Card>

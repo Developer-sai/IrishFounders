@@ -26,7 +26,7 @@ const DEMO = [
 ];
 
 for (const d of DEMO) {
-  const email = `${d.domain.split(".")[0]}@demo.irishfounders.invalid`;
+  const email = `${d.domain.split(".")[0]}@demo.spaceoffounders.invalid`;
   const { data: created, error } = await supabase.auth.admin.createUser({
     email, password: PASSWORD, email_confirm: true, user_metadata: { full_name: d.name },
   });

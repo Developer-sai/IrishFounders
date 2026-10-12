@@ -430,7 +430,7 @@ export async function createStartup(_p: ActionResult | null, formData: FormData)
   if (error) {
     const slug = duplicateSlug(error);
     return fail(slug
-      ? "This company already exists on Irish Founders. Search for it in the startup directory and request to claim it."
+      ? "This company already exists on Space of Founders. Search for it in the startup directory and request to claim it."
       : describeDbError(error));
   }
   revalidatePath("/dashboard/startup");

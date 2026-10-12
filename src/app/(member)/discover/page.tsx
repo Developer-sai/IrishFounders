@@ -127,7 +127,7 @@ export default async function DiscoverPage({ searchParams }: { searchParams: Pro
       ) : (
         <EmptyState
           title={openTo ? "No one matches that filter yet" : "You've seen everyone for now"}
-          description={`There ${poolSize === 1 ? "is" : "are"} ${poolSize ?? 0} verified founder${poolSize === 1 ? "" : "s"} on Irish Founders so far. New members are approved by hand, so check back soon, or invite a founder you trust to apply.`}
+          description={`There ${poolSize === 1 ? "is" : "are"} ${poolSize ?? 0} verified founder${poolSize === 1 ? "" : "s"} on Space of Founders so far. New members are approved by hand, so check back soon, or invite a founder you trust to apply.`}
           action={openTo ? <Link href="/discover" className="text-sm underline">Clear filter</Link> : <Link href="/feed" className="text-sm underline">Back to the feed</Link>}
         />
       )}

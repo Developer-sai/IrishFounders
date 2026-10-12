@@ -144,7 +144,7 @@ export function AppShell({
         <div aria-hidden className="glow pointer-events-none absolute inset-x-0 top-0 -z-0 h-80 opacity-60" />
         {/* ---------------- top bar */}
         <div className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-background/95 px-4 md:justify-end md:px-10">
-          <div className="md:hidden"><Logo /></div>
+          <div className="md:hidden"><Logo compactOnPhone /></div>
           <div className="flex items-center gap-2">
             <CommandPalette links={paletteLinks} />
             <ThemeToggle />

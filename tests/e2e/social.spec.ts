@@ -27,7 +27,7 @@ async function seedFounder(email: string, name: string, profile: Record<string, 
   const { data: st } = await admin.from("startups").insert({
     name: `${name} Labs`, slug, website_url: `https://${slug}.example`, linkedin_url: `https://linkedin.com/company/${slug}`,
     normalized_domain: "", normalized_linkedin: "", industry: "FinTech", stage: "mvp", founded_year: 2024,
-    short_description: "Payments for Irish SMEs", is_verified: true, created_by: id,
+    short_description: "Payments for small businesses", is_verified: true, created_by: id,
   }).select("id").single();
   await admin.from("startup_members").insert({ startup_id: st!.id, profile_id: id, is_admin: true });
   return { id, startupId: st!.id, slug };

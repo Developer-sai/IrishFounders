@@ -10,7 +10,7 @@ export function SiteFooter({ className = "mt-32" }: { className?: string }) {
         <div className="space-y-4">
           <Logo />
           <p className="max-w-sm font-display text-xl leading-snug">
-            World-class products, from Ireland to the world. A trusted home for the founders building them.
+            The verified space for the world&apos;s founders. Build, launch and meet the people who back you.
           </p>
         </div>
         <nav aria-label="Platform">
@@ -29,7 +29,7 @@ export function SiteFooter({ className = "mt-32" }: { className?: string }) {
       </div>
       <div className="border-t border-border">
         <p className="mx-auto max-w-[1120px] px-5 py-6 font-mono text-[11px] leading-relaxed text-muted-foreground">
-          Irish Founders is independent and is not affiliated with or endorsed by any government agency or startup
+          Space of Founders is independent and is not affiliated with or endorsed by any government agency or startup
           organisation. It facilitates professional networking and introductions only, and does not provide financial or
           investment advice or arrange investment transactions.
         </p>

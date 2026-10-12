@@ -1,43 +1,45 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { IRISH_CITIES, cityToCoords, resolveCity } from "./geo";
+import { WORLD_CITIES, cityToCoords, resolveCity } from "./geo";
 
-/** Scope is the Republic of Ireland. Northern Ireland references must not creep back into the product. */
-const FORBIDDEN = /\b(Belfast|Derry|Londonderry|Northern Ireland|north and south|Antrim|Armagh|Fermanagh|Tyrone)\b/i;
+/** The product is worldwide and named Space of Founders. The old name and country-only positioning must not return. */
+const FORBIDDEN = /Irish\s*Founders|irishfounders|from Ireland to the world|built in Ireland|Republic of Ireland|only for (Ireland|Dublin)/i;
 
 function walk(dir: string, out: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
     const p = join(dir, name);
     if (statSync(p).isDirectory()) walk(p, out);
-    else if (/\.(tsx?|css|md)$/.test(name) && !name.endsWith("scope.test.ts")) out.push(p);
+    else if (/\.(tsx?|css|md)$/.test(name) && !name.endsWith("scope.test.ts") && !name.endsWith("database.types.ts")) out.push(p);
   }
   return out;
 }
 
-describe("scope: Republic of Ireland", () => {
-  it("has no Northern Ireland references in the source", () => {
+describe("brand and scope: Space of Founders, worldwide", () => {
+  it("has no old-name or country-only copy in the source", () => {
     const hits = walk("src").filter((f) => FORBIDDEN.test(readFileSync(f, "utf8")));
     expect(hits).toEqual([]);
   });
 
-  it("only offers Republic cities", () => {
-    expect(IRISH_CITIES.map((c) => c.name).join(" ")).not.toMatch(FORBIDDEN);
-    expect(IRISH_CITIES.length).toBeGreaterThanOrEqual(15);
+  it("offers hubs on every inhabited continent", () => {
+    const countries = new Set(WORLD_CITIES.map((c) => c.country));
+    expect(WORLD_CITIES.length).toBeGreaterThanOrEqual(40);
+    for (const c of ["United States", "Brazil", "Nigeria", "India", "Australia", "Germany", "Japan"]) expect(countries.has(c)).toBe(true);
   });
 
-  it("resolves city text and falls back to Dublin", () => {
-    expect(resolveCity("Cork, Ireland").name).toBe("Cork");
-    expect(resolveCity("somewhere unknown").name).toBe("Dublin");
-    expect(resolveCity(null).name).toBe("Dublin");
+  it("resolves known cities and returns null for unknown places", () => {
+    expect(resolveCity("Lagos, Nigeria")?.name).toBe("Lagos");
+    expect(resolveCity("somewhere unknown")).toBeNull();
+    expect(resolveCity(null)).toBeNull();
+    expect(cityToCoords("nowhere")).toBeNull();
   });
 
   it("jitters pins deterministically and keeps them near the city", () => {
-    const a = cityToCoords("Galway", "company-1");
-    const b = cityToCoords("Galway", "company-1");
-    const c = cityToCoords("Galway", "company-2");
+    const a = cityToCoords("Singapore", "company-1")!;
+    const b = cityToCoords("Singapore", "company-1")!;
+    const c = cityToCoords("Singapore", "company-2")!;
     expect(a).toEqual(b);
     expect(a).not.toEqual(c);
-    expect(Math.abs(a[0] - 53.2707)).toBeLessThan(0.2);
+    expect(Math.abs(a[0] - 1.3521)).toBeLessThan(0.2);
   });
 });

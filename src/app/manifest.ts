@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Irish Founders",
-    short_name: "Irish Founders",
-    description: "A verified network for companies built in Ireland and the investors around the world who back them.",
+    name: "Space of Founders",
+    short_name: "Space of Founders",
+    description: "A verified network for founders worldwide and the investors and partners who back them.",
     start_url: "/feed",
     display: "standalone",
     background_color: "#021510",

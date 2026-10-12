@@ -44,7 +44,7 @@ export default async function LaunchesPage({ searchParams }: { searchParams: Pro
     <div className="py-12">
       <PageHeader
         title="Launch Day"
-        description="Real products built in Ireland by verified founders, for a worldwide audience. Ranked by support with a freshness boost. Be one of the first to try them."
+        description="Real products built by verified founders from every country, for a worldwide audience. Ranked by support with a freshness boost. Be one of the first to try them."
         action={member && session?.role === "founder" ? <Link href="/launches/new" className={buttonVariants({ variant: "accent", size: "sm" })}>Launch a product</Link> : undefined}
       />
       <Flash error={sp.error} />

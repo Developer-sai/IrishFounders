@@ -12,7 +12,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
     <>
       <p className="eyebrow">Members</p>
       <h1 className="display mt-2 text-4xl">Sign in</h1>
-      <p className="mb-8 mt-3 text-sm text-muted-foreground">Welcome back to Irish Founders.</p>
+      <p className="mb-8 mt-3 text-sm text-muted-foreground">Welcome back to Space of Founders.</p>
       {notice === "link_used" ? (
         <p role="status" className="mb-4 rounded-md bg-verified/10 px-3 py-2 text-sm">
           If you just confirmed your email, you&apos;re all set: sign in below. If the link didn&apos;t work, it may have already been used. Request a new one at the bottom of this page.

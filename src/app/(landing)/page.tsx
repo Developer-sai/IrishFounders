@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Check, X } from "lucide-react";
 import { createPublicClient } from "@/lib/supabase/public";
 import { GlobeLoader } from "@/components/landing/globe-loader";
 import { RegisterGrid, type RegisterRow } from "@/components/landing/register-grid";
-import { IRISH_CITIES, cityToCoords } from "@/lib/geo";
+import { cityToCoords } from "@/lib/geo";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState, Seal } from "@/components/ui/card";
+import { Logo } from "@/components/brand/logo";
 import { Reveal } from "@/components/landing/reveal";
 import { Ticker } from "@/components/ui/ticker";
 import {
@@ -15,12 +15,12 @@ import {
 } from "@/components/landing/mock";
 
 export const metadata: Metadata = {
-  title: { absolute: "Irish Founders: world-class products from Ireland to the world" },
+  title: { absolute: "Space of Founders: the verified space for the world's founders" },
   description:
-    "From idea to startup, from Ireland to the world. A free, verified network for founders building world-class products in Ireland, and the investors and partners everywhere who want to back them.",
+    "From idea to startup, from anywhere in the world. A free, verified network for founders building real companies, and the investors and partners everywhere who want to back them.",
   openGraph: {
-    title: "Irish Founders: world-class products from Ireland to the world",
-    description: "Companies built in Ireland. Investors from anywhere. Every member checked by a person.",
+    title: "Space of Founders: the verified space for the world's founders",
+    description: "Founders from every country. Investors from anywhere. Every member checked by a person.",
     url: "/",
   },
 };
@@ -30,7 +30,7 @@ export const revalidate = 60;
 
 const wrap = "mx-auto w-full max-w-[1180px] px-5";
 
-const CITIES = [...IRISH_CITIES.slice(0, 12).map((c) => c.name), "The World"];
+const CITIES = ["Dublin", "London", "Lagos", "Nairobi", "Bengaluru", "Singapore", "Sydney", "Toronto", "São Paulo", "San Francisco", "Berlin", "Dubai", "Everywhere"];
 
 const CHECKS = [
   ["Company website", "A real site that belongs to the company"],
@@ -52,22 +52,22 @@ const OURS = [
   "Every member is reviewed and interviewed by a person",
   "Company website and LinkedIn page checked before you are listed",
   "Messaging opens only after both sides accept",
-  "Companies built in Ireland, investors and partners from anywhere in the world",
+  "Founders, investors and partners from every country, all verified",
 ];
 
 const FAQ = [
   ["Is it free?", "Yes. Membership is free for founders. There are no tiers, no paid placement and no hidden charges."],
-  ["Who can join?", "Founders building a genuine company in Ireland, whether you are Irish or from anywhere else. Investors from anywhere in the world. And ecosystem partners such as accelerators, universities and support organisations."],
+  ["Who can join?", "Founders building a genuine company anywhere in the world. Investors from anywhere. And ecosystem partners such as accelerators, universities and support organisations."],
   ["What exactly do you verify?", "A real company website, a company LinkedIn page with at least 50 followers and recent posts, your connection to the company, and a short interview. Everything is reviewed by hand."],
   ["How long does approval take?", "Applications are reviewed by a person, in the order they arrive. You can follow progress on your application status page and you will see a notification when something changes."],
-  ["Does a verified badge guarantee an investor will invest?", "No. A badge says what our team reviewed. It is not financial advice and not a guarantee of capacity or commitment. Irish Founders facilitates introductions only."],
-  ["Do I need to be Irish?", "No. If you are starting or running a company in Ireland you can apply, wherever you are from. Investors do not need any connection to Ireland. Join from anywhere in the world."],
-  ["Is it only for Dublin?", "No. It is for companies across the Republic of Ireland, from Cork and Galway to Limerick, Sligo and beyond."],
+  ["Does a verified badge guarantee an investor will invest?", "No. A badge says what our team reviewed. It is not financial advice and not a guarantee of capacity or commitment. Space of Founders facilitates introductions only."],
+  ["Is it only for one country?", "No. Space of Founders is global. Apply from wherever your company is based, and investors can join from anywhere."],
+  ["Where are members based?", "Everywhere. Every company on the register shows its home city, and the globe on this page shows where they are."],
 ];
 
 const ROLES = [
-  ["Founders", "Starting a company in Ireland? Irish or international, you belong here.", ["Share updates and 24-hour stories", "Get matched with co-founders, mentors and design partners", "Launch your product on Launch Day to a global audience", "Be introduced to verified investors, on your terms"]],
-  ["Investors", "From anywhere in the world. Meet Irish-built companies that have been checked.", ["Browse verified startups and milestones", "Filter by industry, stage and location", "Request introductions. Nothing opens until the founder says yes", "No funds handled and no financial advice given"]],
+  ["Founders", "Starting or running a company anywhere in the world? You belong here.", ["Share updates and 24-hour stories", "Get matched with co-founders, mentors and design partners", "Launch your product on Launch Day to a global audience", "Be introduced to verified investors, on your terms"]],
+  ["Investors", "From anywhere in the world. Meet companies from every country that have been checked.", ["Browse verified startups and milestones", "Filter by industry, stage and location", "Request introductions. Nothing opens until the founder says yes", "No funds handled and no financial advice given"]],
   ["Ecosystem partners", "Accelerators, universities and support organisations.", ["Publish programmes, events and grants", "Every listing links to its official source", "Approved before it goes live", "Expired listings archive automatically"]],
 ] as const;
 
@@ -98,17 +98,17 @@ export default async function HomePage() {
     ["Products launched", counts.launches ?? 0],
   ];
   const markers = rows.map((r, i) => {
-    const [lat, lng] = cityToCoords(r.city, `${r.name}-${i}`);
-    return { lat, lng, kind: r.kind === "verified" ? ("verified" as const) : ("pending" as const) };
-  });
+    const at = cityToCoords(r.city, `${r.name}-${i}`);
+    return at ? { lat: at[0], lng: at[1], kind: r.kind === "verified" ? ("verified" as const) : ("pending" as const) } : null;
+  }).filter((m): m is NonNullable<typeof m> => m !== null);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Irish Founders",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://irishfounders.vercel.app",
-    logo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://irishfounders.vercel.app"}/brand/mark-512.png`,
-    description: "A free, verified network for companies built in Ireland and the investors and partners around the world who back them.",
+    name: "Space of Founders",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://spaceoffounders.vercel.app",
+    logo: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://spaceoffounders.vercel.app"}/brand/mark-512.png`,
+    description: "A free, verified network for founders worldwide and the investors and partners who back them.",
   };
 
   return (
@@ -126,13 +126,13 @@ export default async function HomePage() {
           <div>
             <p className="rise inline-flex items-center gap-2.5 border border-border bg-card/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               <span aria-hidden className="pulse-ring inline-block h-2 w-2 rounded-full bg-accent" />
-              From Ireland to the world · Free for founders
+              A verified space · Free for founders
             </p>
             <h1 className="display rise mt-7 text-[46px] sm:text-6xl lg:text-[84px]" style={{ animationDelay: "70ms" }}>
-              World-class products, <span className="text-brand">built in Ireland.</span>
+              Where the world&apos;s founders <span className="text-brand">build together.</span>
             </h1>
             <p className="rise mt-7 max-w-xl text-lg leading-relaxed text-foreground/75 sm:text-xl" style={{ animationDelay: "150ms" }}>
-              From Ireland to the world. The verified network for founders building world-class products in Ireland, and the investors and partners everywhere who want to back them. Every member is checked by a person.
+              The verified network for founders building real companies anywhere in the world, and the investors and partners who want to back them. Every member is checked by a person.
             </p>
             <div className="rise mt-10 flex flex-wrap items-center gap-4" style={{ animationDelay: "230ms" }}>
               <Link href="/signup" className={buttonVariants({ variant: "accent", size: "lg", className: "group" })}>
@@ -142,7 +142,7 @@ export default async function HomePage() {
               <Link href="#how" className={buttonVariants({ variant: "outline", size: "lg" })}>How verification works</Link>
             </div>
             <ul className="rise mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-wider text-muted-foreground" style={{ animationDelay: "300ms" }}>
-              {["Free", "Reviewed by hand", "Built in Ireland", "Investors worldwide"].map((t) => (
+              {["Free", "Reviewed by hand", "Every country", "Investors worldwide"].map((t) => (
                 <li key={t} className="flex items-center gap-2"><Check className="h-3.5 w-3.5 text-accent" aria-hidden />{t}</li>
               ))}
             </ul>
@@ -173,7 +173,7 @@ export default async function HomePage() {
       </section>
 
       {/* ============================================================ MARQUEE */}
-      <section aria-label="Built in Ireland, seen worldwide" className="overflow-hidden border-b border-border py-6">
+      <section aria-label="Founders in every corner of the world" className="overflow-hidden border-b border-border py-6">
         <div className="marquee flex w-max items-center gap-10 whitespace-nowrap" aria-hidden>
           {[...CITIES, ...CITIES].map((c, i) => (
             <span key={`${c}-${i}`} className="flex items-center gap-10 font-display text-2xl font-semibold tracking-tight text-foreground/35 sm:text-3xl">
@@ -201,7 +201,7 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={120} className="relative overflow-hidden border border-accent/40 bg-card p-7 shadow-[0_0_80px_-30px_hsl(var(--glow)/0.5)] sm:p-9">
             <div aria-hidden className="glow pointer-events-none absolute inset-0 opacity-70" />
-            <p className="eyebrow !text-accent relative">Irish Founders</p>
+            <p className="eyebrow !text-accent relative">Space of Founders</p>
             <ul className="relative mt-6 space-y-4">
               {OURS.map((t) => (
                 <li key={t} className="flex gap-3"><Seal label="Verified" className="mt-0.5 h-5 w-5" />{t}</li>
@@ -415,11 +415,10 @@ export default async function HomePage() {
         <div aria-hidden className="grid-lines pointer-events-none absolute inset-0 -z-10 opacity-50" />
         <div className={`${wrap} flex flex-col items-center py-28 text-center sm:py-36`}>
           <Reveal>
-            <Image src="/brand/lockup-900-t.png" alt="Irish Founders" width={900} height={448} sizes="(min-width: 640px) 320px, 240px" className="dark-only mx-auto h-auto w-60 sm:w-80" />
-            <Image src="/brand/lockup-900.png" alt="Irish Founders" width={900} height={448} sizes="(min-width: 640px) 320px, 240px" className="light-only mx-auto h-auto w-60 rounded-3xl sm:w-80" />
+            <Logo size={76} href={null} className="mx-auto" priority={false} />
           </Reveal>
           <Reveal delay={100}>
-            <h2 id="cta" className="display mx-auto mt-10 max-w-3xl text-4xl sm:text-6xl">Building in Ireland for the world? <span className="text-brand">Come and be checked.</span></h2>
+            <h2 id="cta" className="display mx-auto mt-10 max-w-3xl text-4xl sm:text-6xl">Building something the world needs? <span className="text-brand">Come and be checked.</span></h2>
           </Reveal>
           <Reveal delay={180} className="mt-10 flex flex-wrap items-center justify-center gap-5">
             <Link href="/signup" className={buttonVariants({ variant: "accent", size: "lg", className: "group" })}>

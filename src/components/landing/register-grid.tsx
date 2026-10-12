@@ -37,7 +37,7 @@ export function RegisterGrid({ rows }: { rows: RegisterRow[] }) {
             <span className="min-w-0 flex-1">
               <span className={`block truncate font-display text-lg font-semibold leading-tight ${verified ? "" : "text-foreground/70"}`}>{r.name}</span>
               <span className="mt-0.5 block truncate font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                {meta || (r.stage ? humanize(r.stage) : "Ireland")}
+                {meta || (r.stage ? humanize(r.stage) : "Worldwide")}
               </span>
             </span>
             {verified ? (

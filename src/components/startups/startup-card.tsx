@@ -26,7 +26,7 @@ export function StartupCard({ startup }: { startup: StartupCardData }) {
           </h3>
           <Seal label="Verified startup" />
         </div>
-        <p className="mt-0.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{startup.location ?? "Ireland"}</p>
+        <p className="mt-0.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">{startup.location ?? "Worldwide"}</p>
         <p className="mt-4 line-clamp-3 text-sm leading-relaxed text-foreground/75">{startup.short_description}</p>
       </div>
       <div className="flex flex-wrap items-center gap-2">

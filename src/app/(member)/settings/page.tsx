@@ -25,7 +25,7 @@ export default async function SettingsPage() {
         <CardContent>
           <div className="mb-5 h-28 overflow-hidden border border-border"><CoverImage src={s.cover_url} /></div>
           <ActionForm action={updateIdentity} submitLabel="Save identity" successMessage="Saved.">
-            <Field label="Handle" htmlFor="handle" hint="Your short link: irishfounders.vercel.app/u/handle. 3-30 letters, numbers or underscores.">
+            <Field label="Handle" htmlFor="handle" hint="Your short link: spaceoffounders.vercel.app/u/handle. 3-30 letters, numbers or underscores.">
               <div className="flex items-center gap-2"><span className="font-mono text-muted-foreground">@</span><Input id="handle" name="handle" defaultValue={s.handle ?? ""} maxLength={30} autoComplete="off" spellCheck={false} /></div>
             </Field>
             <Field label="Profile photo" htmlFor="avatar" hint="PNG, JPEG or WebP, up to 2MB."><Input id="avatar" name="avatar" type="file" accept="image/png,image/jpeg,image/webp" /></Field>

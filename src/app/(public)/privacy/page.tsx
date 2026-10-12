@@ -7,7 +7,7 @@ export default function PrivacyPage() {
   return (
     <Prose title="Privacy policy" updated="Draft — requires legal review before public launch">
       <p>
-        This draft explains how Irish Founders handles personal data under the GDPR. It must be reviewed by a qualified
+        This draft explains how Space of Founders handles personal data under the GDPR. It must be reviewed by a qualified
         adviser and completed with the operator&apos;s legal identity and contact details before the platform opens to the public.
       </p>
       <h2>What we collect</h2>

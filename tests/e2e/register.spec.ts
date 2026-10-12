@@ -64,7 +64,7 @@ test.describe.serial("public register (browser)", () => {
     void f;
   });
 
-  test("the applicant's company is listed as 'In review' (static page, no Northern Ireland content, nothing private)", async ({ browser, page }) => {
+  test("the applicant's company is listed as 'In review' (static page, nothing private)", async ({ browser, page }) => {
     // Going through the UI triggers the same on-demand revalidation production uses.
     const ctx = await browser.newContext();
     const f = await ctx.newPage();
@@ -82,7 +82,7 @@ test.describe.serial("public register (browser)", () => {
     expect(res?.headers()["cache-control"] ?? "").toMatch(/s-maxage|max-age/);
     expect(res?.headers()["cache-control"] ?? "").not.toMatch(/no-store/);
     const html = await page.content();
-    expect(html).not.toMatch(/Belfast|Derry|Londonderry|Northern Ireland|north and south/i);
+    expect(html).not.toMatch(/Irish Founders/i);
 
     const card = page.locator("li", { hasText: company });
     await expect(card.getByText("In review")).toBeVisible();

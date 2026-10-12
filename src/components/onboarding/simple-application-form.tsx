@@ -66,12 +66,12 @@ export function SimpleApplicationForm({
             </div>
             {e("investor.preferred_stages") ? <p role="alert" className="mt-1 text-xs text-destructive">{e("investor.preferred_stages")}</p> : null}
           </fieldset>
-          <Field label="Geographic preferences (comma separated)" htmlFor="geographic_preferences"><Input id="geographic_preferences" name="geographic_preferences" placeholder="Ireland, UK, EU, US" /></Field>
+          <Field label="Geographic preferences (comma separated)" htmlFor="geographic_preferences"><Input id="geographic_preferences" name="geographic_preferences" placeholder="Europe, North America, Africa, Asia" /></Field>
           <Field label="Public portfolio or professional references (one per line)" htmlFor="public_portfolio_links" error={e("investor.public_portfolio_links")}><Textarea id="public_portfolio_links" name="public_portfolio_links" /></Field>
           <Interview state={state} questions={questions} />
           <label className="flex items-start gap-2 text-sm">
             <input type="checkbox" name="disclaimer_accepted" className="mt-1" required />
-            <span>I understand Irish Founders facilitates networking and introductions only. It does not provide financial or investment advice, and a verified badge is not a guarantee of financial capacity or commitment.</span>
+            <span>I understand Space of Founders facilitates networking and introductions only. It does not provide financial or investment advice, and a verified badge is not a guarantee of financial capacity or commitment.</span>
           </label>
           {e("investor.disclaimer_accepted") ? <p role="alert" className="text-xs text-destructive">{e("investor.disclaimer_accepted")}</p> : null}
         </>

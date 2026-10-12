@@ -78,7 +78,7 @@ export default async function StartupPage({
           <Seal label="Verified startup: company reviewed" className="h-7 w-7" />
         </h1>
         <p className="mt-2 flex flex-wrap items-center gap-x-3 text-sm text-muted-foreground">
-          <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" aria-hidden />{startup.location ?? "Ireland"}</span>
+          <span className="inline-flex items-center gap-1"><MapPin className="h-3.5 w-3.5" aria-hidden />{startup.location ?? "Worldwide"}</span>
           <span>Founded {startup.founded_year}</span>
         </p>
         <div className="mt-4 flex flex-wrap gap-1.5">

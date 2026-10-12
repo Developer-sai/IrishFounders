@@ -7,7 +7,7 @@ import { checkCompany, submitFounderApplication } from "@/lib/actions/applicatio
 import {
   INTERVIEW_QUESTIONS_FOUNDER, STARTUP_STAGES, founderApplicationSchema,
 } from "@/lib/validations/application";
-import { IRISH_CITIES } from "@/lib/geo";
+import { WORLD_CITIES } from "@/lib/geo";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Select, Textarea } from "@/components/ui/form-controls";
 import { humanize } from "@/lib/utils";
@@ -19,7 +19,7 @@ const STEPS = ["Personal", "Company", "Verification", "Interview", "Review"] as 
 
 const EMPTY: Values = {
   full_name: "", linkedin_url: "", location: "", headline: "",
-  company_name: "", company_city: "Dublin", show_publicly: "yes", company_website: "", company_linkedin: "", industry: "",
+  company_name: "", company_city: "", show_publicly: "yes", company_website: "", company_linkedin: "", industry: "",
   stage: "prototype", founded_year: String(new Date().getFullYear()), team_size: "1", company_description: "",
   linkedin_follower_count: "", post_urls: "", relationship_to_company: "",
   ...Object.fromEntries(INTERVIEW_QUESTIONS_FOUNDER.map(([k]) => [`q_${k}`, ""])),
@@ -190,7 +190,7 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
           <>
             <Field label="Full name" htmlFor="full_name" error={errors.full_name}><Input {...f("full_name")} autoComplete="name" /></Field>
             <Field label="Your LinkedIn profile URL" htmlFor="linkedin_url" error={errors.linkedin_url}><Input {...f("linkedin_url")} placeholder="linkedin.com/in/you" /></Field>
-            <Field label="Location" htmlFor="location" error={errors.location}><Input {...f("location")} placeholder="Dublin, Ireland" /></Field>
+            <Field label="Location" htmlFor="location" error={errors.location}><Input {...f("location")} placeholder="Lagos, Nigeria" /></Field>
             <Field label="Your role at the company" htmlFor="headline" error={errors.headline}><Input {...f("headline")} placeholder="Co-founder & CEO" /></Field>
             <Field label="Profile photo (optional)" htmlFor="avatar" hint="PNG, JPEG or WebP, up to 2MB.">
               <Input id="avatar" type="file" accept="image/png,image/jpeg,image/webp" onChange={onAvatar} />
@@ -201,17 +201,18 @@ export function FounderWizard({ userId, defaultName }: { userId: string; default
 
         {step === 1 && (
           <>
-            <p className="border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground">Your company should be based in Ireland. Founders from anywhere in the world are welcome to start one here.</p>
+            <p className="border border-border bg-card/60 px-3 py-2 text-sm text-muted-foreground">Founders from every country are welcome. Tell us where your company is based.</p>
             <Field label="Company name" htmlFor="company_name" error={errors.company_name}><Input {...f("company_name")} /></Field>
-            <Field label="City" htmlFor="company_city" error={errors.company_city} hint="Where the company is based in Ireland.">
-              <Select {...f("company_city")}>{IRISH_CITIES.map((c) => <option key={c.name} value={c.name}>{c.name}</option>)}</Select>
+            <Field label="City" htmlFor="company_city" error={errors.company_city} hint="Pick a suggestion or type any city.">
+              <Input {...f("company_city")} list="city-options" placeholder="Start typing a city" autoComplete="off" />
+              <datalist id="city-options">{WORLD_CITIES.map((c) => <option key={c.name} value={c.name}>{c.country}</option>)}</datalist>
             </Field>
             <Field label="Company website" htmlFor="company_website" error={errors.company_website}>
-              <Input {...f("company_website")} placeholder="acme.ie" onBlur={onCompanyBlur} />
+              <Input {...f("company_website")} placeholder="acme.com" onBlur={onCompanyBlur} />
             </Field>
             {duplicate ? (
               <p role="status" className="rounded-md bg-amber-500/10 px-3 py-2 text-sm">
-                <strong>{duplicate}</strong> already exists on Irish Founders. You can still apply. If approved, we&apos;ll
+                <strong>{duplicate}</strong> already exists on Space of Founders. You can still apply. If approved, we&apos;ll
                 send a request to join the existing company rather than creating a duplicate.
               </p>
             ) : null}

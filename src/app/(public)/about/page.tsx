@@ -5,9 +5,9 @@ export const metadata: Metadata = { title: "About" };
 
 export default function AboutPage() {
   return (
-    <Prose title="About Irish Founders">
+    <Prose title="About Space of Founders">
       <p>
-        Irish Founders is an independent, curated network for companies built in Ireland. It connects verified founders, Irish or international, with investors, ecosystem partners and customers from anywhere in the world.
+        Space of Founders is an independent, curated network for founders everywhere. It connects verified founders from every country with investors, ecosystem partners and customers around the world.
       </p>
       <p>
         Our mission is to create a trusted environment where genuine founders can discover startups, share knowledge,
@@ -27,7 +27,7 @@ export default function AboutPage() {
       </ul>
       <h2>Independence and scope</h2>
       <p>
-        Irish Founders operates independently and is not affiliated with or endorsed by any government agency or startup
+        Space of Founders operates independently and is not affiliated with or endorsed by any government agency or startup
         organisation unless expressly stated. The platform facilitates professional networking and introductions. It does
         not provide financial or investment advice, arrange investment transactions, or guarantee investment outcomes.
       </p>

@@ -27,7 +27,7 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-2">
           <CommandPalette links={NAV} className="hidden sm:inline-flex" />
-          <ThemeToggle />
+          <div className="max-[430px]:hidden"><ThemeToggle /></div>
           <AuthNav />
         </div>
       </div>
